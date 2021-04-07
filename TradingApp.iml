@@ -35,5 +35,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="javafx" level="application" />
+    <orderEntry type="library" name="gson-2.8.6" level="application" />
   </component>
 </module>
