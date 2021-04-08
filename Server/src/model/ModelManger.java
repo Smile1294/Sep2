@@ -8,9 +8,9 @@ public class ModelManger implements Model {
     private User user;
     private Stocks stocks;
     private UserList userList;
-//    private PropertyChangeSupport property;
+   private PropertyChangeSupport property;
 
-    public ModelManger() {
+    public ModelManger() throws IOException {
 //        this.property = new PropertyChangeSupport(this);
         userList = new UserList();
         orders = new Orders();

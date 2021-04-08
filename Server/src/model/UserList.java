@@ -14,16 +14,12 @@ public class UserList
   private BufferedReader bufferedReader;
   private FileWriter writer;
 
-  public UserList()
-  {
+  public UserList() throws IOException {
     file = new File(filename);
     if (!file.exists()) {
       try {
         file.createNewFile();
-        reader = new FileReader(file);
-        bufferedReader = new BufferedReader(reader);
-        writer = new FileWriter(file, true);
-        this.userLists = new ArrayList<>();
+
 
         readUsersFromFile();
 
@@ -32,6 +28,10 @@ public class UserList
         e.printStackTrace();
       }
     }
+    reader = new FileReader(file);
+    bufferedReader = new BufferedReader(reader);
+    writer = new FileWriter(file, true);
+    this.userLists = new ArrayList<>();
   }
 
   public void readUsersFromFile() throws IOException
