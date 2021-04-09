@@ -1,24 +1,26 @@
 package mediator;
 
+import com.google.gson.annotations.SerializedName;
+
 public class TradingData {
-    private String date;
+//    private String date;
+    @SerializedName("1. open")
     private double open;
+    @SerializedName("2. high")
     private double high;
+    @SerializedName("3. low")
     private double low;
+    @SerializedName("4. close")
     private double close;
+    @SerializedName("5. volume")
     private int volume;
 
-    public TradingData(String date, double open, double high, double low, double close, int volume) {
-        this.date = date;
+    public TradingData( double open, double high, double low, double close, int volume) {
         this.open = open;
         this.high = high;
         this.low = low;
         this.close = close;
         this.volume = volume;
-    }
-
-    public String getDate() {
-        return date;
     }
 
     public double getOpen() {
@@ -43,8 +45,7 @@ public class TradingData {
 
     @Override
     public String toString() {
-        return "Date: " + date+
-                "\nOpen: " + open +
+        return "Open: " + open +
                 "\nHigh: " + high +
                 "\nLow: " + low +
                 "\nClose: " + close +

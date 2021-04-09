@@ -5,7 +5,11 @@ import com.google.gson.Gson;
 import mediator.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class TestApi {
@@ -13,22 +17,31 @@ public class TestApi {
         StockAPI test = new StockAPI();
         Gson gson = new Gson();
 
+        // get json from 1 api
 //        test.testRapidApi();
+
+        // get json information from 2nd api (this is working with stock info)
 //        test.testAlphaVantage();
-//        StockInfo stockInfo = gson.fromJson(JsonTest.getJsonRequest(),StockInfo.class);
-//        System.out.println(stockInfo.toString());
 
-        MetaData metaData = new MetaData("Intraday (5min) open, high, low, close prices and volume",
-                "IBM","2021-04-06 20:00:00","5min","Compact","US/Eastern");
-        ArrayList<TradingData> series = new ArrayList<>();
-        series.add(new TradingData("2021-04-06 20:00:00",134.4100,134.4100,134.4100,134.4100,185));
-        series.add(new TradingData("2021-04-06 19:25:00",134.4100,134.4100,134.4100,134.4100,123));
-        StockInfo testtest = new StockInfo(metaData,series);
-//        System.out.println(testtest.toString());
-        System.out.println(gson.toJson(testtest));
-        System.out.println(JsonTest.getJsonRequest());
-        MetaData testdata = gson.fromJson(JsonTest.getJsonRequest(),MetaData.class);
-        System.out.println(testdata.toString());
+        // deserialize from JsonTest class
+        StockInfo stockInfo = gson.fromJson(JsonTest.getJsonRequest(),StockInfo.class);
+        System.out.println(stockInfo.toString());
 
+        // deserialize from json file
+//        Reader reader = Files.newBufferedReader(Paths.get("query.json"));
+//        StockInfo testFileData = gson.fromJson(reader,StockInfo.class);
+//        System.out.println(testFileData);
+//        reader.close();
+
+
+        //Testing serializing map
+//        Map<String,TradingData> mapTest = new HashMap<>();
+//        for (int i = 0;;i++){
+//            mapTest.put(""+i,new TradingData((double) i,(double) i,(double) i,(double) i,i));
+//            if (i>=12){
+//                break;
+//            }
+//        }
+//        System.out.println(gson.toJson(mapTest));
     }
 }
