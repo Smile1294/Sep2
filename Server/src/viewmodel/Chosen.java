@@ -3,10 +3,13 @@ package viewmodel;
 public class Chosen
 {
   private String name;
-  private int price;
+  private long price;
 
-  public Chosen(){
-    name = null;
+  private static Chosen chosen = new Chosen();
+
+  private Chosen()
+  {
+    name = "a";
     price = 0;
   }
 
@@ -15,7 +18,7 @@ public class Chosen
     this.name = name;
   }
 
-  public void setPrice(int price)
+  public void setPrice(long price)
   {
     this.price = price;
   }
@@ -25,8 +28,13 @@ public class Chosen
     return name;
   }
 
-  public int getPrice()
+  public long getPrice()
   {
     return price;
+  }
+
+  public static Chosen getInstance()
+  {
+    return chosen;
   }
 }
