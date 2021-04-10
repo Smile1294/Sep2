@@ -16,9 +16,7 @@ public abstract class ViewController {
         this.viewHandler = viewHandler;
         //listener?
     }
-    public void reset(){
-
-    }
+    public abstract void reset();
     public Region getRoot(){
         return root;
     }
