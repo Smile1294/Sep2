@@ -1,5 +1,7 @@
 package view;
 
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -17,17 +19,29 @@ public class CompanyListViewController extends ViewController
   @Override protected void init()
   {
     errorLabel.textProperty().bindBidirectional(getViewModelFactory().getCompanyListViewModel().getErrorProperty());
-    companyList.setItems(getViewModelFactory().getCompanyListViewModel().getList());
+    companyList.getSelectionModel().selectedItemProperty().addListener(
+      (obs, oldVal, newVal) -> getViewModelFactory().getCompanyListViewModel().setSelected(newVal)
+  );
     nameColumn.setCellValueFactory(cellData -> cellData.getValue().getName());
     priceColumn.setCellValueFactory(cellData -> cellData.getValue().getPrice().asString());
+    companyList.setItems(getViewModelFactory().getCompanyListViewModel().getList());
+  }
+
+  @Override public void reset()
+  {
+
   }
 
   public void onBack(ActionEvent actionEvent)
   {
+
   }
 
   public void onChoose(ActionEvent actionEvent)
   {
-
+      if(getViewModelFactory().getCompanyListViewModel().chose())
+      {
+        getViewHandler().openView(View.CompanyView);
+      }
   }
 }
