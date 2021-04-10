@@ -33,6 +33,7 @@ public class PlaceOrderController extends ViewController {
     }
 
     public void onBack(ActionEvent actionEvent) {
+        getViewHandler().openView(View.CompanyList);
     }
 
 }
