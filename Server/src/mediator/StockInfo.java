@@ -9,7 +9,7 @@ import java.util.Map;
 public class StockInfo {
     @SerializedName("Meta Data")
     private MetaData metaData;
-    @SerializedName("Time Series (5min)")
+    @SerializedName("Time Series (60min)")
     private Map<String,TradingData> timeSeries;
 
 //    @SerializedName("Time Series (5min)")

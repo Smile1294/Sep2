@@ -1,15 +1,9 @@
-package model;
+package mediator;
 
 
 import com.google.gson.Gson;
-import mediator.*;
 
 import java.io.IOException;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class TestApi {
@@ -24,14 +18,21 @@ public class TestApi {
 //        test.testAlphaVantage();
 
         // deserialize from JsonTest class
-        StockInfo stockInfo = gson.fromJson(JsonTest.getJsonRequest(),StockInfo.class);
-        System.out.println(stockInfo.toString());
+//        StockInfo stockInfo = gson.fromJson(JsonTest.getJsonRequest(),StockInfo.class);
+//        System.out.println(stockInfo.toString());
+
+        // deserialize from API request
+        String json = test.getStockIntraDay60Min(Symbol.APPLE);
+//        System.out.println(json);
+        StockInfo stockInfo2 = gson.fromJson(json,StockInfo.class);
+        System.out.println(stockInfo2.toString());
 
         // deserialize from json file
 //        Reader reader = Files.newBufferedReader(Paths.get("query.json"));
 //        StockInfo testFileData = gson.fromJson(reader,StockInfo.class);
 //        System.out.println(testFileData);
 //        reader.close();
+
 
 
         //Testing serializing map

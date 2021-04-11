@@ -1,4 +1,4 @@
-package model;
+package mediator;
 
 public class TestAPIKeySwitching {
     public static void main(String[] args) {
