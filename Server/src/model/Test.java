@@ -1,8 +1,8 @@
 package model;
 
 public class Test {
-    public static void main(String[] args) throws Exception {
-        User user = new User("David",1500);
+    public static void main(String[] args) {
+        User user = new User("David","1234");
         Stocks stocks = new Stocks("Shop");
         stocks.addStock(new Stock("Apple",5,5));
         user.Buy(stocks.getStock(0),1);

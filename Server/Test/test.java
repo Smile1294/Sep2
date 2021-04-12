@@ -18,7 +18,7 @@ class test {
         stock = new Stock("Apple", 15, 10);
         stocks = new Stocks("Market");
         stocks.addStock(stock);
-        user = new User("David", 1500);
+        user = new User("David", "1234");
         user.addOrderToBuy(stock, 1, 5);
     }
 
