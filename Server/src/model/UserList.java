@@ -19,10 +19,6 @@ public class UserList
     if (!file.exists()) {
       try {
         file.createNewFile();
-
-
-        readUsersFromFile();
-
       } catch (IOException e) {
         System.out.println("An error occurred with Profiles file.");
         e.printStackTrace();
@@ -32,6 +28,7 @@ public class UserList
     bufferedReader = new BufferedReader(reader);
     writer = new FileWriter(file, true);
     this.userLists = new ArrayList<>();
+    readUsersFromFile();
   }
 
   public void readUsersFromFile() throws IOException
