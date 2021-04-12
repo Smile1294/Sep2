@@ -7,4 +7,5 @@ public interface Model {
     public void PlaceOrdertoBuy(Stock stock,int amount,int price) throws Exception;
     boolean login(String usr,String pwd) throws Exception;
     boolean registerUser(String usr,String pwd) throws Exception;
+
 }
