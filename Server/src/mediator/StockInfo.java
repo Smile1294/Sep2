@@ -10,10 +10,16 @@ import java.util.Map;
 public class StockInfo {
     @SerializedName("Meta Data")
     private MetaData metaData;
-    @SerializedName("Time Series (60min)")
+    @SerializedName(value="Time Series (60min)", alternate={"Time Series (Daily)","Weekly Time Series","Monthly Time Series"})
     private Map<String,TradingData> tradingDataMap;
 
     private ArrayList<TradingData> timeSeries;
+
+    public StockInfo(){
+        metaData = null;
+        tradingDataMap = null;
+        timeSeries = null;
+    }
 
     public StockInfo(MetaData metaData, Map<String,TradingData> tradingDataMap) {
         this.metaData = metaData;
@@ -24,14 +30,43 @@ public class StockInfo {
     public StockInfo convert(){
         timeSeries = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
+
+        String timeZone = metaData.getTimeZone();
+        if (metaData.getTimeZone()==null){
+            timeZone = metaData.getOutputSize();
+        }
+        if (metaData.getOutputSize()==null) {
+            timeZone = metaData.getInterval();
+        }
+        if (metaData.getInterval()==null){
+            timeZone = "US/Eastern";
+        }
+
         for (String k:tradingDataMap.keySet()){
-            timeSeries.add(tradingDataMap.get(k).setDate(ZonedDateTime.parse(k+" "+metaData.getTimeZone(),formatter)));
+            if (metaData.getTimeZone()==null){
+                System.out.println();
+                timeSeries.add(tradingDataMap.get(k).setDate(ZonedDateTime.parse(k+" 20:00:00 "+timeZone,formatter)));
+            }else {
+                timeSeries.add(tradingDataMap.get(k).setDate(ZonedDateTime.parse(k+" "+timeZone,formatter)));
+            }
         }
         return this;
     }
 
+    public void setMetaData(MetaData metaData) {
+        this.metaData = metaData;
+    }
+
+    public void setTradingDataMap(Map<String, TradingData> tradingDataMap) {
+        this.tradingDataMap = tradingDataMap;
+    }
+
     public MetaData getMetaData() {
         return metaData;
+    }
+
+    public Map<String, TradingData> getTradingDataMap() {
+        return tradingDataMap;
     }
 
     public ArrayList<TradingData> getTimeSeries() {

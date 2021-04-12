@@ -14,11 +14,11 @@ public class TradingData {
     @SerializedName("4. close")
     private double close;
     @SerializedName("5. volume")
-    private int volume;
+    private long volume;
 
     private ZonedDateTime dateTime;
 
-    public TradingData( double open, double high, double low, double close, int volume) {
+    public TradingData( double open, double high, double low, double close, long volume) {
         this.open = open;
         this.high = high;
         this.low = low;
@@ -48,7 +48,7 @@ public class TradingData {
         return close;
     }
 
-    public int getVolume() {
+    public long getVolume() {
         return volume;
     }
 
