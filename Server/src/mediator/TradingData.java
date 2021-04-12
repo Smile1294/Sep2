@@ -2,8 +2,9 @@ package mediator;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.time.ZonedDateTime;
+
 public class TradingData {
-//    private String date;
     @SerializedName("1. open")
     private double open;
     @SerializedName("2. high")
@@ -15,12 +16,20 @@ public class TradingData {
     @SerializedName("5. volume")
     private int volume;
 
+    private ZonedDateTime dateTime;
+
     public TradingData( double open, double high, double low, double close, int volume) {
         this.open = open;
         this.high = high;
         this.low = low;
         this.close = close;
         this.volume = volume;
+        dateTime = null;
+    }
+
+    public TradingData setDate(ZonedDateTime date) {
+        this.dateTime = date;
+        return this;
     }
 
     public double getOpen() {
@@ -43,9 +52,14 @@ public class TradingData {
         return volume;
     }
 
+    public ZonedDateTime getDate() {
+        return dateTime;
+    }
+
     @Override
     public String toString() {
-        return "Open: " + open +
+        return (dateTime == null ? "":"Date: "+dateTime+"\n")+
+                "Open: " + open +
                 "\nHigh: " + high +
                 "\nLow: " + low +
                 "\nClose: " + close +
