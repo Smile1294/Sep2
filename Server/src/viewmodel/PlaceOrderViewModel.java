@@ -8,6 +8,8 @@ import model.Model;
 import model.ModelManger;
 import model.Stock;
 
+import java.io.IOException;
+
 public class PlaceOrderViewModel {
     private Model model;
     private ObservableList<String> list;
@@ -16,7 +18,7 @@ public class PlaceOrderViewModel {
     private SimpleStringProperty balance;
 
 
-    public PlaceOrderViewModel(Model model) {
+    public PlaceOrderViewModel(Model model) throws IOException {
         this.balance = new SimpleStringProperty();
         this.amount = new SimpleStringProperty();
         this.price = new SimpleStringProperty();

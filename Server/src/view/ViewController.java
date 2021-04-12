@@ -19,6 +19,7 @@ public abstract class ViewController {
     public void reset(){
 
     }
+
     public Region getRoot(){
         return root;
     }

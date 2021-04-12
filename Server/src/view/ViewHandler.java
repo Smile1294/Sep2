@@ -17,7 +17,7 @@ public class ViewHandler {
 
     public void start(Stage primaryStage){
         this.primaryStage = primaryStage;
-        openView(View.PlaceOrder);
+        openView(View.LOGIN);
     }
 
     public void openView(View view){
