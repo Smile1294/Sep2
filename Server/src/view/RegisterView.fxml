@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="470.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="server.view.RegisterViewController">
+<AnchorPane prefHeight="400.0" prefWidth="470.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.RegisterViewController">
    <children>
       <HBox alignment="CENTER" layoutY="255.0" prefHeight="70.0" prefWidth="450.0" spacing="150.0">
          <children>
