@@ -63,9 +63,10 @@ public class ModelManger implements Model {
 
     @Override
     public boolean login(String usr, String pwd) throws Exception {
-        boolean result = userList.login(usr, pwd);
-//        property.firePropertyChange("Login",usr,"Success");
-        return result;
+        if (!userList.userExist(usr,pwd)){
+            throw new Exception("Wrong username or password");
+        }
+        return true;
     }
 
     @Override
