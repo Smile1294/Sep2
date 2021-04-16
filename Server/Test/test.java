@@ -11,9 +11,11 @@ class test {
     private User user;
     private Model model;
     private UserList userList;
+    private Company company;
 
     @org.junit.jupiter.api.BeforeEach
     void setUp() throws IOException {
+        this.company = new Company("Tesla Inc.", "TSLA");
         this.userList = new UserList();
         this.model = new ModelManger();
         System.out.println("Begin");
@@ -30,7 +32,9 @@ class test {
     }
 
     @Test
-    void isStockInList() {
+    void isStockInList() throws Exception {
+
+        assertTrue(company.getPrices() != null);
         assertTrue(userList.userExist("kim", "123"));
         assertFalse(user.getOrders() == null);
 

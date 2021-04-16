@@ -2,6 +2,7 @@ package model;
 
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ModelManger implements Model {
     private Orders orders;
@@ -22,6 +23,11 @@ public class ModelManger implements Model {
         stocks.addStock(new Stock("Apple", 5, 5));
         stocks.addStock(new Stock("Microsoft", 5, 5));
         stocks.addStock(new Stock("Kebab", 5, 5));
+        user.setBalance(500);
+        user.Buy(stocks.getStock(0),4);
+        user.Buy(stocks.getStock(1),2);
+        stocks.getStock(0).setPrice(242);
+        System.out.println(user.getStocks());
     }
 
     public String getInfoAboutCompany(Company company)
@@ -33,6 +39,15 @@ public class ModelManger implements Model {
         return stocks;
     }
 
+    @Override
+    public ArrayList<Stock> getAllStocks() {
+        return stocks.getAllStocks();
+    }
+
+    public User getUser()
+    {
+        return user;
+    }
     public Orders getOrders() {
         return orders;
     }

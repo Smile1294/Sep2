@@ -1,14 +1,14 @@
 package model;
 
 
+import java.util.ArrayList;
 
-public class User{
+public class User {
     private StocksUserOwns stocks;
     private int balance;
     private String name;
     private String password;
     private Orders orders;
-
     public User(String name, String password) {
         this.name = name;
         this.password = password;
@@ -35,21 +35,40 @@ public class User{
 
     public void Buy(Stock stock, int amount) {
         if (balance > stock.getPrice() * amount) {
-
             balance = balance - stock.getPrice() * amount;
             stock.setAmount(stock.getAmount() - amount);
-            stocks.addStock(new Stock(stock.getName(), stock.getPrice(), amount));
+            Stock es = new Stock(stock.getName(), stock.getPrice(), amount);
+            stocks.addStock(es);
+            stocks.getSpecificStock(es).addtoInvested(amount*stock.getPrice());
         }
     }
 
-    public StocksUserOwns getStocks() {
-        return stocks;
+    public Stock getSpecific(String name) {
+        for(Stock s: stocks.getAllStocks())
+        {
+            if(s.getName().equals(name))
+            {
+                return s;
+            }
+        }
+        return null;
     }
 
 
-    public Stock Sell(Stock stock, int amount, int price) {
 
-        return new Stock(stock.getName(), price, amount);
+    public ArrayList<Stock> getStocks() {
+        return stocks.getAllStocks();
+    }
+
+    public double getInvested(Stock stock) {
+        for(Stock s: stocks.getAllStocks())
+        {
+            if(s.getName().equals(stock.getName()))
+            {
+                return s.invested();
+            }
+        }
+        return 0;
     }
 
     public void addOrdertoSell(Stock stock, int amount, int price) {
