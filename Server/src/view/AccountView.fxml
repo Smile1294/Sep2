@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="378.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.AccountViewController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <VBox alignment="CENTER">
+               <children>
+                  <Label text="Net asset value">
+                     <font>
+                        <Font size="22.0" />
+                     </font></Label>
+                  <Label fx:id="accountTotal" text="73654.34">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <VBox alignment="CENTER" prefWidth="150.0">
+               <children>
+                  <Label text="Market value">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+                  <Label fx:id="accountValue" text="5342.43">
+                     <font>
+                        <Font size="16.0" />
+                     </font></Label>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefWidth="150.0">
+               <children>
+                  <Label text="Cash balance">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+                  <Label fx:id="accountBalance" text="345.54">
+                     <font>
+                        <Font size="16.0" />
+                     </font></Label>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <VBox alignment="BOTTOM_LEFT" prefHeight="179.0" prefWidth="400.0">
+         <children>
+            <HBox spacing="5.0">
+               <children>
+                  <Button mnemonicParsing="false" text="Company list" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
+            <HBox spacing="5.0">
+               <children>
+                  <Button mnemonicParsing="false" text="Portfolio" />
+                  <Button mnemonicParsing="false" text="Withdraw cash" />
+                  <Button mnemonicParsing="false" text="Add cash" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
+            <HBox spacing="5.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#onLogout" text="Logout" />
+                  <Button mnemonicParsing="false" onAction="#onQuit" text="Quit" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</VBox>

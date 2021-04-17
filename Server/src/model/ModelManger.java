@@ -8,9 +8,9 @@ public class ModelManger implements Model {
     private User user;
     private Stocks stocks;
     private UserList userList;
-//    private PropertyChangeSupport property;
+   private PropertyChangeSupport property;
 
-    public ModelManger() {
+    public ModelManger() throws IOException {
 //        this.property = new PropertyChangeSupport(this);
         userList = new UserList();
         orders = new Orders();
@@ -40,9 +40,10 @@ public class ModelManger implements Model {
 
     @Override
     public boolean login(String usr, String pwd) throws Exception {
-        boolean result = userList.login(usr, pwd);
-//        property.firePropertyChange("Login",usr,"Success");
-        return result;
+        if (!userList.userExist(usr,pwd)){
+            throw new Exception("Wrong username or password");
+        }
+        return true;
     }
 
     @Override

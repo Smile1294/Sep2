@@ -8,7 +8,7 @@ import viewmodel.ViewModelFactory;
 import java.net.URL;
 
 public enum View {
-    PlaceOrder("PlaceOrder.fxml"),CompanyList("CompanyListView.fxml"),CompanyView("CompanyView.fxml");
+    PlaceOrder("PlaceOrder.fxml"),LOGIN("LoginView.fxml"),REGISTER("RegisterView.fxml"),ACCOUNT("AccountView.fxml"),CompanyList("CompanyListView.fxml"),CompanyView("CompanyView.fxml");
 
     private String fxmlFile;
     private ViewController viewController;
