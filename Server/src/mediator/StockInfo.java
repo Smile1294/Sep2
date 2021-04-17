@@ -53,6 +53,14 @@ public class StockInfo {
         return this;
     }
 
+    public ArrayList<Double> getOpen() {
+        ArrayList<Double> prices = new ArrayList<Double>();
+            for (String k : tradingDataMap.keySet()) {
+                prices.add(tradingDataMap.get(k).getOpen());
+            }
+        return prices;
+    }
+
     public void setMetaData(MetaData metaData) {
         this.metaData = metaData;
     }
