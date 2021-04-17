@@ -8,13 +8,13 @@ public class ViewModelFactory {
     private PlaceOrderViewModel placeOrderController;
     private LoginViewModel loginViewModel;
     private RegisterViewModel registerViewModel;
-    private PortfolioViewModel portfolioViewModel;
     public ViewModelFactory(Model model) throws IOException {
         UserInformation userInformation = new UserInformation();
-        this.portfolioViewModel = new PortfolioViewModel(model);
         this.placeOrderController = new PlaceOrderViewModel(model);
         this.loginViewModel = new LoginViewModel(model,userInformation);
         this.registerViewModel = new RegisterViewModel(model,userInformation);
+        this.accountViewModel = new AccountViewModel(model,userInformation,transferState);
+        this.transferCashViewModel = new TransferCashViewModel(model,userInformation,transferState);
     }
 
     public PlaceOrderViewModel getPlaceOrderController() {
@@ -24,16 +24,17 @@ public class ViewModelFactory {
     public LoginViewModel getLoginViewModel() {
         return loginViewModel;
     }
-    public PortfolioViewModel getPorfolioViewModel()
-    {
-        return portfolioViewModel;
-    }
+
 
     public RegisterViewModel getRegisterViewModel() {
         return registerViewModel;
     }
 
+    public AccountViewModel getAccountViewModel() {
+        return accountViewModel;
+    }
 
-
-
+    public TransferCashViewModel getTransferCashViewModel() {
+        return transferCashViewModel;
+    }
 }
