@@ -22,7 +22,9 @@ public class SimpleStockViewModel {
         invested = new SimpleDoubleProperty(user.getInvested(stock));
         name = new SimpleStringProperty(stock.getName());
         value = new SimpleDoubleProperty(stock.getPrice());
-        percentage = new SimpleStringProperty(Double.toString((stock.getPrice()*user.getSpecific(stock.getName()).getAmount()/user.getInvested(stock))*100));
+
+
+        percentage = new SimpleStringProperty(Double.toString(((stock.getPrice()*user.getSpecific(stock.getName()).getAmount()- user.getInvested(stock))/user.getInvested(stock))*100));
     }
 
 
