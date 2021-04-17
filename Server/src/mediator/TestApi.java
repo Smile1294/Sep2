@@ -1,23 +1,38 @@
 package mediator;
 
 import com.google.gson.Gson;
-import model.Company;
+
 
 import java.io.IOException;
 
+
 public class TestApi {
     public static void main(String[] args) throws IOException, InterruptedException {
-        Company company = new Company("Tesla Inc.","TSLA");
         StockAPI stockAPI = new StockAPI();
         Gson gson = new Gson();
 
+
         // deserialize from API request
-        String json = stockAPI.getStockIntraDay60Min(Symbol.TESLA);
+        String json = stockAPI.getStockInfo(Symbol.FACEBOOK,RequestType.INTRADAY);
         StockInfo stockInfo = gson.fromJson(json,StockInfo.class).convert();
-        System.out.println(stockInfo.getOpen());
-        company.setPrices(stockInfo.getOpen());
-        System.out.println(company.toString());
+        System.out.println(stockInfo);
 
+        Thread.sleep(2000);
 
+        json = stockAPI.getStockInfo(Symbol.IBM,RequestType.DAILY);
+        stockInfo = gson.fromJson(json,StockInfo.class).convert();
+        System.out.println(stockInfo);
+
+        Thread.sleep(2000);
+
+        json = stockAPI.getStockInfo(Symbol.TESLA,RequestType.WEEKLY);
+        stockInfo = gson.fromJson(json,StockInfo.class).convert();
+        System.out.println(stockInfo);
+
+        Thread.sleep(2000);
+
+        json = stockAPI.getStockInfo(Symbol.MICROSOFT,RequestType.MONTHLY);
+        stockInfo = gson.fromJson(json,StockInfo.class).convert();
+        System.out.println(stockInfo);
     }
 }

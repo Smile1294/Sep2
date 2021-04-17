@@ -29,7 +29,7 @@ public class LoginViewController extends ViewController {
     private void onLogin(){
         if(viewModel.logIn())
         {
-            getViewHandler().openView(View.PlaceOrder);
+            getViewHandler().openView(View.ACCOUNT);
         }
     }
 

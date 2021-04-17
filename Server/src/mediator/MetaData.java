@@ -10,9 +10,9 @@ public class MetaData {
     private String symbol;
     @SerializedName("3. Last Refreshed")
     private String lastRefreshed;
-    @SerializedName("4. Interval")
+    @SerializedName(value="4. Interval", alternate={"4. Output Size","4. Time Zone",})
     private String interval;
-    @SerializedName("5. Output Size")
+    @SerializedName(value = "5. Output Size", alternate = {"5. Time Zone"})
     private String outputSize;
     @SerializedName("6. Time Zone")
     private String timeZone;
@@ -51,11 +51,19 @@ public class MetaData {
     }
 
     @Override public String toString(){
-        return "Information: "+information
-                + "\nSymbol: " + symbol
-                + "\nLast Refreshed: " + lastRefreshed
-                + "\nInterval: " + interval
+        String stub = "\nInterval: " + interval
                 + "\nOutput Size: " + outputSize
                 + "\nTime Zone: " + timeZone;
+        if (timeZone == null){
+            stub = "\nOutput Size: " + interval
+                    + "\nTime Zone: " + outputSize;
+            if (outputSize==null){
+                stub = "\nTime Zone: " + interval;
+            }
+        }
+        return "Information: "+information
+                + "\nSymbol: " + symbol
+                + "\nLast Refreshed: " + lastRefreshed + stub;
+
     }
 }
