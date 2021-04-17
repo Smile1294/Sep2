@@ -22,6 +22,7 @@ public class PlaceOrderController extends ViewController {
         amountField.textProperty().bindBidirectional(getViewModelFactory().getPlaceOrderController().getAmount());
         ballanceLabel.textProperty().bindBidirectional(getViewModelFactory().getPlaceOrderController().balanceProperty());
 
+
     }
 
     public void onBuy(ActionEvent actionEvent) throws Exception {
@@ -35,4 +36,7 @@ public class PlaceOrderController extends ViewController {
     public void onBack(ActionEvent actionEvent) {
     }
 
+    public void Portfolio(ActionEvent actionEvent) {
+        getViewHandler().openView(View.PORTFOLIO);
+    }
 }

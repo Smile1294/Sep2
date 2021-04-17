@@ -1,8 +1,7 @@
-import model.Orders;
-import model.Stock;
-import model.Stocks;
-import model.User;
+import model.*;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,10 +9,15 @@ class test {
     private Stock stock;
     private Stocks stocks;
     private User user;
+    private Model model;
+    private UserList userList;
+    private Company company;
 
     @org.junit.jupiter.api.BeforeEach
-    void setUp() throws Exception {
-
+    void setUp() throws IOException {
+        this.company = new Company("Tesla Inc.", "TSLA");
+        this.userList = new UserList();
+        this.model = new ModelManger();
         System.out.println("Begin");
         stock = new Stock("Apple", 15, 10);
         stocks = new Stocks("Market");
@@ -28,7 +32,12 @@ class test {
     }
 
     @Test
-    void isStockInList() {
+    void isStockInList() throws Exception {
+
+        assertTrue(company.getPrices() != null);
+        assertTrue(userList.userExist("kim", "123"));
         assertFalse(user.getOrders() == null);
+
+
     }
 }
