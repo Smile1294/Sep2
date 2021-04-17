@@ -32,8 +32,8 @@ class test {
     }
 
     @Test
-    void isStockInList() throws Exception {
 
+    void isStockInList() throws Exception {
         assertTrue(company.getPrices() != null);
         assertTrue(userList.userExist("kim", "123"));
         assertFalse(user.getOrders() == null);

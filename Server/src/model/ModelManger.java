@@ -35,6 +35,11 @@ public class ModelManger implements Model {
         return companies.getCompany(company).toString();
     }
 
+    public String getInfoAboutCompany(Company company)
+    {
+        return companies.getCompany(company).toString();
+    }
+
     public Stocks getStocks() {
         return stocks;
     }
