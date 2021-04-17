@@ -9,7 +9,7 @@ import java.net.URL;
 
 public enum View {
     PlaceOrder("PlaceOrder.fxml"),LOGIN("LoginView.fxml"),REGISTER("RegisterView.fxml"),
-    ACCOUNT("AccountView.fxml"),TRANSFER("TransferCash.fxml");
+    ACCOUNT("AccountView.fxml"),TRANSFER("TransferCash.fxml"),PORTFOLIO("Portfolio.fxml");
 
     private String fxmlFile;
     private ViewController viewController;

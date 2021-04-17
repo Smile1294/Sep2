@@ -10,6 +10,7 @@ public class ViewModelFactory {
     private RegisterViewModel registerViewModel;
     private AccountViewModel accountViewModel;
     private TransferCashViewModel transferCashViewModel;
+    private PortfolioViewModel portfolioViewModel;
     
     public ViewModelFactory(Model model) throws IOException {
         UserInformation userInformation = new UserInformation();
@@ -19,6 +20,7 @@ public class ViewModelFactory {
         this.registerViewModel = new RegisterViewModel(model,userInformation);
         this.accountViewModel = new AccountViewModel(model,userInformation,transferState);
         this.transferCashViewModel = new TransferCashViewModel(model,userInformation,transferState);
+        this.portfolioViewModel = new PortfolioViewModel(model);
     }
 
     public PlaceOrderViewModel getPlaceOrderController() {
@@ -28,7 +30,6 @@ public class ViewModelFactory {
     public LoginViewModel getLoginViewModel() {
         return loginViewModel;
     }
-
 
     public RegisterViewModel getRegisterViewModel() {
         return registerViewModel;
@@ -41,4 +42,6 @@ public class ViewModelFactory {
     public TransferCashViewModel getTransferCashViewModel() {
         return transferCashViewModel;
     }
+
+    public PortfolioViewModel getPortfolioViewModel(){return  portfolioViewModel;}
 }

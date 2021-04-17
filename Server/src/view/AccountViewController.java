@@ -22,7 +22,7 @@ public class AccountViewController extends ViewController{
 
     @FXML
     private void onPortfolio(){
-//        getViewHandler().openView(View.PORTFOLIO);
+        getViewHandler().openView(View.PORTFOLIO);
     }
 
     @FXML

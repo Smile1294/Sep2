@@ -22,14 +22,14 @@ public class PortfolioViewController extends ViewController {
 
     @Override
     protected void init() {
-        UserName.textProperty().bindBidirectional(getViewModelFactory().getPorfolioViewModel().getName());
-        TotalAmount.textProperty().bindBidirectional(getViewModelFactory().getPorfolioViewModel().getTotal());
+        UserName.textProperty().bindBidirectional(getViewModelFactory().getPortfolioViewModel().getName());
+        TotalAmount.textProperty().bindBidirectional(getViewModelFactory().getPortfolioViewModel().getTotal());
         Curentcolumn.setCellValueFactory(cellData -> cellData.getValue().getCurrentValue());
         InvestedCloumn.setCellValueFactory(cellData -> cellData.getValue().getinvested());
         StockColumn.setCellValueFactory(cellData -> cellData.getValue().getName());
         percentcolumn.setCellValueFactory(cellData->cellData.getValue().getPercentage());
         numberownedcolumn.setCellValueFactory(cellData -> cellData.getValue().getNumberowned());
-        TableList.setItems(getViewModelFactory().getPorfolioViewModel().getAll());
+        TableList.setItems(getViewModelFactory().getPortfolioViewModel().getAll());
 
     }
 
