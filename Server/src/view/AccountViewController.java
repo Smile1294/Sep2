@@ -22,7 +22,19 @@ public class AccountViewController extends ViewController{
 
     @FXML
     private void onPortfolio(){
+//        getViewHandler().openView(View.PORTFOLIO);
+    }
 
+    @FXML
+    private void onWithdraw(){
+        getViewModelFactory().getAccountViewModel().setWithdraw();
+        getViewHandler().openView(View.TRANSFER);
+    }
+
+    @FXML
+    private void onAdd(){
+        getViewModelFactory().getAccountViewModel().setAdd();
+        getViewHandler().openView(View.TRANSFER);
     }
 
     @FXML

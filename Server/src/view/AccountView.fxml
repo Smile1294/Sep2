@@ -63,9 +63,9 @@
             </HBox>
             <HBox spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Portfolio" />
-                  <Button mnemonicParsing="false" text="Withdraw cash" />
-                  <Button mnemonicParsing="false" text="Add cash" />
+                  <Button mnemonicParsing="false" onAction="#onPortfolio" text="Portfolio" />
+                  <Button mnemonicParsing="false" onAction="#onWithdraw" text="Withdraw cash" />
+                  <Button mnemonicParsing="false" onAction="#onAdd" text="Add cash" />
                </children>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
