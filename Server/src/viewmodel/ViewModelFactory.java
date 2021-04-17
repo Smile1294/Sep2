@@ -6,12 +6,14 @@ import java.io.IOException;
 
 public class ViewModelFactory {
     private PlaceOrderViewModel placeOrderController;
+    private CompanyListViewModel companyListViewModel;
+    private CompanyViewModel companyViewModel;
     private LoginViewModel loginViewModel;
     private RegisterViewModel registerViewModel;
     private AccountViewModel accountViewModel;
     private TransferCashViewModel transferCashViewModel;
     private PortfolioViewModel portfolioViewModel;
-    
+
     public ViewModelFactory(Model model) throws IOException {
         UserInformation userInformation = new UserInformation();
         TransferState transferState = new TransferState();
@@ -21,6 +23,8 @@ public class ViewModelFactory {
         this.accountViewModel = new AccountViewModel(model,userInformation,transferState);
         this.transferCashViewModel = new TransferCashViewModel(model,userInformation,transferState);
         this.portfolioViewModel = new PortfolioViewModel(model);
+        this.companyListViewModel = new CompanyListViewModel(model);
+        this.companyViewModel = new CompanyViewModel();
     }
 
     public PlaceOrderViewModel getPlaceOrderController() {
@@ -44,4 +48,14 @@ public class ViewModelFactory {
     }
 
     public PortfolioViewModel getPortfolioViewModel(){return  portfolioViewModel;}
+
+    public CompanyListViewModel getCompanyListViewModel()
+    {
+        return companyListViewModel;
+    }
+
+    public CompanyViewModel getCompanyViewModel()
+    {
+        return companyViewModel;
+    }
 }

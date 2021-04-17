@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="213.0" prefWidth="633.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.CompanyViewController">
+   <children>
+      <HBox layoutY="8.0" prefHeight="53.0" prefWidth="633.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="53.0" prefWidth="217.0">
+               <children>
+                  <Label fx:id="nameLabel" text="Name">
+                     <font>
+                        <Font size="33.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="53.0" prefWidth="414.0" spacing="30.0">
+               <children>
+                  <Label text="Current price:">
+                     <font>
+                        <Font size="33.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="priceLabel" text="price">
+                     <font>
+                        <Font size="33.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutY="91.0" prefHeight="69.0" prefWidth="633.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#backOnAction" prefHeight="49.0" prefWidth="90.0" text="Back">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

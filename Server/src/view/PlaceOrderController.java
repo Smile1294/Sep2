@@ -25,6 +25,11 @@ public class PlaceOrderController extends ViewController {
 
     }
 
+    @Override public void reset()
+    {
+
+    }
+
     public void onBuy(ActionEvent actionEvent) throws Exception {
         getViewModelFactory().getPlaceOrderController().buy(stockChoice.getSelectionModel().getSelectedItem().toString());
     }
@@ -34,6 +39,7 @@ public class PlaceOrderController extends ViewController {
     }
 
     public void onBack(ActionEvent actionEvent) {
+        getViewHandler().openView(View.COMPANY_LIST);
     }
 
     public void Portfolio(ActionEvent actionEvent) {
