@@ -35,7 +35,7 @@ public class PortfolioViewController extends ViewController {
 
 
     public void GoBack(ActionEvent actionEvent) {
-        getViewHandler().openView(View.PlaceOrder);
+        getViewHandler().openView(View.ACCOUNT);
     }
 
 }
