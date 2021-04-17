@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="244.0" prefWidth="354.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TransferCashController">
+   <children>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <Label fx:id="header" text="Label">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+         </children></VBox>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button mnemonicParsing="false" text="Confirm" />
+                  <Button mnemonicParsing="false" onAction="#onBack" text="Back" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</VBox>
