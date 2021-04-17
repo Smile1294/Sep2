@@ -10,6 +10,17 @@ public class Stocks {
         this.stocks = new ArrayList<>();
         this.owner = owner;
     }
+    public ArrayList<Stock> getAllStocks()
+    {
+        {
+            ArrayList<Stock> localList = new ArrayList<>();
+            for (int i = 0; i < stocks.size(); i++)
+            {
+                localList.add(stocks.get(i));
+            }
+            return localList;
+        }
+    }
 
     public void addStock(Stock stock) {
         stocks.add(stock);

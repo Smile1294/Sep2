@@ -10,7 +10,7 @@ public class ViewModelFactory {
     private RegisterViewModel registerViewModel;
     private AccountViewModel accountViewModel;
     private TransferCashViewModel transferCashViewModel;
-
+    
     public ViewModelFactory(Model model) throws IOException {
         UserInformation userInformation = new UserInformation();
         TransferState transferState = new TransferState();
@@ -28,6 +28,7 @@ public class ViewModelFactory {
     public LoginViewModel getLoginViewModel() {
         return loginViewModel;
     }
+
 
     public RegisterViewModel getRegisterViewModel() {
         return registerViewModel;
