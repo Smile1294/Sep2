@@ -1,7 +1,5 @@
 package view;
 
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -34,14 +32,14 @@ public class CompanyListViewController extends ViewController
 
   public void onBack(ActionEvent actionEvent)
   {
-
+    getViewHandler().openView(View.ACCOUNT);
   }
 
   public void onChoose(ActionEvent actionEvent)
   {
       if(getViewModelFactory().getCompanyListViewModel().chose())
       {
-        getViewHandler().openView(View.CompanyView);
+        getViewHandler().openView(View.COMPANY_VIEW);
       }
   }
 }

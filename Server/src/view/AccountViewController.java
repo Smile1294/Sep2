@@ -26,6 +26,11 @@ public class AccountViewController extends ViewController{
     }
 
     @FXML
+    private void onList(){
+        getViewHandler().openView(View.COMPANY_LIST);
+    }
+
+    @FXML
     private void onWithdraw(){
         getViewModelFactory().getAccountViewModel().setWithdraw();
         getViewHandler().openView(View.TRANSFER);

@@ -39,7 +39,7 @@ public class PlaceOrderController extends ViewController {
     }
 
     public void onBack(ActionEvent actionEvent) {
-        getViewHandler().openView(View.CompanyList);
+        getViewHandler().openView(View.COMPANY_LIST);
     }
 
     public void Portfolio(ActionEvent actionEvent) {

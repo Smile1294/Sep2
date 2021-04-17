@@ -23,6 +23,6 @@ public class CompanyViewController extends ViewController
 
   public void backOnAction(ActionEvent actionEvent)
   {
-    getViewHandler().openView(View.CompanyList);
+    getViewHandler().openView(View.COMPANY_LIST);
   }
 }
