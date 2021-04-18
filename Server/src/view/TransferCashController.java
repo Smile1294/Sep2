@@ -2,14 +2,17 @@ package view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 
 public class TransferCashController extends ViewController{
-    @FXML private Label header;
+    @FXML private Label titleLabel;
+    @FXML private Label balanceLabel;
+    @FXML private TextField amountField;
 
     @Override
     protected void init() {
-        header.textProperty().bind(getViewModelFactory().getTransferCashViewModel().headerProperty());
+        titleLabel.textProperty().bind(getViewModelFactory().getTransferCashViewModel().headerProperty());
     }
 
     public void reset(){
