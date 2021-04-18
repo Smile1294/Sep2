@@ -17,13 +17,13 @@ public class ViewModelFactory {
     public ViewModelFactory(Model model) throws IOException {
         UserInformation userInformation = new UserInformation();
         TransferState transferState = new TransferState();
-        this.placeOrderController = new PlaceOrderViewModel(model);
+        this.placeOrderController = new PlaceOrderViewModel(model,transferState);
         this.loginViewModel = new LoginViewModel(model,userInformation);
         this.registerViewModel = new RegisterViewModel(model,userInformation);
         this.accountViewModel = new AccountViewModel(model,userInformation,transferState);
         this.transferCashViewModel = new TransferCashViewModel(model,userInformation,transferState);
         this.portfolioViewModel = new PortfolioViewModel(model);
-        this.companyListViewModel = new CompanyListViewModel(model);
+        this.companyListViewModel = new CompanyListViewModel(model,transferState);
         this.companyViewModel = new CompanyViewModel();
     }
 

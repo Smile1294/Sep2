@@ -42,4 +42,8 @@ public class AccountViewModel {
     public StringProperty balanceProperty() {
         return balance;
     }
+
+    public void setFromProfile() {
+        transferState.setFromCompanyInfo(false);
+    }
 }
