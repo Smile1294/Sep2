@@ -8,21 +8,21 @@ public class TransferCashViewModel {
     private Model model;
     private UserInformation userInformation;
     private TransferState transferState;
-    private StringProperty header;
+    private StringProperty title;
 
     public TransferCashViewModel(Model model, UserInformation userInformation, TransferState transferState){
         this.model = model;
         this.userInformation = userInformation;
         this.transferState = transferState;
-        header = new SimpleStringProperty(transferState.isWithdraw()?"Withdraw cash":"Add cash");
+        title = new SimpleStringProperty(transferState.isWithdraw()?"Withdraw cash":"Add cash");
 
     }
 
     public void clear(){
-        header.setValue(transferState.isWithdraw()?"Withdraw cash":"Add cash");
+        title.setValue(transferState.isWithdraw()?"Withdraw cash":"Add cash");
     }
 
     public StringProperty headerProperty() {
-        return header;
+        return title;
     }
 }
