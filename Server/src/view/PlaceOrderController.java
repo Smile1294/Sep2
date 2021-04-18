@@ -39,7 +39,12 @@ public class PlaceOrderController extends ViewController {
     }
 
     public void onBack(ActionEvent actionEvent) {
-        getViewHandler().openView(View.COMPANY_LIST);
+        if (getViewModelFactory().getPlaceOrderController().isFromCompanyInfo()){
+            getViewHandler().openView(View.COMPANY_LIST);
+        } else {
+            getViewHandler().openView(View.ACCOUNT);
+        }
+
     }
 
     public void Portfolio(ActionEvent actionEvent) {

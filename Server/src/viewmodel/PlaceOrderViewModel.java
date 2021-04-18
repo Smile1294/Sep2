@@ -16,14 +16,16 @@ public class PlaceOrderViewModel {
     private SimpleStringProperty price;
     private SimpleStringProperty amount;
     private SimpleStringProperty balance;
+    private TransferState transferState;
 
 
-    public PlaceOrderViewModel(Model model) throws IOException {
+    public PlaceOrderViewModel(Model model, TransferState transferState){
         this.balance = new SimpleStringProperty();
         this.amount = new SimpleStringProperty();
         this.price = new SimpleStringProperty();
         list = FXCollections.observableArrayList();
-        this.model = new ModelManger();
+        this.model = model;
+        this.transferState = transferState;
     }
 
     public ObservableList getStockChoice() {
@@ -43,6 +45,10 @@ public class PlaceOrderViewModel {
                 model.PlaceOrdertoBuy(model.getStocks().getStock(i), Integer.parseInt(getAmount().get()), Integer.parseInt(getPrice().get()));
             }
         }
+    }
+
+    public boolean isFromCompanyInfo(){
+        return transferState.isFromCompanyInfo();
     }
 
     public void sell(String stock) {

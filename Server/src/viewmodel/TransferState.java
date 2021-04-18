@@ -2,6 +2,7 @@ package viewmodel;
 
 public class TransferState {
     private boolean withdraw;
+    private boolean fromCompanyInfo;
 
     public TransferState(){
         withdraw = true;
@@ -13,5 +14,13 @@ public class TransferState {
 
     public void setWithdraw(boolean withdraw){
         this.withdraw = withdraw;
+    }
+
+    public boolean isFromCompanyInfo() {
+        return fromCompanyInfo;
+    }
+
+    public void setFromCompanyInfo(boolean fromCompanyInfo) {
+        this.fromCompanyInfo = fromCompanyInfo;
     }
 }

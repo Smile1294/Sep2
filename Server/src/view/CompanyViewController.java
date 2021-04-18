@@ -2,13 +2,15 @@ package view;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.chart.LineChart;
 import javafx.scene.control.Label;
 
 
 public class CompanyViewController extends ViewController
 {
-  @FXML public Label nameLabel;
-  @FXML public Label priceLabel;
+  @FXML private Label nameLabel;
+  @FXML private Label priceLabel;
+  @FXML private LineChart<String,Double> historyChart;
 
   @Override protected void init()
   {
@@ -21,8 +23,15 @@ public class CompanyViewController extends ViewController
     getViewModelFactory().getCompanyViewModel().load();
   }
 
-  public void backOnAction(ActionEvent actionEvent)
+  public void onBack(ActionEvent actionEvent)
   {
+
     getViewHandler().openView(View.COMPANY_LIST);
+  }
+
+  public void onOrder(ActionEvent actionEvent)
+  {
+    getViewModelFactory().getCompanyListViewModel().setFromCompany();
+    getViewHandler().openView(View.PLACE_ORDER);
   }
 }
