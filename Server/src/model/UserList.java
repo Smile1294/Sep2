@@ -46,8 +46,8 @@ public class UserList
     return false;
   }
 
-  public boolean userExistSQL(String name, String password) throws SQLException {
-    try(Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","")) {
+  public boolean userExist(String name, String password) throws SQLException {
+    try(Connection connection = DriverManager.getConnection("jdbc:postgresql://hattie.db.elephantsql.com:5432/votyogvs","votyogvs","Rf7kIRcDLTWmmtYq3N_QEpk0gwIbn7Rr")) {
       PreparedStatement statement = connection.prepareStatement("SELECT * FROM testingofjavasaving.userofapplication WHERE name = ? AND password = ?");
       statement.setString(1, name);
       statement.setString(2,password);
@@ -63,7 +63,7 @@ public class UserList
 
 
 
-  public boolean userExist(String name, String password){
+  public boolean userExistd(String name, String password){
     for(User x: userList){
       if(x.getName().equals(name) && x.getPassword().equals(password)){
         return true;

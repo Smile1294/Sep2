@@ -47,11 +47,29 @@ public class UserListFile implements UserFilePersistence {
         return userArrayList;
     }
 
-    public void addUser(User user) throws IOException {
+    public void addUser(User user) {
+        String sql = "Insert into testingofjavasaving.userofapplication(name,password,ballance)values (?,?,?);";
+        try (java.sql.Connection connection = DriverManager.getConnection("jdbc:postgresql://hattie.db.elephantsql.com:5432/votyogvs","votyogvs","Rf7kIRcDLTWmmtYq3N_QEpk0gwIbn7Rr")) {
+            //The command that is ran after the update is executed.
+            PreparedStatement statement = connection.prepareStatement
+                    (sql);
+            //This is from where the ? values are assigned from
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getPassword());
+            statement.setString(3, String.valueOf(user.getBalance()));
+            //Execute the update
+            statement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+
+    public void addUserd(User user) throws IOException {
         String sql = "Insert into testingofjavasaving.userofapplication(name,password,ballance)values (?,?,?);";
 
         try {
-            con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","");
+            con = DriverManager.getConnection("jdbc:postgres://hattie.db.elephantsql.com:5432/votyogvs","votyogvs","Rf7kIRcDLTWmmtYq3N_QEpk0gwIbn7Rr");
             pst = con.prepareStatement(sql);
             pst.setString(1,user.getName());
             pst.setString(2, user.getPassword());

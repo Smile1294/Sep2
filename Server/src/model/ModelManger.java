@@ -63,7 +63,7 @@ public class ModelManger implements Model {
 
     @Override
     public boolean login(String usr, String pwd) throws Exception {
-        if (!userList.userExistSQL(usr,pwd)){
+        if (!userList.userExist(usr,pwd)){
             throw new Exception("Wrong username or password");
         }
         return true;
