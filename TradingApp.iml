@@ -36,5 +36,6 @@
     </orderEntry>
     <orderEntry type="library" name="javafx" level="application" />
     <orderEntry type="library" name="gson-2.8.6" level="application" />
+    <orderEntry type="library" name="postgresql-42.2.20" level="application" />
   </component>
 </module>

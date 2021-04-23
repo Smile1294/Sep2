@@ -3,15 +3,20 @@ package model;
 import persistence.UserFilePersistence;
 import persistence.UserListFile;
 import java.io.*;
+import java.sql.*;
 import java.util.List;
 
 public class UserList
 {
   private List<User> userList;
   private UserFilePersistence filePersistence;
+  private Connection con;
+  PreparedStatement pst;
 
   public UserList()
   {
+    con = null;
+    pst = null;
     filePersistence = new UserListFile("Profiles.txt");
     try{
       userList = filePersistence.load();
@@ -40,6 +45,23 @@ public class UserList
     }
     return false;
   }
+
+  public boolean userExistSQL(String name, String password) throws SQLException {
+    try(Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","")) {
+      PreparedStatement statement = connection.prepareStatement("SELECT * FROM testingofjavasaving.userofapplication WHERE name = ? AND password = ?");
+      statement.setString(1, name);
+      statement.setString(2,password);
+      ResultSet resultSet = statement.executeQuery();
+      if (resultSet.next()) {
+        System.out.println(resultSet);
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
+
 
   public boolean userExist(String name, String password){
     for(User x: userList){
