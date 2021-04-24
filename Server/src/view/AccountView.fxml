@@ -7,6 +7,25 @@
 
 <VBox prefHeight="378.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.AccountViewController">
    <children>
+      <HBox alignment="TOP_RIGHT">
+         <children>
+            <MenuButton fx:id="menu" mnemonicParsing="false" text="Actions">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#onList" text="Company list" />
+                  <MenuItem mnemonicParsing="false" onAction="#onPlaceOrder" text="Place order" />
+                <MenuItem mnemonicParsing="false" onAction="#onPortfolio" text="Portfolio" />
+                  <MenuItem mnemonicParsing="false" onAction="#onList" text="Order list" />
+                  <MenuItem mnemonicParsing="false" onAction="#onWithdraw" text="Withdraw money" />
+                  <MenuItem mnemonicParsing="false" onAction="#onAdd" text="Add money" />
+                  <MenuItem mnemonicParsing="false" onAction="#onLogout" text="Logout" />
+                  <MenuItem mnemonicParsing="false" onAction="#onQuit" text="Quit" />
+              </items>
+            </MenuButton>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
             <VBox alignment="CENTER">
@@ -51,38 +70,34 @@
             </VBox>
          </children>
       </HBox>
-      <VBox alignment="BOTTOM_LEFT" prefHeight="179.0" prefWidth="400.0">
+      <HBox spacing="5.0" visible="false">
          <children>
-            <HBox spacing="5.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#onList" text="Company list" />
-                  <Button mnemonicParsing="false" onAction="#onPlaceOrder" text="Place Order" />
-               </children>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-            </HBox>
-            <HBox spacing="5.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#onPortfolio" text="Portfolio" />
-                  <Button mnemonicParsing="false" text="Order List" />
-                  <Button mnemonicParsing="false" onAction="#onWithdraw" text="Withdraw cash" />
-                  <Button mnemonicParsing="false" onAction="#onAdd" text="Add cash" />
-               </children>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-            </HBox>
-            <HBox spacing="5.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#onLogout" text="Logout" />
-                  <Button mnemonicParsing="false" onAction="#onQuit" text="Quit" />
-               </children>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-            </HBox>
+            <Button mnemonicParsing="false" onAction="#onList" text="Company list" />
+            <Button mnemonicParsing="false" onAction="#onPlaceOrder" text="Place Order" />
          </children>
-      </VBox>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </HBox>
+      <HBox spacing="5.0" visible="false">
+         <children>
+            <Button mnemonicParsing="false" onAction="#onPortfolio" text="Portfolio" />
+            <Button mnemonicParsing="false" text="Order List" />
+            <Button mnemonicParsing="false" onAction="#onWithdraw" text="Withdraw cash" />
+            <Button mnemonicParsing="false" onAction="#onAdd" text="Add cash" />
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </HBox>
+      <HBox spacing="5.0" visible="false">
+         <children>
+            <Button mnemonicParsing="false" onAction="#onLogout" text="Logout" />
+            <Button mnemonicParsing="false" onAction="#onQuit" text="Quit" />
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </HBox>
    </children>
 </VBox>

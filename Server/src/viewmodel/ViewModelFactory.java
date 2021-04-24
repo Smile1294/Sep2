@@ -11,7 +11,7 @@ public class ViewModelFactory {
     private LoginViewModel loginViewModel;
     private RegisterViewModel registerViewModel;
     private AccountViewModel accountViewModel;
-    private TransferCashViewModel transferCashViewModel;
+    private TransferViewModel transferViewModel;
     private PortfolioViewModel portfolioViewModel;
 
     public ViewModelFactory(Model model) throws IOException {
@@ -21,7 +21,7 @@ public class ViewModelFactory {
         this.loginViewModel = new LoginViewModel(model,userInformation);
         this.registerViewModel = new RegisterViewModel(model,userInformation);
         this.accountViewModel = new AccountViewModel(model,userInformation,transferState);
-        this.transferCashViewModel = new TransferCashViewModel(model,userInformation,transferState);
+        this.transferViewModel = new TransferViewModel(model,userInformation,transferState);
         this.portfolioViewModel = new PortfolioViewModel(model);
         this.companyListViewModel = new CompanyListViewModel(model,transferState);
         this.companyViewModel = new CompanyViewModel();
@@ -43,8 +43,8 @@ public class ViewModelFactory {
         return accountViewModel;
     }
 
-    public TransferCashViewModel getTransferCashViewModel() {
-        return transferCashViewModel;
+    public TransferViewModel getTransferViewModel() {
+        return transferViewModel;
     }
 
     public PortfolioViewModel getPortfolioViewModel(){return  portfolioViewModel;}

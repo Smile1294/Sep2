@@ -21,6 +21,15 @@ public class UserList
     }
   }
 
+  public User getUser(String user){
+    for (User u : userList){
+      if (u.getName().equals(user)){
+        return u;
+      }
+    }
+    return null;
+  }
+
   public boolean addProfile(String name, String password) throws Exception
   {
     if (nameExist(name)){
