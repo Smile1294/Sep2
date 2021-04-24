@@ -4,59 +4,59 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="470.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.RegisterViewController">
+<VBox prefHeight="339.0" prefWidth="488.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.RegisterViewController">
    <children>
-      <HBox alignment="CENTER" layoutY="255.0" prefHeight="70.0" prefWidth="450.0" spacing="150.0">
+      <VBox>
          <children>
-            <Button mnemonicParsing="false" onAction="#onBack" text="Back">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#onRegister" text="Register">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
+            <Label text="Register" />
          </children>
-      </HBox>
-      <HBox layoutY="70.0" prefHeight="155.0" prefWidth="450.0">
+      </VBox>
+      <VBox alignment="CENTER" prefHeight="155.0" prefWidth="233.0">
          <children>
-            <VBox alignment="CENTER" prefHeight="155.0" prefWidth="233.0" spacing="20.0">
+            <HBox>
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" wrappingWidth="94.89453125">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" wrappingWidth="89.13671875">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Text>
-               </children>
-            </VBox>
-            <VBox alignment="CENTER" prefHeight="155.0" prefWidth="190.0" spacing="20.0">
-               <children>
+                  <Label text="Username:" />
                   <TextField fx:id="usernameField" onAction="#onRegister" />
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label text="Password:" />
                   <PasswordField fx:id="passwordField" onAction="#onRegister" />
                </children>
-            </VBox>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="98.0">
+               <children>
+                  <Label text="Confirm password:" />
+                  <PasswordField fx:id="passwordConfirm" onAction="#onRegister" />
+               </children>
+            </HBox>
+            <HBox prefWidth="200.0">
+               <children>
+                  <Label text="Email:" />
+                  <TextField fx:id="emailField" />
+               </children></HBox>
+            <HBox prefWidth="200.0">
+               <children>
+                  <Label text="Confirm email" />
+                  <TextField fx:id="emailConfirm" />
+               </children></HBox>
          </children>
-      </HBox>
-      <HBox alignment="CENTER" prefHeight="70.0" prefWidth="450.0">
+      </VBox>
+      <VBox>
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Registe">
+            <Label fx:id="errorLabel" text="error label" textFill="RED">
                <font>
-                  <Font size="36.0" />
+                  <Font size="20.0" />
                </font>
-            </Text>
+            </Label>
+         </children>
+      </VBox>
+      <HBox alignment="CENTER" prefHeight="70.0" prefWidth="450.0" spacing="150.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#onBack" text="Back" />
+            <Button mnemonicParsing="false" onAction="#onRegister" text="Register" />
          </children>
       </HBox>
-      <Label fx:id="errorLabel" layoutX="180.0" layoutY="225.0" text="error label" textFill="RED">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
    </children>
-</AnchorPane>
+</VBox>

@@ -9,7 +9,7 @@ import java.io.IOException;
 public class RegisterViewModel
 {
   private Model model;
-  private StringProperty username, password, error;
+  private StringProperty username, password, passwordConfirm, email, emailConfirm, error;
   private UserInformation userInformation;
 
   public RegisterViewModel(Model model, UserInformation userInformation){
@@ -17,6 +17,9 @@ public class RegisterViewModel
     this.userInformation = userInformation;
     username = new SimpleStringProperty();
     password = new SimpleStringProperty();
+    passwordConfirm = new SimpleStringProperty();
+    email = new SimpleStringProperty();
+    emailConfirm = new SimpleStringProperty();
     error = new SimpleStringProperty();
   }
 
@@ -28,12 +31,16 @@ public class RegisterViewModel
 
   public boolean register() throws IOException
   {
+
     boolean result = false;
-    if (username != null && password != null)
+    // redo this
+    // try { model.register(new user(username, password, passwordConfirm, email, emailConfirm));}
+    // catch (exception e) {error.setValue(e.getMessage());}
+    if (username != null && password != null) // this should be handled in username class
     {
       try {
         result = model.registerUser(username.get(), password.get());
-        userInformation.setUser(username.get());
+        userInformation.setUser(username.get()); //userInfo (future viewState?) has to be updated, wait not in register.
       } catch (Exception e){
         error.setValue(e.getMessage());
       }
@@ -57,5 +64,19 @@ public class RegisterViewModel
 
   public StringProperty getError(){
     return error;
+  }
+
+  public StringProperty getPasswordConfirm()
+  {
+    return passwordConfirm;
+  }
+
+  public StringProperty getEmail()
+  {
+    return email;
+  }
+
+  public StringProperty getEmailConfirm(){
+    return emailConfirm;
   }
 }
