@@ -12,4 +12,7 @@ public interface Model {
     boolean login(String usr,String pwd) throws Exception;
     boolean registerUser(String usr,String pwd) throws Exception;
 
+    int getBalance(String usr);
+    void fuckYourMoney(Double amount);
+    void smellyMess(Double amount);
 }

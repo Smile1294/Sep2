@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="244.0" prefWidth="241.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TransferCashController">
+<VBox prefHeight="244.0" prefWidth="241.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TransferViewController">
    <children>
       <VBox alignment="CENTER" prefHeight="54.0" prefWidth="231.0">
          <children>
@@ -62,9 +62,14 @@
             </VBox>
          </children>
       </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Label fx:id="errorLabel" text="error" textFill="RED" />
+         </children>
+      </HBox>
       <HBox alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="354.0" spacing="5.0">
          <children>
-            <Button mnemonicParsing="false" text="Confirm" />
+            <Button mnemonicParsing="false" onAction="#onConfirm" text="Confirm" />
             <Button mnemonicParsing="false" onAction="#onBack" text="Back" />
          </children>
          <padding>

@@ -44,10 +44,28 @@ public class ModelManger implements Model {
         return stocks.getAllStocks();
     }
 
+    @Override
+    public int getBalance(String usr){
+        return user.getBalance();
+//        return userList.getUser(usr).getBalance();
+    }
+
+    @Override
+    public void fuckYourMoney(Double amount) {
+        user.setBalance((int)(user.getBalance()-amount));
+    }
+
+    @Override
+    public void smellyMess(Double amount) {
+        user.setBalance((int)(user.getBalance()+amount));
+    }
+
+
     public User getUser()
     {
         return user;
     }
+
     public Orders getOrders() {
         return orders;
     }
