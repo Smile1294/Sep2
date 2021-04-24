@@ -7,7 +7,7 @@
 
 <VBox xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.CompanyViewController">
    <children>
-      <HBox>
+      <HBox prefHeight="152.0" prefWidth="633.0">
          <children>
             <VBox prefHeight="200.0" prefWidth="316.0">
                <children>
@@ -51,14 +51,15 @@
             </VBox>
          </children>
       </HBox>
-      <LineChart fx:id="historyChart" title="History">
+      <LineChart fx:id="chart" title="History">
         <xAxis>
-          <CategoryAxis side="BOTTOM" />
+          <CategoryAxis fx:id="time" label="Time" side="BOTTOM" />
         </xAxis>
         <yAxis>
-          <NumberAxis side="LEFT" />
+          <NumberAxis fx:id="price" label="Price" side="LEFT" />
         </yAxis>
       </LineChart>
+
       <HBox alignment="CENTER" prefHeight="69.0" prefWidth="633.0">
          <children>
             <Button mnemonicParsing="false" onAction="#onOrder" text="Place order" />
