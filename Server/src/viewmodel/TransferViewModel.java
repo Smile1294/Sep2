@@ -33,7 +33,8 @@ public class TransferViewModel {
     public void confirm(){
         try {
             model.transferMoney(viewState.getUserName(), amount.getValue(), viewState.isWithdraw());
-        } catch (IllegalArgumentException e){
+            clear();
+        } catch (Exception e){
             error.setValue(e.getMessage());
         }
     }

@@ -1,3 +1,15 @@
 {
-  "users": []
+  "users": [
+    {
+      "balance": {
+        "balance": 747.309999999999977404741002828814089298248291015625
+      },
+      "userName": {
+        "name": "Kim"
+      },
+      "password": {
+        "password": "Asd123"
+      }
+    }
+  ]
 }
