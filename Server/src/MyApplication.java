@@ -7,7 +7,7 @@ import viewmodel.ViewModelFactory;
 
 import java.io.IOException;
 
-public class ApplicationPlaceOrder extends Application {
+public class MyApplication extends javafx.application.Application {
     @Override public void start(Stage primaryStage) throws IOException
     {
         Model model = new ModelManger();

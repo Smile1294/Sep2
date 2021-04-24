@@ -1,10 +1,10 @@
 
 import javafx.application.Application;
 
-public class PlaceOrderMain {
+public class Main {
     public static void main(String[] args)
     {
-        Application.launch(ApplicationPlaceOrder.class);
+        Application.launch(Application.class);
     }
 }
 
