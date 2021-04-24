@@ -21,7 +21,7 @@ public class PortfolioViewModel {
 
     public PortfolioViewModel(Model model) throws IOException {
 
-        this.model = new ModelManger();
+        this.model = model;
         this.investedValue = new SimpleDoubleProperty();
         this.name = new SimpleStringProperty();
         this.total = new SimpleDoubleProperty();
