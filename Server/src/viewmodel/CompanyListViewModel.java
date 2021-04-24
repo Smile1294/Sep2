@@ -15,18 +15,15 @@ public class CompanyListViewModel
   private ObservableList<SimpleCompanyViewModel> list;
   private ObjectProperty<SimpleCompanyViewModel> selectedSimpleCompany;
   private StringProperty errorProperty;
-  private Chosen chosen;
-  private TransferState transferState;
+  private ViewState viewState;
 
-  public CompanyListViewModel(Model model, TransferState transferState)
+  public CompanyListViewModel(Model model, ViewState viewState)
   {
     this.model = model;
     list = FXCollections.observableArrayList();
     errorProperty = new SimpleStringProperty("");
-    loadFromModel();
-    chosen = Chosen.getInstance();
     selectedSimpleCompany = new SimpleObjectProperty<>();
-    this.transferState = transferState;
+    this.viewState = viewState;
     loadFromModel();
   }
 
@@ -38,11 +35,11 @@ public class CompanyListViewModel
 
   public void loadFromModel()
   {
-    clear();
-    for (int x = 0; x < model.getStocks().getSize(); x++)
-    {
-      list.add(new SimpleCompanyViewModel(model.getStocks().getStock(x)));
-    }
+//    clear();
+//    for (int x = 0; x < model.getStocks().getSize(); x++)
+//    {
+//      list.add(new SimpleCompanyViewModel(model.getStocks().getStock(x)));
+//    }
   }
 
   public StringProperty getErrorProperty()
@@ -56,18 +53,10 @@ public class CompanyListViewModel
   }
 
   public boolean chose(){
-    if (selectedSimpleCompany.get()!=null){
-      chosen.setName(selectedSimpleCompany.get().getName().get());
-      chosen.setPrice(selectedSimpleCompany.get().getPrice().get());
-      return true;
-    }
-    return false;
+    return selectedSimpleCompany.get() != null;
   }
+
   public void setSelected(SimpleCompanyViewModel companyVM){
     selectedSimpleCompany = new SimpleObjectProperty<>(companyVM);
   }
-
-    public void setFromCompany() {
-      transferState.setFromCompanyInfo(true);
-    }
 }

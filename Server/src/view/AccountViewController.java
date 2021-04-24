@@ -52,7 +52,6 @@ public class AccountViewController extends ViewController{
 
     @FXML
     private void onPlaceOrder(){
-        getViewModelFactory().getAccountViewModel().setFromProfile();
         getViewHandler().openView(View.PLACE_ORDER);
     }
 

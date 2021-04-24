@@ -6,50 +6,32 @@ import model.Stock;
 
 public class AccountViewModel {
     private Model model;
-    private UserInformation userInformation;
     private StringProperty user;
     private DoubleProperty total,value,balance;
-    private TransferState transferState;
+    private ViewState viewState;
 
-    public AccountViewModel(Model model, UserInformation userInformation, TransferState transferState){
+    public AccountViewModel(Model model, ViewState viewState){
         this.model = model;
-        this.userInformation = userInformation;
-        this.transferState = transferState;
-        value = fuckThisSmells();
-        total = new SimpleDoubleProperty(model.getUser().getBalance()+ value.doubleValue());
-        balance = new SimpleDoubleProperty(model.getUser().getBalance());
-        user = new SimpleStringProperty(model.getUser().getName());
+        this.viewState = viewState;
+        value = new SimpleDoubleProperty();
+        total = new SimpleDoubleProperty();
+        balance = new SimpleDoubleProperty(model.getBalance(viewState.getUserName()));
+        user = new SimpleStringProperty(viewState.getUserName()==null?"":viewState.getUserName().toString());
     }
 
     public void clear(){
-        value = fuckThisSmells();
-        total.setValue(model.getUser().getBalance()+ value.doubleValue());
-        balance.setValue(model.getUser().getBalance());
-        user.setValue(model.getUser().getName());
-    }
-
-    private DoubleProperty fuckThisSmells(){
-            double d = 0.0;
-            try {
-                for (Stock s : model.getAllStocks()) {
-                    if (model.getUser().getSpecific(s.getName()).getAmount() > 0) {
-                        d = d + s.getPrice() * model.getUser().getSpecific(s.getName()).getAmount();
-                        System.out.println(d);
-                    }
-                }
-                return new SimpleDoubleProperty(d);
-            } catch (Exception e) {
-                System.out.println(e);
-            }
-            return new SimpleDoubleProperty(d);
+        value.setValue(null);
+        total.setValue(null);
+        balance.setValue(model.getBalance(viewState.getUserName()));
+        user.setValue(viewState.getUserName().toString());
     }
 
     public void setWithdraw(){
-        transferState.setWithdraw(true);
+        viewState.setWithdraw(true);
     }
 
     public void setAdd(){
-        transferState.setWithdraw(false);
+        viewState.setWithdraw(false);
     }
 
     public DoubleProperty totalProperty() {
@@ -66,9 +48,5 @@ public class AccountViewModel {
 
     public StringProperty userProperty() {
         return user;
-    }
-
-    public void setFromProfile() {
-        transferState.setFromCompanyInfo(false);
     }
 }

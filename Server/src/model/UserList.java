@@ -1,61 +1,69 @@
 package model;
 
-import persistence.UserFilePersistence;
-import persistence.UserListFile;
-import java.io.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserList
 {
-  private List<User> userList;
-  private UserFilePersistence filePersistence;
+  private List<User> users;
 
   public UserList()
   {
-    filePersistence = new UserListFile("Profiles.txt");
-    try{
-      userList = filePersistence.load();
-    }
-    catch (IOException e){
-      e.printStackTrace();
-    }
+    users = new ArrayList<>();
   }
 
-  public User getUser(String user){
-    for (User u : userList){
-      if (u.getName().equals(user)){
+  public User getUser(UserName userName){
+    for (User u : users){
+      if (u.getUserName().equals(userName)){
         return u;
       }
     }
     return null;
   }
 
-  public boolean addProfile(String name, String password) throws Exception
-  {
-    if (nameExist(name)){
+  public boolean addUser(User user) throws Exception {
+    if (nameExist(user.getUserName())){
       throw new Exception("Username already exists");
     }
-    User user = new User(name,password);
-    userList.add(user);
-    filePersistence.addUser(user);
+    users.add(user);
     return true;
   }
 
-  public boolean nameExist(String name){
-    for(User x: userList){
-      if(x.getName().equals(name)){
+  public boolean nameExist(UserName userName){
+    for(User x: users){
+      if(x.getUserName().equals(userName)){
         return true;
       }
     }
     return false;
   }
 
-  public boolean userExist(String name, String password){
-    for(User x: userList){
-      if(x.getName().equals(name) && x.getPassword().equals(password)){
-        return true;
+  public boolean userExist(User user){
+    return users.contains(user);
+  }
+
+  public double getBalance(UserName userName){
+    for (User u : users){
+      if (u.getUserName().equals(userName)){
+        return u.getBalance();
       }
     }
-    return false;
+    return 0.0;
+  }
+
+  public void transferMoney(UserName userName, double amount, boolean isWithdraw){
+    User user = null;
+    for (User u : users){
+      if (u.getUserName().equals(userName)){
+        user = u;
+      }
+    }
+    if (isWithdraw){
+      user.withDraw(amount);
+    }
+    else {
+      user.addCash(amount);
+    }
   }
 }

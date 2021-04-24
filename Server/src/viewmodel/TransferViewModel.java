@@ -8,38 +8,34 @@ import model.Model;
 
 public class TransferViewModel {
     private Model model;
-    private UserInformation userInformation;
-    private TransferState transferState;
+    private ViewState viewState;
     private StringProperty title;
     private StringProperty error;
     private DoubleProperty balance;
     private DoubleProperty amount;
 
-    public TransferViewModel(Model model, UserInformation userInformation, TransferState transferState){
+    public TransferViewModel(Model model, ViewState viewState){
         this.model = model;
-        this.userInformation = userInformation;
-        this.transferState = transferState;
-        title = new SimpleStringProperty(transferState.isWithdraw()?"Withdraw cash":"Add cash");
-        balance = new SimpleDoubleProperty(model.getBalance(userInformation.getUser()));
+        this.viewState = viewState;
+        title = new SimpleStringProperty(viewState.isWithdraw()?"Withdraw cash":"Add cash");
+        balance = new SimpleDoubleProperty(model.getBalance(viewState.getUserName()));
         amount = new SimpleDoubleProperty();
         error = new SimpleStringProperty();
     }
 
     public void clear(){
-        title.setValue(transferState.isWithdraw()?"Withdraw cash":"Add cash");
-        balance.setValue(model.getBalance(userInformation.getUser()));
+        title.setValue(viewState.isWithdraw()?"Withdraw cash":"Add cash");
+        balance.setValue(model.getBalance(viewState.getUserName()));
         amount.setValue(null);
         error.setValue(null);
     }
 
     public void confirm(){
-        if (transferState.isWithdraw()){
-            model.fuckYourMoney(amount.doubleValue());
+        try {
+            model.transferMoney(viewState.getUserName(), amount.getValue(), viewState.isWithdraw());
+        } catch (IllegalArgumentException e){
+            error.setValue(e.getMessage());
         }
-        else {
-            model.smellyMess(amount.doubleValue());
-        }
-        clear();
     }
 
     public StringProperty titleProperty() {

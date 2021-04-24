@@ -31,7 +31,6 @@ public class CompanyViewController extends ViewController
 
   public void onOrder(ActionEvent actionEvent)
   {
-    getViewModelFactory().getCompanyListViewModel().setFromCompany();
     getViewHandler().openView(View.PLACE_ORDER);
   }
 }

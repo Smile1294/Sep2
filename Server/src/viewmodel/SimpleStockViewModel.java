@@ -16,15 +16,15 @@ public class SimpleStockViewModel {
 
     public SimpleStockViewModel(Stock stock, User user) {
 
-        username = new SimpleStringProperty(user.getName());
-        numberowned = new SimpleIntegerProperty(user.getSpecific(stock.getName()).getAmount());
-        currentValue = new SimpleDoubleProperty(stock.getPrice()*user.getSpecific(stock.getName()).getAmount());
-        invested = new SimpleDoubleProperty(user.getInvested(stock));
-        name = new SimpleStringProperty(stock.getName());
-        value = new SimpleDoubleProperty(stock.getPrice());
-
-
-        percentage = new SimpleStringProperty(Double.toString(((stock.getPrice()*user.getSpecific(stock.getName()).getAmount()- user.getInvested(stock))/user.getInvested(stock))*100));
+//        username = new SimpleStringProperty(user.getName());
+//        numberowned = new SimpleIntegerProperty(user.getSpecific(stock.getName()).getAmount());
+//        currentValue = new SimpleDoubleProperty(stock.getPrice()*user.getSpecific(stock.getName()).getAmount());
+//        invested = new SimpleDoubleProperty(user.getInvested(stock));
+//        name = new SimpleStringProperty(stock.getName());
+//        value = new SimpleDoubleProperty(stock.getPrice());
+//
+//
+//        percentage = new SimpleStringProperty(Double.toString(((stock.getPrice()*user.getSpecific(stock.getName()).getAmount()- user.getInvested(stock))/user.getInvested(stock))*100));
     }
 
 

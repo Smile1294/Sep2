@@ -31,16 +31,6 @@
                   <PasswordField fx:id="passwordConfirm" onAction="#onRegister" />
                </children>
             </HBox>
-            <HBox prefWidth="200.0">
-               <children>
-                  <Label text="Email:" />
-                  <TextField fx:id="emailField" />
-               </children></HBox>
-            <HBox prefWidth="200.0">
-               <children>
-                  <Label text="Confirm email" />
-                  <TextField fx:id="emailConfirm" />
-               </children></HBox>
          </children>
       </VBox>
       <VBox>

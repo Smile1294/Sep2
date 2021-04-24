@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class RegisterViewController extends ViewController
 {
-  @FXML private TextField usernameField, emailField, emailConfirm;
+  @FXML private TextField usernameField;
   @FXML private PasswordField passwordField, passwordConfirm;
   @FXML private Label errorLabel;
   private RegisterViewModel viewModel;
@@ -22,8 +22,6 @@ public class RegisterViewController extends ViewController
     usernameField.textProperty().bindBidirectional(viewModel.getUsername());
     passwordField.textProperty().bindBidirectional(viewModel.getPassword());
     passwordConfirm.textProperty().bindBidirectional(viewModel.getPasswordConfirm());
-    emailField.textProperty().bindBidirectional(viewModel.getEmail());
-    emailConfirm.textProperty().bindBidirectional(viewModel.getEmailConfirm());
     errorLabel.textProperty().bind(viewModel.getError());
   }
 

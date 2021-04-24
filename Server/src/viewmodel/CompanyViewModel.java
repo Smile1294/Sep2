@@ -10,13 +10,13 @@ public class CompanyViewModel
 {
   private StringProperty nameProperty;
   private LongProperty priceProperty;
-  private Chosen chosen;
+  private ViewState viewState;
 
-  public CompanyViewModel(){
+  public CompanyViewModel(Model model, ViewState viewState){
     nameProperty = new SimpleStringProperty();
     priceProperty = new SimpleLongProperty();
-    chosen = Chosen.getInstance();
-    load();
+    this.viewState = viewState;
+
   }
   public void clear()
   {
@@ -26,20 +26,16 @@ public class CompanyViewModel
 
   public void load()
   {
-    clear();
-    nameProperty.setValue(chosen.getName());
-    priceProperty.setValue(chosen.getPrice());
+
   }
 
   public StringProperty getNameProperty()
   {
-    nameProperty.setValue(chosen.getName());
     return nameProperty;
   }
 
   public LongProperty getPriceProperty()
   {
-    priceProperty.setValue(chosen.getPrice());
     return priceProperty;
   }
 }
