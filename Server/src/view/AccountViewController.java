@@ -1,19 +1,27 @@
 package view;
 
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import utility.NumberStringConverter;
 
 public class AccountViewController extends ViewController{
     @FXML private Label accountTotal;
     @FXML private Label accountBalance;
     @FXML private Label accountValue;
+    @FXML private MenuButton menu;
 
     @Override
     protected void init() {
-        accountTotal.textProperty().bind(getViewModelFactory().getAccountViewModel().totalProperty());
-        accountBalance.textProperty().bind(getViewModelFactory().getAccountViewModel().balanceProperty());
-        accountValue.textProperty().bind(getViewModelFactory().getAccountViewModel().valueProperty());
+        Bindings.bindBidirectional(accountTotal.textProperty(),
+                getViewModelFactory().getAccountViewModel().totalProperty(),new NumberStringConverter());
+        Bindings.bindBidirectional(accountBalance.textProperty(),
+                getViewModelFactory().getAccountViewModel().balanceProperty(),new NumberStringConverter());
+        Bindings.bindBidirectional(accountValue.textProperty(),
+                getViewModelFactory().getAccountViewModel().valueProperty(),new NumberStringConverter());
+        menu.textProperty().bind(getViewModelFactory().getAccountViewModel().userProperty());
     }
 
     public void reset(){

@@ -1,26 +1,47 @@
 package viewmodel;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import model.Model;
+import model.Stock;
 
 public class AccountViewModel {
     private Model model;
     private UserInformation userInformation;
-    private StringProperty total,value,balance;
+    private StringProperty user;
+    private DoubleProperty total,value,balance;
     private TransferState transferState;
 
     public AccountViewModel(Model model, UserInformation userInformation, TransferState transferState){
         this.model = model;
         this.userInformation = userInformation;
         this.transferState = transferState;
-        total = new SimpleStringProperty();
-        value = new SimpleStringProperty();
-        balance = new SimpleStringProperty();
+        value = fuckThisSmells();
+        total = new SimpleDoubleProperty(model.getUser().getBalance()+ value.doubleValue());
+        balance = new SimpleDoubleProperty(model.getUser().getBalance());
+        user = new SimpleStringProperty(model.getUser().getName());
     }
 
     public void clear(){
+        value = fuckThisSmells();
+        total.setValue(model.getUser().getBalance()+ value.doubleValue());
+        balance.setValue(model.getUser().getBalance());
+        user.setValue(model.getUser().getName());
+    }
 
+    private DoubleProperty fuckThisSmells(){
+            double d = 0.0;
+            try {
+                for (Stock s : model.getAllStocks()) {
+                    if (model.getUser().getSpecific(s.getName()).getAmount() > 0) {
+                        d = d + s.getPrice() * model.getUser().getSpecific(s.getName()).getAmount();
+                        System.out.println(d);
+                    }
+                }
+                return new SimpleDoubleProperty(d);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            return new SimpleDoubleProperty(d);
     }
 
     public void setWithdraw(){
@@ -31,16 +52,20 @@ public class AccountViewModel {
         transferState.setWithdraw(false);
     }
 
-    public StringProperty totalProperty() {
+    public DoubleProperty totalProperty() {
         return total;
     }
 
-    public StringProperty valueProperty() {
+    public DoubleProperty valueProperty() {
         return value;
     }
 
-    public StringProperty balanceProperty() {
+    public DoubleProperty balanceProperty() {
         return balance;
+    }
+
+    public StringProperty userProperty() {
+        return user;
     }
 
     public void setFromProfile() {
