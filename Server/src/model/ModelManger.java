@@ -1,49 +1,46 @@
 package model;
 
-import persistence.UserListFile;
-import persistence.UserListPersistence;
+import mediator.Symbol;
+import persistence.*;
 
-import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class ModelManger implements Model {
     private Orders orders;
-    private Stocks stocks;
-    private UserList userList;
-    private UserListPersistence ulp;
-
     private Companies companies;
+    private UserList userList;
+    private UserListPersistence userListPersistence;
+    private CompaniesPersistence companiesPersistence;
+    private OrdersPersistence ordersPersistence;
+
+
 
     public ModelManger() throws IOException {
-        ulp = new UserListFile();
-        this.companies = new Companies();
-        companies.AddCompany(new Company("Tesla Inc.","TSLA"));
-        userList = ulp.load("users.json");
-        orders = new Orders();
+        userListPersistence = new UserListFile();
+        companiesPersistence = new CompaniesFiles();
+        ordersPersistence = new OrdersFile();
 
-        stocks = new Stocks("Market");
-        stocks.addStock(new Stock("Apple", 5, 5));
-        stocks.addStock(new Stock("Microsoft", 5, 5));
-        stocks.addStock(new Stock("Kebab", 5, 5));
+        userList = userListPersistence.load("users.json");
+        orders = ordersPersistence.load("orders.json");
+        companies = companiesPersistence.load("companies.json");
 
-        stocks.getStock(0).setPrice(242);
+//        companies.AddCompany(new Company("Apple Inc.", Symbol.APPLE.getSymbol()));
+//        companies.AddCompany(new Company("Alphabet Inc. Class A.", Symbol.GOOGLEA.getSymbol()));
+//        companies.AddCompany(new Company("Tesla Inc.", Symbol.TESLA.getSymbol()));
+//        companies.AddCompany(new Company("Facebook Inc.", Symbol.FACEBOOK.getSymbol()));
+//        companies.AddCompany(new Company("Paypal Holdings Inc.", Symbol.PAYPAL.getSymbol()));
+//        companies.AddCompany(new Company("Microsoft Corporation", Symbol.MICROSOFT.getSymbol()));
+//        companies.AddCompany(new Company("Amazon.com Inc.", Symbol.AMAZON.getSymbol()));
+//        companies.AddCompany(new Company("Alphabet Inc. Class C", Symbol.GOOGLEC.getSymbol()));
+//        companies.AddCompany(new Company("International Business Machines Corporation", Symbol.IBM.getSymbol()));
+
+//        for (Company c : companies.getCompanies()){
+//            c.setCurrentPrice(Math.random()*1000);
+//        }
+
 
     }
-
-//    public String getInfoAboutCompany(Company company)
-//    {
-//        return companies.getCompany(company).toString();
-//    }
-
-//    public Stocks getStocks() {
-//        return stocks;
-//    }
-
-//    @Override
-//    public ArrayList<Stock> getAllStocks() {
-//        return stocks.getAllStocks();
-//    }
 
     @Override
     public double getBalance(UserName userName){
@@ -56,30 +53,21 @@ public class ModelManger implements Model {
     }
 
     @Override
-    public void saveUsersToFile() {
-        ulp.save(userList, "users.json");
+    public ArrayList<Company> getAllCompanies() {
+        return companies.getCompanies();
     }
 
+    @Override
+    public Company getCompany(String symbol) {
+        return companies.getCompany(symbol);
+    }
 
-//    public User getUser()
-//    {
-//        return user;
-//    }
-//
-//    public Orders getOrders() {
-//        return orders;
-//    }
-
-//    public void PlaceOrdertoSell(Stock stock, int amount, int price) {
-//        user.addOrdertoSell(stock, amount, price);
-//
-//    }
-//
-//    public void PlaceOrdertoBuy(Stock stock, int amount, int price) throws Exception {
-//        user.addOrderToBuy(stock, amount, price);
-//    }
-
-
+    @Override
+    public void saveDataToFiles() {
+        userListPersistence.save(userList, "users.json");
+        ordersPersistence.save(orders,"orders.json");
+        companiesPersistence.save(companies,"companies.json");
+    }
 
     @Override
     public boolean login(User user) throws Exception {
@@ -94,5 +82,7 @@ public class ModelManger implements Model {
         boolean result = userList.addUser(user);
         return result;
     }
+
+
 
 }

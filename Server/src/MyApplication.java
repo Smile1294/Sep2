@@ -1,4 +1,3 @@
-import javafx.application.Application;
 import javafx.stage.Stage;
 import model.Model;
 import model.ModelManger;
@@ -18,6 +17,6 @@ public class MyApplication extends javafx.application.Application {
     }
 
     @Override public void stop() {
-        model.saveUsersToFile();
+        model.saveDataToFiles();
     }
 }

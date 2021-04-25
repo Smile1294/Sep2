@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="318.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.CompanyListViewController">
+<VBox prefHeight="366.0" prefWidth="377.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.CompanyListViewController">
    <children>
-      <TableView fx:id="companyList" layoutX="44.0" layoutY="28.0" prefHeight="247.0" prefWidth="231.0">
+      <TableView fx:id="companyList" prefHeight="247.0" prefWidth="231.0">
         <columns>
-          <TableColumn fx:id="nameColumn" prefWidth="114.0" text="Name" />
-          <TableColumn fx:id="priceColumn" prefWidth="115.0" text="current price" />
+          <TableColumn fx:id="nameColumn" prefWidth="181.0" text="Name" />
+            <TableColumn fx:id="symbolColumn" prefWidth="49.0" text="Symbol" />
+          <TableColumn fx:id="priceColumn" prefWidth="99.0" text="Current Price" />
         </columns>
       </TableView>
-      <HBox alignment="CENTER" layoutX="1.0" layoutY="302.0" prefHeight="43.0" prefWidth="318.0" spacing="70.0">
+      <VBox prefHeight="60.0" prefWidth="367.0">
+         <children>
+            <Label fx:id="errorLabel" text="Error Label" textFill="RED">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <HBox alignment="CENTER" prefHeight="43.0" prefWidth="318.0" spacing="70.0">
          <children>
             <Button mnemonicParsing="false" onAction="#onBack" text="Back">
                <font>
@@ -26,10 +37,8 @@
             </Button>
          </children>
       </HBox>
-      <Label fx:id="errorLabel" layoutX="116.0" layoutY="275.0" text="Error Label" textFill="RED">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
    </children>
-</AnchorPane>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</VBox>

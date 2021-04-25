@@ -1,5 +1,6 @@
 package view;
 
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -12,7 +13,8 @@ public class CompanyListViewController extends ViewController
   @FXML private Label errorLabel;
   @FXML private TableView<SimpleCompanyViewModel> companyList;
   @FXML private TableColumn<SimpleCompanyViewModel, String> nameColumn;
-  @FXML private TableColumn<SimpleCompanyViewModel, String> priceColumn;
+  @FXML private TableColumn<SimpleCompanyViewModel, String> symbolColumn;
+  @FXML private TableColumn<SimpleCompanyViewModel, Number> priceColumn;
 
   @Override protected void init()
   {
@@ -21,17 +23,20 @@ public class CompanyListViewController extends ViewController
       (obs, oldVal, newVal) -> getViewModelFactory().getCompanyListViewModel().setSelected(newVal)
   );
     nameColumn.setCellValueFactory(cellData -> cellData.getValue().getName());
-    priceColumn.setCellValueFactory(cellData -> cellData.getValue().getPrice().asString());
+    symbolColumn.setCellValueFactory(cellData -> cellData.getValue().getSymbol());
+    priceColumn.setCellValueFactory(cellData -> cellData.getValue().getPrice());
     companyList.setItems(getViewModelFactory().getCompanyListViewModel().getList());
+
   }
 
   @Override public void reset()
   {
-
+    getViewModelFactory().getCompanyListViewModel().clear();
   }
 
   public void onBack(ActionEvent actionEvent)
   {
+
     getViewHandler().openView(View.ACCOUNT);
   }
 

@@ -1,16 +1,22 @@
 package viewmodel;
 
 import javafx.beans.property.*;
+import model.Company;
 import model.Stock;
+
+import java.text.DecimalFormat;
 
 public class SimpleCompanyViewModel
 {
   private StringProperty name;
-  private LongProperty price;
+  private StringProperty symbol;
+  private DoubleProperty price;
 
-  public SimpleCompanyViewModel(Stock stock){
-    name = new SimpleStringProperty(stock.getName());
-    price = new SimpleLongProperty(stock.getPrice());
+  public SimpleCompanyViewModel(Company company){
+
+    name = new SimpleStringProperty(company.getName());
+    symbol = new SimpleStringProperty(company.getSymbol());
+    price = new SimpleDoubleProperty(Math.round(company.getCurrentPrice()*1000.0)/1000.0);
   }
 
   public StringProperty getName()
@@ -18,7 +24,9 @@ public class SimpleCompanyViewModel
     return name;
   }
 
-  public LongProperty getPrice()
+  public StringProperty getSymbol(){return symbol;}
+
+  public DoubleProperty getPrice()
   {
     return price;
   }

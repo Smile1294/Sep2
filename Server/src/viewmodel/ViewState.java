@@ -6,18 +6,18 @@ import model.UserName;
 public class ViewState {
     private UserName userName;
     private boolean withdraw;
-    private Company selected;
+    private String selectedSymbol;
 
     public ViewState(){
 
     }
 
-    public void setSelected(Company selected) {
-        this.selected = selected;
+    public void setSelected(String selectedSymbol) {
+        this.selectedSymbol = selectedSymbol;
     }
 
-    public Company getSelected() {
-        return selected;
+    public String getSelected() {
+        return selectedSymbol;
     }
 
     public void setUserName(UserName userName) {

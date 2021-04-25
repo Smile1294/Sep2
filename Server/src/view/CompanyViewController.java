@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 
 public class CompanyViewController extends ViewController
 {
+  @FXML private Label symbolLabel;
   @FXML private Label nameLabel;
   @FXML private Label priceLabel;
   @FXML private LineChart<String,Double> historyChart;
@@ -20,7 +21,7 @@ public class CompanyViewController extends ViewController
 
   @Override public void reset()
   {
-    getViewModelFactory().getCompanyViewModel().load();
+    getViewModelFactory().getCompanyViewModel().clear();
   }
 
   public void onBack(ActionEvent actionEvent)

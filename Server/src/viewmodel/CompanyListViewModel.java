@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.Company;
 import model.Model;
 import model.Stocks;
 
@@ -29,17 +30,18 @@ public class CompanyListViewModel
 
   public void clear()
   {
-    errorProperty.setValue("");
     list.clear();
+    errorProperty.setValue("");
+    loadFromModel();
   }
 
   public void loadFromModel()
   {
-//    clear();
-//    for (int x = 0; x < model.getStocks().getSize(); x++)
-//    {
-//      list.add(new SimpleCompanyViewModel(model.getStocks().getStock(x)));
-//    }
+    // load all companies
+    for (Company c : model.getAllCompanies())
+    {
+      list.add(new SimpleCompanyViewModel(c));
+    }
   }
 
   public StringProperty getErrorProperty()
@@ -53,7 +55,12 @@ public class CompanyListViewModel
   }
 
   public boolean chose(){
-    return selectedSimpleCompany.get() != null;
+    if (selectedSimpleCompany.get() != null){
+      viewState.setSelected(selectedSimpleCompany.get().getSymbol().toString());
+      return true;
+    }
+    errorProperty.setValue("No company selected");
+    return false;
   }
 
   public void setSelected(SimpleCompanyViewModel companyVM){

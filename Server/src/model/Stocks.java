@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class Stocks {
     private ArrayList<Stock> stocks;
-    private String owner;
 
-    public Stocks(String owner) {
+
+    public Stocks() {
         this.stocks = new ArrayList<>();
-        this.owner = owner;
+
     }
     public ArrayList<Stock> getAllStocks()
     {
@@ -26,20 +26,21 @@ public class Stocks {
         stocks.add(stock);
     }
 
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
     public int getSize() {
         return stocks.size();
     }
 
     public void removeStock(Stock stock) {
         stocks.remove(stock);
+    }
+
+    public Stock getStock(Stock stock){
+        for (Stock s: stocks){
+            if (s.equals(stock)){
+                return stock;
+            }
+        }
+        return null;
     }
 
     public Stock getStock(int i) {

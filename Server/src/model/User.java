@@ -4,7 +4,14 @@ public class User {
     private Balance balance;
     private UserName userName;
     private Password password;
+    private Stocks stocks;
 
+    /**
+     *
+     *
+     * @param userName
+     * @param password
+     */
     public User(UserName userName, Password password) {
         if (userName == null || password == null)
         {
@@ -13,8 +20,15 @@ public class User {
         this.userName = userName;
         this.password = password;
         this.balance = new Balance();
+        this.stocks = new Stocks();
     }
 
+    /**
+     *
+     * @param userName
+     * @param password
+     * @param passwordConfirm
+     */
     public User(UserName userName, Password password, Password passwordConfirm) {
         if (userName == null || password == null || passwordConfirm == null)
         {
@@ -26,27 +40,50 @@ public class User {
         this.userName = userName;
         this.password = password;
         this.balance = new Balance();
+        this.stocks = new Stocks();
     }
 
+    /**
+     *
+     * @return
+     */
     public Double getBalance() {
         return balance.getBalance();
     }
 
+    /**
+     *
+     * @return
+     */
     public UserName getUserName() {
         return userName;
     }
 
+    /**
+     *
+     * @return
+     */
     public Password getPassword() {
         return password;
     }
 
+    /**
+     *
+     * @param amount
+     */
     public void addCash(double amount){
         balance.add(amount);
     }
 
+    /**
+     *
+     * @param amount
+     */
     public void withDraw(double amount){
         balance.withDraw(amount);
     }
+
+
 
     @Override public boolean equals(Object o){
         if (o == null){
@@ -61,5 +98,6 @@ public class User {
         }
         return false;
     }
+
 
 }
