@@ -8,7 +8,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Company;
 import model.Model;
-import model.Stocks;
 
 public class CompanyListViewModel
 {
@@ -56,7 +55,7 @@ public class CompanyListViewModel
 
   public boolean chose(){
     if (selectedSimpleCompany.get() != null){
-      viewState.setSelected(selectedSimpleCompany.get().getSymbol().toString());
+      viewState.setSelectedSymbol(selectedSimpleCompany.get().getSymbol().get());
       return true;
     }
     errorProperty.setValue("No company selected");

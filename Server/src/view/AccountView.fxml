@@ -26,23 +26,26 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </HBox>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+      <VBox alignment="CENTER" prefHeight="117.0" prefWidth="400.0">
          <children>
-            <VBox alignment="CENTER">
+            <Label text="Net asset value">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER">
                <children>
-                  <Label text="Net asset value">
-                     <font>
-                        <Font size="22.0" />
-                     </font></Label>
                   <Label fx:id="accountTotal" text="73654.34">
                      <font>
                         <Font size="18.0" />
-                     </font></Label>
+                     </font>
+                  </Label>
+                  <Label text="\$" />
                </children>
-            </VBox>
+            </HBox>
          </children>
-      </HBox>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+      </VBox>
+      <HBox alignment="CENTER" prefHeight="160.0" prefWidth="400.0">
          <children>
             <VBox alignment="CENTER" prefWidth="150.0">
                <children>
@@ -50,10 +53,16 @@
                      <font>
                         <Font size="18.0" />
                      </font></Label>
-                  <Label fx:id="accountValue" text="5342.43">
-                     <font>
-                        <Font size="16.0" />
-                     </font></Label>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Label fx:id="accountValue" text="5342.43">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label text="\$" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
             <VBox alignment="CENTER" prefWidth="150.0">
@@ -62,42 +71,19 @@
                      <font>
                         <Font size="18.0" />
                      </font></Label>
-                  <Label fx:id="accountBalance" text="345.54">
-                     <font>
-                        <Font size="16.0" />
-                     </font></Label>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Label fx:id="accountBalance" text="345.54">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label text="\$" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
          </children>
-      </HBox>
-      <HBox spacing="5.0" visible="false">
-         <children>
-            <Button mnemonicParsing="false" onAction="#onList" text="Company list" />
-            <Button mnemonicParsing="false" onAction="#onPlaceOrder" text="Place Order" />
-         </children>
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
-      </HBox>
-      <HBox spacing="5.0" visible="false">
-         <children>
-            <Button mnemonicParsing="false" onAction="#onPortfolio" text="Portfolio" />
-            <Button mnemonicParsing="false" text="Order List" />
-            <Button mnemonicParsing="false" onAction="#onWithdraw" text="Withdraw cash" />
-            <Button mnemonicParsing="false" onAction="#onAdd" text="Add cash" />
-         </children>
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
-      </HBox>
-      <HBox spacing="5.0" visible="false">
-         <children>
-            <Button mnemonicParsing="false" onAction="#onLogout" text="Logout" />
-            <Button mnemonicParsing="false" onAction="#onQuit" text="Quit" />
-         </children>
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
       </HBox>
    </children>
 </VBox>
