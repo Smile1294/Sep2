@@ -11,12 +11,13 @@ public class Order {
     private Status status;
     private User user;
     private UUID orderId;
+    private Company company;
 
-    public Order(Stock stock, boolean sell, BigDecimal askingPrice, int amount, User user, Status status){
+    public Order(Company company, boolean sell, BigDecimal askingPrice, int amount, User user, Status status){
         this.amount = amount;
         this.askingPrice = askingPrice;
         this.sell = sell;
-        this.stock = stock;
+        this.company = company;
         this.user=user;
         this.status=status;
 
@@ -79,5 +80,18 @@ public class Order {
 //                    this.status.equals(other.status) && this.user.equals(other.user);
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "stock=" + stock +
+                ", sell=" + sell +
+                ", askingPrice=" + askingPrice +
+                ", amount=" + amount +
+                ", status=" + status +
+                ", user=" + user +
+                ", orderId=" + orderId +
+                '}';
     }
 }

@@ -1,0 +1,37 @@
+{
+  "users": [
+    {
+      "balance": {
+        "balance": 233.0
+      },
+      "userName": {
+        "name": "Kim"
+      },
+      "password": {
+        "password": "Asd123"
+      },
+      "stocks": {
+        "stocks": [
+          {
+            "price": 47.266660196380485,
+            "amount": 10,
+            "company": {
+              "name": "Apple Inc.",
+              "currentPrice": 47.2666601963804851038730703294277191162109375,
+              "Symbol": "AAPL"
+            }
+          },
+          {
+            "price": 47.266660196380485,
+            "amount": 5,
+            "company": {
+              "name": "Facebook ",
+              "currentPrice": 233,
+              "Symbol": "GAY"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

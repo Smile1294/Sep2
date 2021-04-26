@@ -1,9 +1,14 @@
 package model;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import mediator.Symbol;
 import persistence.*;
+import viewmodel.SimpleStockViewModel;
 
+import java.awt.image.AreaAveragingScaleFilter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class ModelManger implements Model {
@@ -15,15 +20,14 @@ public class ModelManger implements Model {
     private OrdersPersistence ordersPersistence;
 
 
-
     public ModelManger() throws IOException {
         userListPersistence = new UserListFile();
         companiesPersistence = new CompaniesFiles();
         ordersPersistence = new OrdersFile();
-
         userList = userListPersistence.load("users.json");
         orders = ordersPersistence.load("orders.json");
         companies = companiesPersistence.load("companies.json");
+
 
 //        companies.AddCompany(new Company("Apple Inc.", Symbol.APPLE.getSymbol()));
 //        companies.AddCompany(new Company("Alphabet Inc. Class A.", Symbol.GOOGLEA.getSymbol()));
@@ -37,19 +41,54 @@ public class ModelManger implements Model {
 
 //        for (Company c : companies.getCompanies()){
 //            c.setCurrentPrice(Math.random()*1000);
+
 //        }
 
-
+        System.out.println(orders);
     }
 
+    public User getUser(String name) {
+        return userList.getUser(new UserName(name));
+    }
+
+    public ArrayList<Stock> LoaduserStocks(String name) {
+        ArrayList<Stock> temporaryList = new ArrayList<Stock>();
+        for (Stock s : getUser(getUser(name).getUserName().getName()).getStocks().getAllStocks()) {
+            temporaryList.add(s);
+        }
+        return temporaryList;
+    }
+    public Double getPriceTotal(String name) {
+        double d = 0.0;
+        try {
+            for (Stock s : LoaduserStocks(name)) {
+                d = d + s.getPrice() * getUser(name).getStocks().getStock(s).getAmount();
+            }
+            return  d;
+        } catch (Exception e) {
+            System.out.println(e);
+       }
+        return d;
+    }
+
+
+    public void AddOrder(Order order) {
+        orders.AddOrder(order);
+    }
+
+    public void buyStock(Stock stock, User user, int Amount) {
+        user.BuyStock(new Stock(stock.getCompany(), Amount));
+    }
+
+
     @Override
-    public double getBalance(UserName userName){
+    public double getBalance(UserName userName) {
         return userList.getBalance(userName);
     }
 
     @Override
-    public void transferMoney(UserName userName, double amount, boolean isWithdraw){
-        userList.transferMoney(userName,amount,isWithdraw);
+    public void transferMoney(UserName userName, double amount, boolean isWithdraw) {
+        userList.transferMoney(userName, amount, isWithdraw);
     }
 
     @Override
@@ -62,16 +101,20 @@ public class ModelManger implements Model {
         return companies.getCompany(symbol);
     }
 
+    public Stocks getUserStocks(User user) {
+        return user.getStocks();
+    }
+
     @Override
     public void saveDataToFiles() {
         userListPersistence.save(userList, "users.json");
-        ordersPersistence.save(orders,"orders.json");
-        companiesPersistence.save(companies,"companies.json");
+        ordersPersistence.save(orders, "orders.json");
+        companiesPersistence.save(companies, "companies.json");
     }
 
     @Override
     public boolean login(User user) throws Exception {
-        if (!userList.userExist(user)){
+        if (!userList.userExist(user)) {
             throw new Exception("Wrong username or password");
         }
         return true;
@@ -82,7 +125,6 @@ public class ModelManger implements Model {
         boolean result = userList.addUser(user);
         return result;
     }
-
 
 
 }

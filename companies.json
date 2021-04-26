@@ -1,0 +1,54 @@
+{
+  "companies": [
+    {
+      "name": "Apple Inc.",
+      "currentPrice": 47.2666601963804851038730703294277191162109375,
+      "Symbol": "AAPL"
+    },
+    {
+      "name": "Apple Inc.",
+      "currentPrice": 567.7187420255012284542317502200603485107421875,
+      "Symbol": "AAPL"
+    },
+    {
+      "name": "Alphabet Inc. Class A.",
+      "currentPrice": 201.463010780271616795289446599781513214111328125,
+      "Symbol": "GOOGl"
+    },
+    {
+      "name": "Tesla Inc.",
+      "currentPrice": 417.54832861247956543593318201601505279541015625,
+      "Symbol": "TSLA"
+    },
+    {
+      "name": "Facebook Inc.",
+      "currentPrice": 218.3159953762636860119528137147426605224609375,
+      "Symbol": "FB"
+    },
+    {
+      "name": "Paypal Holdings Inc.",
+      "currentPrice": 397.78712378862991272399085573852062225341796875,
+      "Symbol": "PYPL"
+    },
+    {
+      "name": "Microsoft Corporation",
+      "currentPrice": 712.88322056291144690476357936859130859375,
+      "Symbol": "MSFT"
+    },
+    {
+      "name": "Amazon.com Inc.",
+      "currentPrice": 2.6861398469317787629506710800342261791229248046875,
+      "Symbol": "AMZN"
+    },
+    {
+      "name": "Alphabet Inc. Class C",
+      "currentPrice": 575.97804879528348465100862085819244384765625,
+      "Symbol": "GOOG"
+    },
+    {
+      "name": "International Business Machines Corporation",
+      "currentPrice": 399.08755873669718994278809987008571624755859375,
+      "Symbol": "IBM"
+    }
+  ]
+}

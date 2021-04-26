@@ -48,6 +48,29 @@ public class User {
         this.balance = new Balance();
         this.stocks = new Stocks();
     }
+    /**
+     *
+     * @void
+     */
+    public void BuyStock(Stock stock){
+
+        stocks.addStock(stock);
+    }
+    /**
+     *
+     * @void
+     */
+    public void SellStock(Stock stock){
+        stocks.addStock(stock);
+    }
+    /**
+     *
+     * @Stocks
+     */
+
+    public Stocks getStocks() {
+        return stocks;
+    }
 
     /**
      *
@@ -88,6 +111,17 @@ public class User {
     public void withDraw(double amount){
         balance.withDraw(amount);
     }
+
+    public boolean UserOwnStock(Stock stock)
+    {
+        for(Stock stock1: stocks.getAllStocks())
+        {
+            if(stock1.equals(stock))
+                return true;
+        }
+        return false;
+    }
+
 
     public Email getEmail() {
         return email;

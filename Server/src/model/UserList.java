@@ -1,6 +1,7 @@
 package model;
 
 
+import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +52,14 @@ public class UserList
     }
     return 0.0;
   }
+  public Stocks getStocks(UserName userName){
+    for (User u : users){
+      if (u.getUserName().equals(userName)){
+        return u.getStocks();
+      }
+    }
+    return null;
+  }
 
   public void transferMoney(UserName userName, double amount, boolean isWithdraw){
     User user = null;
@@ -65,5 +74,12 @@ public class UserList
     else {
       user.addCash(amount);
     }
+  }
+
+  @Override
+  public String toString() {
+    return "UserList{" +
+            "users=" + users +
+            '}';
   }
 }

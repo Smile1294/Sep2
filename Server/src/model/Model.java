@@ -16,6 +16,11 @@ public interface Model {
 
     Company getCompany(String symbol);
 
+    User getUser(String name);
+    ArrayList<Stock> LoaduserStocks(String name);
+     Double getPriceTotal(String name);
+
+
     //tmp
     void saveDataToFiles();
 }
