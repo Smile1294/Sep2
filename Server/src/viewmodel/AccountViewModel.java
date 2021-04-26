@@ -15,8 +15,8 @@ public class AccountViewModel {
         this.viewState = viewState;
         value = new SimpleDoubleProperty();
         total = new SimpleDoubleProperty();
-        balance = new SimpleDoubleProperty(model.getBalance(viewState.getUserName()));
-        user = new SimpleStringProperty(viewState.getUserName()==null?"":viewState.getUserName().toString());
+        balance = new SimpleDoubleProperty();
+        user = new SimpleStringProperty();
     }
 
     public void clear(){

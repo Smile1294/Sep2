@@ -7,7 +7,7 @@
 
 <VBox prefHeight="340.0" prefWidth="340.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.RegisterViewController">
    <children>
-      <VBox alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="37.0" prefWidth="340.0">
          <children>
             <Label text="Register">
                <font>
@@ -39,6 +39,24 @@
                <children>
                   <Label prefWidth="110.0" text="Confirm password:" />
                   <PasswordField fx:id="passwordConfirm" onAction="#onRegister" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+               <children>
+                  <Label prefWidth="110.0" text="Email:" />
+                  <TextField fx:id="emailField" onAction="#onRegister" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+               <children>
+                  <Label prefWidth="110.0" text="Email confirm:" />
+                  <TextField fx:id="emailConfirm" onAction="#onRegister" />
                </children>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

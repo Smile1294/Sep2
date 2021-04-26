@@ -4,6 +4,7 @@ public class User {
     private Balance balance;
     private UserName userName;
     private Password password;
+    private Email email;
     private Stocks stocks;
 
     /**
@@ -19,10 +20,10 @@ public class User {
         }
         this.userName = userName;
         this.password = password;
+        this.email = null;
         this.balance = new Balance();
         this.stocks = new Stocks();
     }
-
 
     /**
      *
@@ -38,8 +39,12 @@ public class User {
         if (!password.equals(passwordConfirm)){
             throw new IllegalArgumentException("Passwords does not match");
         }
+        if (!email.toString().equals(emailConfirm.toString())){
+            throw new IllegalArgumentException("Emails does not match");
+        }
         this.userName = userName;
         this.password = password;
+        this.email = email;
         this.balance = new Balance();
         this.stocks = new Stocks();
     }
@@ -118,6 +123,9 @@ public class User {
     }
 
 
+    public Email getEmail() {
+        return email;
+    }
 
     @Override public boolean equals(Object o){
         if (o == null){
@@ -133,13 +141,5 @@ public class User {
         return false;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "balance=" + balance +
-                ", userName=" + userName +
-                ", password=" + password +
-                ", stocks=" + stocks +
-                '}';
-    }
+
 }

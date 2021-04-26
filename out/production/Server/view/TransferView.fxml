@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="244.0" prefWidth="241.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TransferViewController">
+   <children>
+      <VBox alignment="CENTER" prefHeight="54.0" prefWidth="231.0">
+         <children>
+            <Label fx:id="titleLabel" text="Title">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <HBox prefHeight="100.0" prefWidth="250.0" spacing="5.0">
+         <children>
+            <VBox prefHeight="100.0" prefWidth="92.0">
+               <children>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Balance:" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Amount:" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefWidth="120.0">
+               <children>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="balanceLabel" text="Label" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="amountField" prefWidth="100.0" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="100.0" prefWidth="20.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="\$" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="\$" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Label fx:id="errorLabel" text="error" textFill="RED" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="354.0" spacing="5.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#onConfirm" text="Confirm" />
+            <Button mnemonicParsing="false" onAction="#onBack" text="Back" />
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </HBox>
+   </children>
+</VBox>

@@ -1,29 +1,29 @@
 package viewmodel;
 
-import javafx.beans.property.LongProperty;
-import javafx.beans.property.SimpleLongProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import model.Model;
 
 public class CompanyViewModel
 {
-  private StringProperty nameProperty;
-  private LongProperty priceProperty;
+  private StringProperty name;
+  private StringProperty symbol;
+  private DoubleProperty price;
   private ViewState viewState;
   private Model model;
 
   public CompanyViewModel(Model model, ViewState viewState){
     this.viewState = viewState;
     this.model = model;
-    nameProperty = new SimpleStringProperty();
-    priceProperty = new SimpleLongProperty();
-
+    name = new SimpleStringProperty();
+    symbol = new SimpleStringProperty();
+    price = new SimpleDoubleProperty();
   }
+
   public void clear()
   {
-    nameProperty.setValue(model.getCompany(viewState.getSelected()).getName());
-    priceProperty.setValue(model.getCompany(viewState.getSelected()).getCurrentPrice());
+    name.setValue(model.getCompany(viewState.getSelectedSymbol()).getName());
+    symbol.setValue(viewState.getSelectedSymbol());
+    price.setValue(Math.round(model.getCompany(viewState.getSelectedSymbol()).getCurrentPrice()*1000.0)/1000.0);
   }
 
   public void load()
@@ -33,11 +33,13 @@ public class CompanyViewModel
 
   public StringProperty getNameProperty()
   {
-    return nameProperty;
+    return name;
   }
 
-  public LongProperty getPriceProperty()
+  public StringProperty getSymbolProperty() {return symbol;}
+
+  public DoubleProperty getPriceProperty()
   {
-    return priceProperty;
+    return price;
   }
 }

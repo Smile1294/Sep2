@@ -11,11 +11,11 @@ public class ViewState {
     public ViewState(){
     }
 
-    public void setSelected(String selectedSymbol) {
+    public void setSelectedSymbol(String selectedSymbol) {
         this.selectedSymbol = selectedSymbol;
     }
 
-    public String getSelected() {
+    public String getSelectedSymbol() {
         return selectedSymbol;
     }
 
