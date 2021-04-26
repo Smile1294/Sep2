@@ -1,9 +1,6 @@
 package viewmodel;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.*;
@@ -20,7 +17,7 @@ public class PortfolioViewModel {
     private ViewState viewState;
 
 
-    public PortfolioViewModel(Model model,ViewState viewState) throws IOException {
+    public PortfolioViewModel(Model model, ViewState viewState) throws IOException {
         this.viewState = viewState;
         this.model = model;
         this.investedValue = new SimpleDoubleProperty();
@@ -28,7 +25,17 @@ public class PortfolioViewModel {
         this.total = new SimpleDoubleProperty();
         simpleStockViewModels = FXCollections.observableArrayList();
         loadUserStock();
-        total = getPriceTotal();
+
+    }
+
+    public void clear() {
+        this.name.setValue(viewState.getUserName().getName());
+        this.total.setValue(model.getUser(viewState.getUserName().getName()).getBalance());
+        this.investedValue = null;
+        simpleStockViewModels.removeAll();
+        getPriceTotal();
+        loadUserStock();
+
 
     }
 
@@ -41,32 +48,18 @@ public class PortfolioViewModel {
     }
 
     private void loadUserStock() {
-//        try {
-//            for (Stock s : model.getAllStocks()) {
-//                simpleStockViewModels.add(new SimpleStockViewModel(s, model.getUser()));
-//            }
-//        } catch (Exception e) {
-//            System.out.println(e);
-//        }
+        try {
+            for (Stock s : model.LoaduserStocks(viewState.getUserName().getName())) {
+                simpleStockViewModels.add(new SimpleStockViewModel(s, model.getUser(viewState.getUserName().getName())));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 
-    public DoubleProperty getPriceTotal()
-    {
-//        double d = 0.0;
-//        try {
-//            for (Stock s : model.getAllStocks()) {
-//                if (model.getUser().getSpecific(s.getName()).getAmount() > 0) {
-//                    d = d + s.getPrice() * model.getUser().getSpecific(s.getName()).getAmount();
-//                    System.out.println(d);
-//                }
-//            }
-//            return new SimpleDoubleProperty(d);
-//        } catch (Exception e) {
-//            System.out.println(e);
-//        }
-//        return new SimpleDoubleProperty(d);
-        return null;
+    public DoubleProperty getPriceTotal() {
+        return new SimpleDoubleProperty(model.getPriceTotal(viewState.getUserName().getName()));
     }
 
     public StringProperty getName() {

@@ -1,5 +1,7 @@
 package model;
 
+import mediator.Symbol;
+
 import java.util.ArrayList;
 
 public class Stocks {
@@ -8,15 +10,13 @@ public class Stocks {
 
     public Stocks() {
         this.stocks = new ArrayList<>();
-
     }
     public ArrayList<Stock> getAllStocks()
     {
         {
             ArrayList<Stock> localList = new ArrayList<>();
-            for (int i = 0; i < stocks.size(); i++)
-            {
-                localList.add(stocks.get(i));
+            for (Stock stock : stocks) {
+                localList.add(stock);
             }
             return localList;
         }

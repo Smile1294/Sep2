@@ -23,6 +23,7 @@ public class User {
         this.stocks = new Stocks();
     }
 
+
     /**
      *
      * @param userName
@@ -41,6 +42,29 @@ public class User {
         this.password = password;
         this.balance = new Balance();
         this.stocks = new Stocks();
+    }
+    /**
+     *
+     * @void
+     */
+    public void BuyStock(Stock stock){
+
+        stocks.addStock(stock);
+    }
+    /**
+     *
+     * @void
+     */
+    public void SellStock(Stock stock){
+        stocks.addStock(stock);
+    }
+    /**
+     *
+     * @Stocks
+     */
+
+    public Stocks getStocks() {
+        return stocks;
     }
 
     /**
@@ -83,6 +107,16 @@ public class User {
         balance.withDraw(amount);
     }
 
+    public boolean UserOwnStock(Stock stock)
+    {
+        for(Stock stock1: stocks.getAllStocks())
+        {
+            if(stock1.equals(stock))
+                return true;
+        }
+        return false;
+    }
+
 
 
     @Override public boolean equals(Object o){
@@ -99,5 +133,13 @@ public class User {
         return false;
     }
 
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "balance=" + balance +
+                ", userName=" + userName +
+                ", password=" + password +
+                ", stocks=" + stocks +
+                '}';
+    }
 }

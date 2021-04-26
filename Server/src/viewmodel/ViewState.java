@@ -9,7 +9,6 @@ public class ViewState {
     private String selectedSymbol;
 
     public ViewState(){
-
     }
 
     public void setSelected(String selectedSymbol) {
