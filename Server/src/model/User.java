@@ -4,6 +4,7 @@ public class User {
     private Balance balance;
     private UserName userName;
     private Password password;
+    private Email email;
     private Stocks stocks;
 
     /**
@@ -29,13 +30,16 @@ public class User {
      * @param password
      * @param passwordConfirm
      */
-    public User(UserName userName, Password password, Password passwordConfirm) {
+    public User(UserName userName, Password password, Password passwordConfirm, Email email, Email emailConfirm) {
         if (userName == null || password == null || passwordConfirm == null)
         {
             throw new IllegalArgumentException("Null username or password");
         }
         if (!password.equals(passwordConfirm)){
             throw new IllegalArgumentException("Passwords does not match");
+        }
+        if (!email.toString().equals(emailConfirm.toString())){
+            throw new IllegalArgumentException("Emails does not match");
         }
         this.userName = userName;
         this.password = password;
@@ -83,7 +87,9 @@ public class User {
         balance.withDraw(amount);
     }
 
-
+    public Email getEmail() {
+        return email;
+    }
 
     @Override public boolean equals(Object o){
         if (o == null){

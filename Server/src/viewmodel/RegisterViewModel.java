@@ -2,17 +2,14 @@ package viewmodel;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import model.Model;
-import model.Password;
-import model.User;
-import model.UserName;
+import model.*;
 
 import java.io.IOException;
 
 public class RegisterViewModel
 {
   private Model model;
-  private StringProperty username, password, passwordConfirm, error;
+  private StringProperty username, password, passwordConfirm, error, email, emailConfirm;
 
   public RegisterViewModel(Model model){
     this.model = model;
@@ -20,6 +17,8 @@ public class RegisterViewModel
     password = new SimpleStringProperty();
     passwordConfirm = new SimpleStringProperty();
     error = new SimpleStringProperty();
+    email = new SimpleStringProperty();
+    emailConfirm = new SimpleStringProperty();
   }
 
   public void clear(){
@@ -27,13 +26,17 @@ public class RegisterViewModel
     password.setValue(null);
     passwordConfirm.setValue(null);
     error.setValue(null);
+    email.setValue(null);
+    emailConfirm.setValue(null);
   }
 
-  public boolean register() throws IOException
-  {
+  public boolean register() {
     boolean result = false;
     try {
-      result = model.registerUser(new User(new UserName(username.get()), new Password(password.get()), new Password(passwordConfirm.get())));
+      result = model.registerUser(
+              new User(new UserName(username.get()),
+                      new Password(password.get()), new Password(passwordConfirm.get()),
+                      new Email(email.get()),new Email(emailConfirm.get())));
       clear();
     } catch (Exception e) {
       error.setValue(e.getMessage());
@@ -60,4 +63,11 @@ public class RegisterViewModel
     return passwordConfirm;
   }
 
+  public StringProperty getEmail(){
+    return email;
+  }
+
+  public StringProperty getEmailConfirm(){
+    return emailConfirm;
+  }
 }

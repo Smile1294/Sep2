@@ -2,13 +2,16 @@
   "users": [
     {
       "balance": {
-        "balance": 747.309999999999977404741002828814089298248291015625
+        "balance": 345.0
       },
       "userName": {
         "name": "Kim"
       },
       "password": {
-        "password": "Asd123"
+        "password": "Test123"
+      },
+      "stocks": {
+        "stocks": []
       }
     }
   ]
