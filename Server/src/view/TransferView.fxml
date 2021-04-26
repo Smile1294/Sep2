@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="244.0" prefWidth="241.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TransferViewController">
+<VBox prefHeight="261.0" prefWidth="323.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TransferViewController">
    <children>
       <VBox alignment="CENTER" prefHeight="54.0" prefWidth="231.0">
          <children>
@@ -16,9 +16,9 @@
             </Label>
          </children>
       </VBox>
-      <HBox prefHeight="100.0" prefWidth="250.0" spacing="5.0">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="250.0" spacing="5.0">
          <children>
-            <VBox prefHeight="100.0" prefWidth="92.0">
+            <VBox prefHeight="100.0" prefWidth="57.0">
                <children>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                      <children>
@@ -64,8 +64,11 @@
       </HBox>
       <HBox prefHeight="50.0" prefWidth="241.0">
          <children>
-            <Label fx:id="errorLabel" prefHeight="48.0" prefWidth="241.0" text="error" textFill="RED" />
+            <Label fx:id="errorLabel" alignment="TOP_LEFT" prefHeight="48.0" prefWidth="241.0" text="error" textFill="RED" />
          </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
       </HBox>
       <HBox alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="354.0" spacing="5.0">
          <children>

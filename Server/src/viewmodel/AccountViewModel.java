@@ -20,9 +20,12 @@ public class AccountViewModel {
     }
 
     public void clear(){
-        value.setValue(null);
-        total.setValue(null);
-        balance.setValue(model.getBalance(viewState.getUserName()));
+
+        double invested = Math.round(model.getPriceTotal(viewState.getUserName().getName())*100.0)/100.0;
+        double moneyBalance = Math.round(model.getBalance(viewState.getUserName())*100.0)/100.0;
+        value.setValue(invested);
+        total.setValue(Math.round((invested+moneyBalance)*100.0)/100.0);
+        balance.setValue(moneyBalance);
         user.setValue(viewState.getUserName().toString());
     }
 

@@ -18,8 +18,8 @@ public class SimpleStockViewModel {
 
         username = new SimpleStringProperty(user.getUserName().getName());
         numberowned = new SimpleIntegerProperty(user.getStocks().getStock(stock).getAmount());
-        currentValue = new SimpleDoubleProperty(stock.getPrice() * user.getStocks().getStock(stock).getAmount());
-        // invested = new SimpleDoubleProperty();
+        currentValue = new SimpleDoubleProperty(Math.round(stock.getPrice() * user.getStocks().getStock(stock).getAmount()*100.0)/100.0);
+         invested = new SimpleDoubleProperty();
         name = new SimpleStringProperty(stock.getCompany().getName());
         value = new SimpleDoubleProperty(stock.getPrice());
         //   percentage = new SimpleStringProperty(Double.toString(((stock.getPrice()*user.getStocks().getStock(stock).getAmount()- user.getInvested()/user.getInvested(stock))*100)));

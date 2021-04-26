@@ -2,13 +2,17 @@
   "users": [
     {
       "balance": {
-        "balance": 233.0
+        "balance": 233.574234000000000022190249637787928804755210876464843750
       },
       "userName": {
         "name": "Kim"
       },
       "password": {
         "password": "Asd123"
+      },
+      "email": {
+        "name": "kim",
+        "domain": "mail.dk"
       },
       "stocks": {
         "stocks": [
@@ -31,6 +35,24 @@
             }
           }
         ]
+      }
+    },
+    {
+      "balance": {
+        "balance": 1337.0
+      },
+      "userName": {
+        "name": "David"
+      },
+      "password": {
+        "password": "Strong1337"
+      },
+      "email": {
+        "name": "david",
+        "domain": "boss.cz"
+      },
+      "stocks": {
+        "stocks": []
       }
     }
   ]

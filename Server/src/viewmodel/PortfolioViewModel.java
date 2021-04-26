@@ -17,26 +17,22 @@ public class PortfolioViewModel {
     private ViewState viewState;
 
 
-    public PortfolioViewModel(Model model, ViewState viewState) throws IOException {
+    public PortfolioViewModel(Model model, ViewState viewState) {
         this.viewState = viewState;
         this.model = model;
         this.investedValue = new SimpleDoubleProperty();
         this.name = new SimpleStringProperty();
         this.total = new SimpleDoubleProperty();
         simpleStockViewModels = FXCollections.observableArrayList();
-        loadUserStock();
-
+//        loadUserStock();
     }
 
     public void clear() {
         this.name.setValue(viewState.getUserName().getName());
-        this.total.setValue(model.getUser(viewState.getUserName().getName()).getBalance());
+        this.total.setValue(Math.round(model.getPriceTotal(viewState.getUserName().getName())*100.0)/100.0);
         this.investedValue = null;
         simpleStockViewModels.removeAll();
-        getPriceTotal();
         loadUserStock();
-
-
     }
 
     public ObservableList<SimpleStockViewModel> getAll() {
@@ -57,19 +53,12 @@ public class PortfolioViewModel {
         }
     }
 
-
-    public DoubleProperty getPriceTotal() {
-        return new SimpleDoubleProperty(model.getPriceTotal(viewState.getUserName().getName()));
-    }
-
     public StringProperty getName() {
         return name;
     }
 
     public DoubleProperty getTotal() {
-
         return total;
-
     }
 }
 

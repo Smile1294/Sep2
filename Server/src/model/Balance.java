@@ -14,6 +14,9 @@ public class Balance {
     }
 
     public void withDraw(double amount){
+        if (amount<0){
+            throw new IllegalArgumentException("Enter a positive value");
+        }
         if ((balance.doubleValue()-amount)<0){
             throw new IllegalArgumentException("Can not withdraw below zero");
         }
