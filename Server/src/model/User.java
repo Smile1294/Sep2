@@ -31,7 +31,7 @@ public class User {
      * @param password
      * @param passwordConfirm
      */
-    public User(UserName userName, Password password, Password passwordConfirm) {
+    public User(UserName userName, Password password, Password passwordConfirm, Email email, Email emailConfirm) {
         if (userName == null || password == null || passwordConfirm == null)
         {
             throw new IllegalArgumentException("Null username or password");
