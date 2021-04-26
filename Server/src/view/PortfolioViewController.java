@@ -1,10 +1,12 @@
 package view;
 
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import utility.NumberStringConverter;
 import viewmodel.PortfolioViewModel;
 import viewmodel.SimpleStockViewModel;
 
@@ -23,7 +25,10 @@ public class PortfolioViewController extends ViewController {
     @Override
     protected void init() {
         UserName.textProperty().bindBidirectional(getViewModelFactory().getPortfolioViewModel().getName());
-        TotalAmount.textProperty().bindBidirectional(getViewModelFactory().getPortfolioViewModel().getTotal());
+        Bindings.bindBidirectional(TotalAmount.textProperty(),
+                getViewModelFactory().getPortfolioViewModel().getTotal(),
+                new NumberStringConverter());
+//        TotalAmount.textProperty().bindBidirectional(getViewModelFactory().getPortfolioViewModel().getTotal());
         Curentcolumn.setCellValueFactory(cellData -> cellData.getValue().getCurrentValue());
         InvestedCloumn.setCellValueFactory(cellData -> cellData.getValue().getinvested());
         StockColumn.setCellValueFactory(cellData -> cellData.getValue().getName());

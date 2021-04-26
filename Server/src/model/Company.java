@@ -1,39 +1,41 @@
 package model;
 
-import java.util.ArrayList;
+import java.math.BigDecimal;
+
 
 public class Company {
     private String name;
-    private ArrayList<Double> prices;
+    private BigDecimal currentPrice;
     private String Symbol;
     public Company(String name,String symbol)
     {
         this.name = name;
         this.Symbol = symbol;
-        this.prices = new ArrayList<>();
+        this.currentPrice = new BigDecimal("0.0");
     }
 
     public String getName() {
         return name;
     }
 
-    public ArrayList<Double> getPrices() {
-        return prices;
+    public double getCurrentPrice() {
+        return currentPrice.doubleValue();
+    }
+
+    public void setCurrentPrice(double currentPrice){
+        this.currentPrice = new BigDecimal(currentPrice);
     }
 
     public String getSymbol() {
         return Symbol;
     }
 
-    public void setPrices(ArrayList<Double> prices) {
-        this.prices = prices;
-    }
 
     @Override
     public String toString() {
         return "Company{" +
                 "name='" + name + '\'' +
-                ", prices=" + prices +
+                ", prices=" + currentPrice +
                 ", Symbol='" + Symbol + '\'' +
                 '}';
     }

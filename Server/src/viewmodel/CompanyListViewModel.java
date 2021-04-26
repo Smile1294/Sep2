@@ -6,8 +6,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.Company;
 import model.Model;
-import model.Stocks;
 
 public class CompanyListViewModel
 {
@@ -15,33 +15,31 @@ public class CompanyListViewModel
   private ObservableList<SimpleCompanyViewModel> list;
   private ObjectProperty<SimpleCompanyViewModel> selectedSimpleCompany;
   private StringProperty errorProperty;
-  private Chosen chosen;
-  private TransferState transferState;
+  private ViewState viewState;
 
-  public CompanyListViewModel(Model model, TransferState transferState)
+  public CompanyListViewModel(Model model, ViewState viewState)
   {
     this.model = model;
     list = FXCollections.observableArrayList();
     errorProperty = new SimpleStringProperty("");
-    loadFromModel();
-    chosen = Chosen.getInstance();
     selectedSimpleCompany = new SimpleObjectProperty<>();
-    this.transferState = transferState;
+    this.viewState = viewState;
     loadFromModel();
   }
 
   public void clear()
   {
-    errorProperty.setValue("");
     list.clear();
+    errorProperty.setValue("");
+    loadFromModel();
   }
 
   public void loadFromModel()
   {
-    clear();
-    for (int x = 0; x < model.getStocks().getSize(); x++)
+    // load all companies
+    for (Company c : model.getAllCompanies())
     {
-      list.add(new SimpleCompanyViewModel(model.getStocks().getStock(x)));
+      list.add(new SimpleCompanyViewModel(c));
     }
   }
 
@@ -56,18 +54,15 @@ public class CompanyListViewModel
   }
 
   public boolean chose(){
-    if (selectedSimpleCompany.get()!=null){
-      chosen.setName(selectedSimpleCompany.get().getName().get());
-      chosen.setPrice(selectedSimpleCompany.get().getPrice().get());
+    if (selectedSimpleCompany.get() != null){
+      viewState.setSelectedSymbol(selectedSimpleCompany.get().getSymbol().get());
       return true;
     }
+    errorProperty.setValue("No company selected");
     return false;
   }
+
   public void setSelected(SimpleCompanyViewModel companyVM){
     selectedSimpleCompany = new SimpleObjectProperty<>(companyVM);
   }
-
-    public void setFromCompany() {
-      transferState.setFromCompanyInfo(true);
-    }
 }
