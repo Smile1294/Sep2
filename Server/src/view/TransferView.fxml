@@ -41,7 +41,7 @@
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <TextField fx:id="amountField" prefWidth="100.0" />
+                        <TextField fx:id="amountField" onAction="#onConfirm" prefWidth="100.0" />
                      </children>
                   </HBox>
                </children>
@@ -62,9 +62,9 @@
             </VBox>
          </children>
       </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <HBox prefHeight="50.0" prefWidth="241.0">
          <children>
-            <Label fx:id="errorLabel" text="error" textFill="RED" />
+            <Label fx:id="errorLabel" prefHeight="48.0" prefWidth="241.0" text="error" textFill="RED" />
          </children>
       </HBox>
       <HBox alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="354.0" spacing="5.0">

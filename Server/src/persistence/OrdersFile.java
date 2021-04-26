@@ -1,23 +1,24 @@
 package persistence;
 
+import model.Orders;
 import model.UserList;
 import parser.ParserException;
 import parser.XmlJsonParser;
 
 import java.io.File;
 
-public class UserListFile implements UserListPersistence{
+public class OrdersFile implements OrdersPersistence{
     private XmlJsonParser parser;
 
-    public UserListFile() {
+    public OrdersFile() {
         this.parser = new XmlJsonParser();
     }
 
     @Override
-    public void save(UserList userList, String filename) {
+    public void save(Orders ordersList, String filename) {
         File file = null;
         try {
-            file = parser.toJson(userList, filename);
+            file = parser.toJson(ordersList, filename);
         } catch (ParserException e){
             System.err.println(e.getMessage());
         }
@@ -25,10 +26,10 @@ public class UserListFile implements UserListPersistence{
     }
 
     @Override
-    public UserList load(String fileName) {
-        UserList userList = new UserList();
+    public Orders load(String fileName) {
+        Orders userList = new Orders();
         try {
-            userList = parser.fromJson(fileName, UserList.class);
+            userList = parser.fromJson(fileName, Orders.class);
         } catch (ParserException e){
             System.err.println(e.getMessage());
         }

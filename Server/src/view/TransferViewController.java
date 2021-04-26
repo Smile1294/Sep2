@@ -24,6 +24,7 @@ public class TransferViewController extends ViewController{
                 getViewModelFactory().getTransferViewModel().amountProperty(),
                 new NumberStringConverter());
         errorLabel.textProperty().bind(getViewModelFactory().getTransferViewModel().errorProperty());
+        reset();
     }
 
     public void reset(){

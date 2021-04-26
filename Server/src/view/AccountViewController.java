@@ -22,6 +22,7 @@ public class AccountViewController extends ViewController{
         Bindings.bindBidirectional(accountValue.textProperty(),
                 getViewModelFactory().getAccountViewModel().valueProperty(),new NumberStringConverter());
         menu.textProperty().bind(getViewModelFactory().getAccountViewModel().userProperty());
+        reset();
     }
 
     public void reset(){
@@ -52,7 +53,6 @@ public class AccountViewController extends ViewController{
 
     @FXML
     private void onPlaceOrder(){
-        getViewModelFactory().getAccountViewModel().setFromProfile();
         getViewHandler().openView(View.PLACE_ORDER);
     }
 

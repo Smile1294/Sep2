@@ -12,6 +12,7 @@ public class Companies {
     public ArrayList<Company> getCompanies() {
         return companies;
     }
+
     public Company getCompany(Company company)
     {
         for(Company companies2:companies)
@@ -23,6 +24,16 @@ public class Companies {
         }
         return null;
     }
+
+    public Company getCompany(String symbol) {
+        for(Company c:companies) {
+            if(c.getSymbol().equals(symbol)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
     public void AddCompany(Company company)
     {
         companies.add(company);

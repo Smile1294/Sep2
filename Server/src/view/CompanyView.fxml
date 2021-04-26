@@ -7,50 +7,37 @@
 
 <VBox xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.CompanyViewController">
    <children>
-      <HBox>
+      <VBox prefHeight="101.0" prefWidth="633.0">
          <children>
-            <VBox prefHeight="200.0" prefWidth="316.0">
+            <HBox alignment="CENTER" prefHeight="43.0" prefWidth="633.0" spacing="10.0">
                <children>
-                  <HBox prefHeight="53.0" prefWidth="633.0">
-                     <children>
-                        <Label fx:id="nameLabel" text="Company">
-                           <font>
-                              <Font size="33.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <Label text="Current price:">
-                           <font>
-                              <Font size="33.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
+                  <Label fx:id="nameLabel" text="Company">
+                     <font>
+                        <Font size="22.0" />
+                     </font></Label>
+                  <Label fx:id="symbolLabel" text="Symbol">
+                     <font>
+                        <Font size="22.0" />
+                     </font></Label>
                </children>
-            </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="42.0" prefWidth="633.0">
                <children>
-                  <HBox prefHeight="53.0" prefWidth="100.0">
-                     <children>
-                        <Label text="Symbol" />
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <Label fx:id="priceLabel" text="price">
-                           <font>
-                              <Font size="33.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
+                  <Label text="Current price:">
+                     <font>
+                        <Font size="33.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="priceLabel" text="price">
+                     <font>
+                        <Font size="33.0" />
+                     </font>
+                  </Label>
+                  <Label text="\$" />
                </children>
-            </VBox>
+            </HBox>
          </children>
-      </HBox>
+      </VBox>
       <LineChart fx:id="historyChart" title="History">
         <xAxis>
           <CategoryAxis side="BOTTOM" />
@@ -59,7 +46,7 @@
           <NumberAxis side="LEFT" />
         </yAxis>
       </LineChart>
-      <HBox alignment="CENTER" prefHeight="69.0" prefWidth="633.0">
+      <HBox alignment="CENTER" prefHeight="69.0" prefWidth="633.0" spacing="5.0">
          <children>
             <Button mnemonicParsing="false" onAction="#onOrder" text="Place order" />
             <Button mnemonicParsing="false" onAction="#onBack" text="Back" />

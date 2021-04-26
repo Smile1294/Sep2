@@ -2,52 +2,44 @@ package viewmodel;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import model.Model;
+import model.*;
 
 import java.io.IOException;
 
 public class RegisterViewModel
 {
   private Model model;
-  private StringProperty username, password, passwordConfirm, email, emailConfirm, error;
-  private UserInformation userInformation;
+  private StringProperty username, password, passwordConfirm, error, email, emailConfirm;
 
-  public RegisterViewModel(Model model, UserInformation userInformation){
+  public RegisterViewModel(Model model){
     this.model = model;
-    this.userInformation = userInformation;
     username = new SimpleStringProperty();
     password = new SimpleStringProperty();
     passwordConfirm = new SimpleStringProperty();
+    error = new SimpleStringProperty();
     email = new SimpleStringProperty();
     emailConfirm = new SimpleStringProperty();
-    error = new SimpleStringProperty();
   }
 
   public void clear(){
     username.setValue(null);
     password.setValue(null);
+    passwordConfirm.setValue(null);
     error.setValue(null);
+    email.setValue(null);
+    emailConfirm.setValue(null);
   }
 
-  public boolean register() throws IOException
-  {
-
+  public boolean register() {
     boolean result = false;
-    // redo this
-    // try { model.register(new user(username, password, passwordConfirm, email, emailConfirm));}
-    // catch (exception e) {error.setValue(e.getMessage());}
-    if (username != null && password != null) // this should be handled in username class
-    {
-      try {
-        result = model.registerUser(username.get(), password.get());
-        userInformation.setUser(username.get()); //userInfo (future viewState?) has to be updated, wait not in register.
-      } catch (Exception e){
-        error.setValue(e.getMessage());
-      }
-
-    }
-    else {
-      error.setValue("there is missing name or password");
+    try {
+      result = model.registerUser(
+              new User(new UserName(username.get()),
+                      new Password(password.get()), new Password(passwordConfirm.get()),
+                      new Email(email.get()),new Email(emailConfirm.get())));
+      clear();
+    } catch (Exception e) {
+      error.setValue(e.getMessage());
     }
     return result;
   }
@@ -71,8 +63,7 @@ public class RegisterViewModel
     return passwordConfirm;
   }
 
-  public StringProperty getEmail()
-  {
+  public StringProperty getEmail(){
     return email;
   }
 

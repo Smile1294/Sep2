@@ -1,97 +1,88 @@
 package model;
 
-import java.beans.PropertyChangeSupport;
+import mediator.Symbol;
+import persistence.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class ModelManger implements Model {
     private Orders orders;
-    private User user;
-    private Stocks stocks;
-    private UserList userList;
-    private PropertyChangeSupport property;
     private Companies companies;
+    private UserList userList;
+    private UserListPersistence userListPersistence;
+    private CompaniesPersistence companiesPersistence;
+    private OrdersPersistence ordersPersistence;
+
+
 
     public ModelManger() throws IOException {
-//        this.property = new PropertyChangeSupport(this);
-        this.companies = new Companies();
-        companies.AddCompany(new Company("Tesla Inc.","TSLA"));
-        userList = new UserList();
-        orders = new Orders();
-        user = new User("bob", "123");
-        stocks = new Stocks("Market");
-        stocks.addStock(new Stock("Apple", 5, 5));
-        stocks.addStock(new Stock("Microsoft", 5, 5));
-        stocks.addStock(new Stock("Kebab", 5, 5));
-        user.setBalance(500);
-        user.Buy(stocks.getStock(0),4);
-        user.Buy(stocks.getStock(1),2);
-        stocks.getStock(0).setPrice(242);
-        System.out.println(user.getStocks());
-    }
+        userListPersistence = new UserListFile();
+        companiesPersistence = new CompaniesFiles();
+        ordersPersistence = new OrdersFile();
 
-    public String getInfoAboutCompany(Company company)
-    {
-        return companies.getCompany(company).toString();
-    }
+        userList = userListPersistence.load("users.json");
+        orders = ordersPersistence.load("orders.json");
+        companies = companiesPersistence.load("companies.json");
 
-    public Stocks getStocks() {
-        return stocks;
-    }
+//        companies.AddCompany(new Company("Apple Inc.", Symbol.APPLE.getSymbol()));
+//        companies.AddCompany(new Company("Alphabet Inc. Class A.", Symbol.GOOGLEA.getSymbol()));
+//        companies.AddCompany(new Company("Tesla Inc.", Symbol.TESLA.getSymbol()));
+//        companies.AddCompany(new Company("Facebook Inc.", Symbol.FACEBOOK.getSymbol()));
+//        companies.AddCompany(new Company("Paypal Holdings Inc.", Symbol.PAYPAL.getSymbol()));
+//        companies.AddCompany(new Company("Microsoft Corporation", Symbol.MICROSOFT.getSymbol()));
+//        companies.AddCompany(new Company("Amazon.com Inc.", Symbol.AMAZON.getSymbol()));
+//        companies.AddCompany(new Company("Alphabet Inc. Class C", Symbol.GOOGLEC.getSymbol()));
+//        companies.AddCompany(new Company("International Business Machines Corporation", Symbol.IBM.getSymbol()));
 
-    @Override
-    public ArrayList<Stock> getAllStocks() {
-        return stocks.getAllStocks();
+//        for (Company c : companies.getCompanies()){
+//            c.setCurrentPrice(Math.random()*1000);
+//        }
+
+
     }
 
     @Override
-    public int getBalance(String usr){
-        return user.getBalance();
-//        return userList.getUser(usr).getBalance();
+    public double getBalance(UserName userName){
+        return userList.getBalance(userName);
     }
 
     @Override
-    public void fuckYourMoney(Double amount) {
-        user.setBalance((int)(user.getBalance()-amount));
+    public void transferMoney(UserName userName, double amount, boolean isWithdraw){
+        userList.transferMoney(userName,amount,isWithdraw);
     }
 
     @Override
-    public void smellyMess(Double amount) {
-        user.setBalance((int)(user.getBalance()+amount));
-    }
-
-
-    public User getUser()
-    {
-        return user;
-    }
-
-    public Orders getOrders() {
-        return orders;
-    }
-
-    public void PlaceOrdertoSell(Stock stock, int amount, int price) {
-        user.addOrdertoSell(stock, amount, price);
-
-    }
-
-    public void PlaceOrdertoBuy(Stock stock, int amount, int price) throws Exception {
-        user.addOrderToBuy(stock, amount, price);
+    public ArrayList<Company> getAllCompanies() {
+        return companies.getCompanies();
     }
 
     @Override
-    public boolean login(String usr, String pwd) throws Exception {
-        if (!userList.userExist(usr,pwd)){
+    public Company getCompany(String symbol) {
+        return companies.getCompany(symbol);
+    }
+
+    @Override
+    public void saveDataToFiles() {
+        userListPersistence.save(userList, "users.json");
+        ordersPersistence.save(orders,"orders.json");
+        companiesPersistence.save(companies,"companies.json");
+    }
+
+    @Override
+    public boolean login(User user) throws Exception {
+        if (!userList.userExist(user)){
             throw new Exception("Wrong username or password");
         }
         return true;
     }
 
     @Override
-    public boolean registerUser(String usr, String pwd) throws Exception {
-        boolean result = userList.addProfile(usr, pwd);
-//        property.firePropertyChange("Register",usr,"Success");
+    public boolean registerUser(User user) throws Exception {
+        boolean result = userList.addUser(user);
         return result;
     }
+
+
 
 }

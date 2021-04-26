@@ -3,18 +3,21 @@ package viewmodel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import model.Model;
+import model.Password;
+import model.User;
+import model.UserName;
 
 public class LoginViewModel {
     private Model model;
     private StringProperty username, password, error;
-    private UserInformation user;
+    private ViewState viewState;
 
-    public LoginViewModel(Model model, UserInformation userInformation){
+    public LoginViewModel(Model model, ViewState viewState){
         this.model = model;
+        this.viewState = viewState;
         username = new SimpleStringProperty();
         password = new SimpleStringProperty();
         error = new SimpleStringProperty();
-        user = userInformation;
     }
 
     public void clear(){
@@ -26,8 +29,9 @@ public class LoginViewModel {
     public boolean logIn(){
         boolean result = false;
         try{
-            result = model.login(username.get(), password.get());
-            user.setUser(username.get());
+            User user = new User(new UserName(username.get()), new Password(password.get()));
+            result = model.login(user);
+            viewState.setUserName(user.getUserName());
         }
         catch (Exception e){
             error.setValue(e.getMessage());

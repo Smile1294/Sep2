@@ -1,73 +1,64 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class Orders {
-    private Stocks forSale;
-    private Stocks toBuy;
+    private List<Order> orders;
 
     public Orders() {
-        forSale = new Stocks("Market");
-        toBuy = new Stocks("Market");
+        orders = new ArrayList<>();
     }
 
-    public Stocks getForSale() {
+    public void AddOrder(Order order) {
+        orders.add(order);
+    }
+
+    public void closeOrder(Order order){
+        for (Order o: orders){
+            if (o.equals(order)){
+                o.close();
+                return;
+            }
+        }
+    }
+
+    public ArrayList<Order> getForSale() {
+        ArrayList<Order> forSale = new ArrayList<>();
+        for (Order o : orders){
+            if (o.isSell() && o.getStatus().equals(Status.OPEN)){
+                forSale.add(o);
+            }
+        }
         return forSale;
     }
 
-    public Stock AddOrderToBuy(Stock stock) {
-        /*    int i;
-        Stock stock1;
-        for (i = 0; i < this.forSale.getSize(); i++) {
-            if (forSale.getStock(i).getPrice() <= stock.getPrice()) {
-                stock1 = forSale.getStock(i);
-                forSale.removeStock(forSale.getStock(i));
-                return stock1;
-            }
-            else {
-                toBuy.addStock(stock);
-                return null;
-            }
-
-        }
-        This adds functioanality for program to handle AddingOrdersToBuy
-
-
-        */
-        toBuy.addStock(stock);
-        return null;
-    }
-
-    public Stock AddOrderToSell(Stock stock) {
-       /*  int i;
-        Stock stock1;
-        for(i = 0;i < this.toBuy.getSize();i++) {
-            if (toBuy.getStock(i).getPrice() <= stock.getPrice()) {
-                stock1 = toBuy.getStock(i);
-                toBuy.removeStock(toBuy.getStock(i));
-                return stock1;
-            }
-            else {
-                forSale.addStock(stock);
-                return null;
+    public ArrayList<Order> getToBuy() {
+        ArrayList<Order> toBuy = new ArrayList<>();
+        for (Order o : orders){
+            if (!o.isSell() && o.getStatus().equals(Status.OPEN)){
+                toBuy.add(o);
             }
         }
-
-          This adds functioanality for program to handle AddingOrderstoSell
-
-
-        */
-        forSale.addStock(stock);
-        return null;
-    }
-
-    public Stocks getToBuy() {
         return toBuy;
     }
 
-    @Override
-    public String toString() {
-        return "Orders{" +
-                "forSale=" + forSale +
-                ", toBuy=" + toBuy +
-                '}';
+
+
+    public ArrayList<Order> getOrderByUser(User user){
+        ArrayList<Order> byUser = new ArrayList<>();
+        for (Order o : orders){
+            if (o.getUser().equals(user)){
+                byUser.add(o);
+            }
+        }
+        return byUser;
     }
+
+
+
+
+
+
 }

@@ -16,23 +16,24 @@ public class PlaceOrderViewModel {
     private SimpleStringProperty price;
     private SimpleStringProperty amount;
     private SimpleStringProperty balance;
-    private TransferState transferState;
+    private ViewState viewState;
 
 
-    public PlaceOrderViewModel(Model model, TransferState transferState){
+    public PlaceOrderViewModel(Model model, ViewState viewState){
         this.balance = new SimpleStringProperty();
         this.amount = new SimpleStringProperty();
         this.price = new SimpleStringProperty();
         list = FXCollections.observableArrayList();
         this.model = model;
-        this.transferState = transferState;
+        this.viewState = viewState;
     }
 
     public ObservableList getStockChoice() {
-        for (int i = 0; i < model.getStocks().getSize(); i++) {
-            list.add(model.getStocks().getStock(i).getName());
-        }
-        return list;
+//        for (int i = 0; i < model.getStocks().getSize(); i++) {
+//            list.add(model.getStocks().getStock(i).getName());
+//        }
+//        return list;
+        return null;
     }
 
     public SimpleStringProperty balanceProperty() {
@@ -40,25 +41,21 @@ public class PlaceOrderViewModel {
     }
 
     public void buy(String stock) throws Exception {
-        for (int i = 0; i < model.getStocks().getSize(); i++) {
-            if (stock.equals(model.getStocks().getStock(i).getName())) {
-                model.PlaceOrdertoBuy(model.getStocks().getStock(i), Integer.parseInt(getAmount().get()), Integer.parseInt(getPrice().get()));
-            }
-        }
-    }
-
-    public boolean isFromCompanyInfo(){
-        return transferState.isFromCompanyInfo();
+//        for (int i = 0; i < model.getStocks().getSize(); i++) {
+//            if (stock.equals(model.getStocks().getStock(i).getName())) {
+//                model.PlaceOrdertoBuy(model.getStocks().getStock(i), Integer.parseInt(getAmount().get()), Integer.parseInt(getPrice().get()));
+//            }
+//        }
     }
 
     public void sell(String stock) {
-        for (int i = 0;i<model.getStocks().getSize();i++)
-        {
-            if(stock.equals(model.getStocks().getStock(i).getName()))
-            {
-                model.PlaceOrdertoSell(model.getStocks().getStock(i),Integer.parseInt(getAmount().get()),Integer.parseInt(getPrice().get()));
-            }
-        }
+//        for (int i = 0;i<model.getStocks().getSize();i++)
+//        {
+//            if(stock.equals(model.getStocks().getStock(i).getName()))
+//            {
+//                model.PlaceOrdertoSell(model.getStocks().getStock(i),Integer.parseInt(getAmount().get()),Integer.parseInt(getPrice().get()));
+//            }
+//        }
     }
 
     public SimpleStringProperty getAmount() {

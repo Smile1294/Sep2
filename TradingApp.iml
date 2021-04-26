@@ -36,5 +36,6 @@
     </orderEntry>
     <orderEntry type="library" name="javafx" level="application" />
     <orderEntry type="library" name="gson-2.8.6" level="application" />
+    <orderEntry type="library" name="XmlJsonParser-1.4" level="project" />
   </component>
 </module>
