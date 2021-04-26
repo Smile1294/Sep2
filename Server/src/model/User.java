@@ -20,6 +20,7 @@ public class User {
         }
         this.userName = userName;
         this.password = password;
+        this.email = null;
         this.balance = new Balance();
         this.stocks = new Stocks();
     }
@@ -43,6 +44,7 @@ public class User {
         }
         this.userName = userName;
         this.password = password;
+        this.email = email;
         this.balance = new Balance();
         this.stocks = new Stocks();
     }
