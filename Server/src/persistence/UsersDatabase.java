@@ -7,12 +7,9 @@ import java.sql.*;
 
 public class UsersDatabase implements UsersPersistence{
     private static UsersDatabase instance;
-
-    private static final String URL = "jdbc:postgres://tai.db.elephantsql.com:5432/swjaurgb?currentSchema=sep2";
+    private static final String URL = "jdbc:postgresql://tai.db.elephantsql.com:5432/swjaurgb?currentSchema=sep2";
     private static final String USER = "swjaurgb";
     private static final String PASSWORD = "3CqmA8u3ha9nknGYO1D7FqdQ072gixMo";
-
-//    Connection connection = DriverManager.getConnection("jdbc:postgresql://hattie.db.elephantsql.com:5432/votyogvs","votyogvs","Rf7kIRcDLTWmmtYq3N_QEpk0gwIbn7Rr")
 
     private UsersDatabase() throws SQLException {
         DriverManager.registerDriver(new org.postgresql.Driver());

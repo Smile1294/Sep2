@@ -34,11 +34,11 @@ public class Companies {
         return null;
     }
 
-    public void AddCompany(Company company)
+    public void addCompany(Company company)
     {
         companies.add(company);
     }
-    public void RemoveCompany(Company company)
+    public void removeCompany(Company company)
     {
         companies.remove(company);
     }

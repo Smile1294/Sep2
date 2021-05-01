@@ -1,6 +1,8 @@
 package model;
 
-import filePersistence.*;
+import mediator.Symbol;
+import persistence.CompaniesDatabase;
+import persistence.CompaniesPersistence;
 import persistence.UsersDatabase;
 import persistence.UsersPersistence;
 
@@ -13,48 +15,21 @@ public class ModelManger implements Model {
     private Companies companies;
     private UserList userList;
     private UsersPersistence usersPersistence;
-//    private UserListPersistence userListPersistence;
-//    private CompaniesPersistence companiesPersistence;
-//    private OrdersPersistence ordersPersistence;
+    private CompaniesPersistence companiesPersistence;
 
 
     public ModelManger() throws IOException, SQLException {
         usersPersistence = UsersDatabase.getInstance();
-
+        companiesPersistence = CompaniesDatabase.getInstance();
         userList = usersPersistence.load();
-
-//        userListPersistence = new UserListFile();
-//        companiesPersistence = new CompaniesFiles();
-//        ordersPersistence = new OrdersFile();
-//        userList = userListPersistence.load("users.json");
-//        orders = ordersPersistence.load("orders.json");
-//        companies = companiesPersistence.load("companies.json");
-
-
-
-//        companies.AddCompany(new Company("Apple Inc.", Symbol.APPLE.getSymbol()));
-//        companies.AddCompany(new Company("Alphabet Inc. Class A.", Symbol.GOOGLEA.getSymbol()));
-//        companies.AddCompany(new Company("Tesla Inc.", Symbol.TESLA.getSymbol()));
-//        companies.AddCompany(new Company("Facebook Inc.", Symbol.FACEBOOK.getSymbol()));
-//        companies.AddCompany(new Company("Paypal Holdings Inc.", Symbol.PAYPAL.getSymbol()));
-//        companies.AddCompany(new Company("Microsoft Corporation", Symbol.MICROSOFT.getSymbol()));
-//        companies.AddCompany(new Company("Amazon.com Inc.", Symbol.AMAZON.getSymbol()));
-//        companies.AddCompany(new Company("Alphabet Inc. Class C", Symbol.GOOGLEC.getSymbol()));
-//        companies.AddCompany(new Company("International Business Machines Corporation", Symbol.IBM.getSymbol()));
-
-//        for (Company c : companies.getCompanies()){
-//            c.setCurrentPrice(Math.random()*1000);
-
-//        }
-
-//        System.out.println(orders);
+        companies = companiesPersistence.load();
     }
 
     public User getUser(String name) {
         return userList.getUser(new UserName(name));
     }
 
-    public ArrayList<Stock> LoaduserStocks(String name) {
+    public ArrayList<Stock> loadUserStocks(String name) {
         ArrayList<Stock> temporaryList = new ArrayList<Stock>();
         for (Stock s : getUser(getUser(name).getUserName().getName()).getStocks().getAllStocks()) {
             temporaryList.add(s);
@@ -64,7 +39,7 @@ public class ModelManger implements Model {
     public Double getPriceTotal(String name) {
         double d = 0.0;
         try {
-            for (Stock s : LoaduserStocks(name)) {
+            for (Stock s : loadUserStocks(name)) {
                 d = d + s.getPrice() * getUser(name).getStocks().getStock(s).getAmount();
             }
             return  d;
@@ -90,8 +65,9 @@ public class ModelManger implements Model {
     }
 
     @Override
-    public void transferMoney(UserName userName, double amount, boolean isWithdraw) {
+    public void transferMoney(UserName userName, double amount, boolean isWithdraw) throws SQLException {
         userList.transferMoney(userName, amount, isWithdraw);
+        usersPersistence.update(userList.getUser(userName));
     }
 
     @Override
@@ -107,13 +83,6 @@ public class ModelManger implements Model {
     public Stocks getUserStocks(User user) {
         return user.getStocks();
     }
-
-//    @Override
-//    public void saveDataToFiles() {
-//        userListPersistence.save(userList, "users.json");
-//        ordersPersistence.save(orders, "orders.json");
-//        companiesPersistence.save(companies, "companies.json");
-//    }
 
     @Override
     public boolean login(User user) throws Exception {

@@ -5,9 +5,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.*;
 
-import java.io.IOException;
-import java.security.KeyStore;
-
 public class PortfolioViewModel {
     private Model model;
     private StringProperty name;
@@ -45,7 +42,7 @@ public class PortfolioViewModel {
 
     private void loadUserStock() {
         try {
-            for (Stock s : model.LoaduserStocks(viewState.getUserName().getName())) {
+            for (Stock s : model.loadUserStocks(viewState.getUserName().getName())) {
                 simpleStockViewModels.add(new SimpleStockViewModel(s, model.getUser(viewState.getUserName().getName())));
             }
         } catch (Exception e) {
