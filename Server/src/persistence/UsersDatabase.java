@@ -8,7 +8,7 @@ import java.sql.*;
 public class UsersDatabase implements UsersPersistence{
     private static UsersDatabase instance;
 
-    private static final String URL = "jdbc:postgres://swjaurgb:3CqmA8u3ha9nknGYO1D7FqdQ072gixMo@tai.db.elephantsql.com:5432/swjaurgb?currentSchema=sep2";
+    private static final String URL = "jdbc:postgres://tai.db.elephantsql.com:5432/swjaurgb?currentSchema=sep2";
     private static final String USER = "swjaurgb";
     private static final String PASSWORD = "3CqmA8u3ha9nknGYO1D7FqdQ072gixMo";
 
