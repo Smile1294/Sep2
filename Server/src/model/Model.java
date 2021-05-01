@@ -18,9 +18,11 @@ public interface Model {
 
     User getUser(String name);
     ArrayList<Stock> LoaduserStocks(String name);
-     Double getPriceTotal(String name);
+    Double getPriceTotal(String name);
+
+
 
 
     //tmp
-    void saveDataToFiles();
+//    void saveDataToFiles();
 }

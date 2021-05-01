@@ -9,6 +9,10 @@ public class Balance {
         this.balance = new BigDecimal("0.0");
     }
 
+    public Balance(int balance){
+        this.balance = new BigDecimal(balance+".0");
+    }
+
     public void add(double amount){
         balance = balance.add(new BigDecimal(amount));
     }

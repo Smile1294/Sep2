@@ -1,32 +1,35 @@
 package model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import mediator.Symbol;
-import persistence.*;
-import viewmodel.SimpleStockViewModel;
+import filePersistence.*;
+import persistence.UsersDatabase;
+import persistence.UsersPersistence;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.io.IOException;
-import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ModelManger implements Model {
     private Orders orders;
     private Companies companies;
     private UserList userList;
-    private UserListPersistence userListPersistence;
-    private CompaniesPersistence companiesPersistence;
-    private OrdersPersistence ordersPersistence;
+    private UsersPersistence usersPersistence;
+//    private UserListPersistence userListPersistence;
+//    private CompaniesPersistence companiesPersistence;
+//    private OrdersPersistence ordersPersistence;
 
 
-    public ModelManger() throws IOException {
-        userListPersistence = new UserListFile();
-        companiesPersistence = new CompaniesFiles();
-        ordersPersistence = new OrdersFile();
-        userList = userListPersistence.load("users.json");
-        orders = ordersPersistence.load("orders.json");
-        companies = companiesPersistence.load("companies.json");
+    public ModelManger() throws IOException, SQLException {
+        usersPersistence = UsersDatabase.getInstance();
+
+        userList = usersPersistence.load();
+
+//        userListPersistence = new UserListFile();
+//        companiesPersistence = new CompaniesFiles();
+//        ordersPersistence = new OrdersFile();
+//        userList = userListPersistence.load("users.json");
+//        orders = ordersPersistence.load("orders.json");
+//        companies = companiesPersistence.load("companies.json");
+
 
 
 //        companies.AddCompany(new Company("Apple Inc.", Symbol.APPLE.getSymbol()));
@@ -44,7 +47,7 @@ public class ModelManger implements Model {
 
 //        }
 
-        System.out.println(orders);
+//        System.out.println(orders);
     }
 
     public User getUser(String name) {
@@ -105,12 +108,12 @@ public class ModelManger implements Model {
         return user.getStocks();
     }
 
-    @Override
-    public void saveDataToFiles() {
-        userListPersistence.save(userList, "users.json");
-        ordersPersistence.save(orders, "orders.json");
-        companiesPersistence.save(companies, "companies.json");
-    }
+//    @Override
+//    public void saveDataToFiles() {
+//        userListPersistence.save(userList, "users.json");
+//        ordersPersistence.save(orders, "orders.json");
+//        companiesPersistence.save(companies, "companies.json");
+//    }
 
     @Override
     public boolean login(User user) throws Exception {
@@ -123,8 +126,9 @@ public class ModelManger implements Model {
     @Override
     public boolean registerUser(User user) throws Exception {
         boolean result = userList.addUser(user);
+        if (result){
+            usersPersistence.save(user);
+        }
         return result;
     }
-
-
 }

@@ -48,6 +48,25 @@ public class User {
         this.balance = new Balance();
         this.stocks = new Stocks();
     }
+
+    /**
+     *
+     *
+     * @param userName
+     * @param password
+     */
+    public User(UserName userName, Password password, Email email, int balance) {
+        if (userName == null || password == null)
+        {
+            throw new IllegalArgumentException("Null username or password");
+        }
+        this.userName = userName;
+        this.password = password;
+        this.email = email;
+        this.balance = new Balance(balance);
+        this.stocks = new Stocks();
+    }
+
     /**
      *
      * @void

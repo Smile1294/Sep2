@@ -1,7 +1,6 @@
-package persistence;
+package filePersistence;
 
 import model.Orders;
-import model.UserList;
 
 public interface OrdersPersistence {
     void save(Orders ordersList, String filename);
