@@ -1,34 +1,24 @@
 package persistence;
 
 import model.*;
-import utility.persistence.MyDatabase;
 
 import java.sql.*;
 
 public class UsersDatabase implements UsersPersistence{
     private static UsersDatabase instance;
-    private static final String URL = "jdbc:postgresql://tai.db.elephantsql.com:5432/swjaurgb?currentSchema=sep2";
-    private static final String USER = "swjaurgb";
-    private static final String PASSWORD = "3CqmA8u3ha9nknGYO1D7FqdQ072gixMo";
 
-    private UsersDatabase() throws SQLException {
-        DriverManager.registerDriver(new org.postgresql.Driver());
-    }
+    private UsersDatabase() { }
 
-    public static synchronized UsersDatabase getInstance() throws SQLException{
+    public static synchronized UsersDatabase getInstance(){
         if (instance == null){
             instance = new UsersDatabase();
         }
         return instance;
     }
 
-    private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
-    }
-
     @Override
     public UserList load() throws SQLException {
-        try (Connection connection = getConnection()){
+        try (Connection connection = GetConnection.get()){
             PreparedStatement statement = connection.prepareStatement("select * from Customer");
             ResultSet resultSet = statement.executeQuery();
             UserList users = new UserList();
@@ -51,7 +41,7 @@ public class UsersDatabase implements UsersPersistence{
 
     @Override
     public void update(User user) throws SQLException{
-        try (Connection connection = getConnection()){
+        try (Connection connection = GetConnection.get()){
             PreparedStatement statement = connection.prepareStatement("update customer set money_balance = ? where user_name = ?");
             statement.setInt(1,user.getBalance().intValue());
             statement.setString(2,user.getUserName().toString());
@@ -61,7 +51,7 @@ public class UsersDatabase implements UsersPersistence{
 
     @Override
     public void save(User user) throws SQLException{
-        try (Connection connection = getConnection()){
+        try (Connection connection = GetConnection.get()){
             PreparedStatement statement = connection.prepareStatement("insert into customer(user_name,password,email,money_balance)values (?,?,?,?)");
             statement.setString(1,user.getUserName().toString());
             statement.setString(2,user.getPassword().toString());
@@ -73,7 +63,7 @@ public class UsersDatabase implements UsersPersistence{
 
     @Override
     public void remove(User user) throws SQLException{
-        try (Connection connection = getConnection()){
+        try (Connection connection = GetConnection.get()){
             PreparedStatement statement = connection.prepareStatement("delete from Customer where user_name = ?");
             statement.setString(1,user.getUserName().toString());
             statement.executeUpdate();

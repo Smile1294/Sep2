@@ -141,6 +141,14 @@ public class User {
         return false;
     }
 
+    public void setStocks(Stocks stocks){
+        this.stocks = stocks;
+    }
+
+    public void addStock(Stock stock){
+        this.stocks.addStock(stock);
+    }
+
 
     public Email getEmail() {
         return email;

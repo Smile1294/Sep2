@@ -23,6 +23,10 @@ public class UserList
     return null;
   }
 
+  public List<User> getUsers(){
+    return users;
+  }
+
   public boolean addUser(User user) throws Exception {
     if (nameExist(user.getUserName())){
       throw new Exception("Username already exists");

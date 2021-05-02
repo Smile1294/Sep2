@@ -1,10 +1,7 @@
 package model;
 
 import mediator.Symbol;
-import persistence.CompaniesDatabase;
-import persistence.CompaniesPersistence;
-import persistence.UsersDatabase;
-import persistence.UsersPersistence;
+import persistence.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -16,13 +13,24 @@ public class ModelManger implements Model {
     private UserList userList;
     private UsersPersistence usersPersistence;
     private CompaniesPersistence companiesPersistence;
-
+    private OrdersPersistence ordersPersistence;
+    private StocksPersistence stocksPersistence;
 
     public ModelManger() throws IOException, SQLException {
         usersPersistence = UsersDatabase.getInstance();
         companiesPersistence = CompaniesDatabase.getInstance();
+        ordersPersistence = OrdersDatabase.getInstance();
+        stocksPersistence = StocksDatabase.getInstance();
+
         userList = usersPersistence.load();
         companies = companiesPersistence.load();
+        orders = ordersPersistence.load();
+
+        for (User u : userList.getUsers()){
+            for (Company c : companies.getCompanies()){
+                u.addStock(stocksPersistence.load(u, c));
+            }
+        }
     }
 
     public User getUser(String name) {
@@ -36,6 +44,7 @@ public class ModelManger implements Model {
         }
         return temporaryList;
     }
+
     public Double getPriceTotal(String name) {
         double d = 0.0;
         try {
