@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * UserList class represents a users in a list
+ * UserList class represents list of users
  */
 
 public class UserList {
