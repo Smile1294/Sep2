@@ -21,9 +21,9 @@ public class CompanyViewModel
 
   public void clear()
   {
-    name.setValue(model.getCompany(viewState.getSelectedSymbol()).getName());
+    name.setValue(model.getCompanyBySymbol(viewState.getSelectedSymbol()).getName());
     symbol.setValue(viewState.getSelectedSymbol());
-    price.setValue(Math.round(model.getCompany(viewState.getSelectedSymbol()).getCurrentPrice()*1000.0)/1000.0);
+    price.setValue(Math.round(model.getCompanyBySymbol(viewState.getSelectedSymbol()).getCurrentPrice()*1000.0)/1000.0);
   }
 
   public void load()

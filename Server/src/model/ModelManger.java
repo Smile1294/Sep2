@@ -18,6 +18,7 @@ public class ModelManger implements Model {
     private UserListPersistence userListPersistence;
     private CompaniesPersistence companiesPersistence;
     private OrdersPersistence ordersPersistence;
+    private Stocks stocks;
 
 
     public ModelManger() throws IOException {
@@ -27,7 +28,13 @@ public class ModelManger implements Model {
         userList = userListPersistence.load("users.json");
         orders = ordersPersistence.load("orders.json");
         companies = companiesPersistence.load("companies.json");
-
+        Thread t = new Thread(orders);
+        t.start();
+        this.stocks = new Stocks();
+        for (int i = 0; i < companies.getCompanies().size(); i++) {
+            stocks.addStock(new Stock(companies.getCompanies().get(i).getSymbol(), "Admin", 200));
+        }
+        System.out.println(stocks.toString());
 
 //        companies.AddCompany(new Company("Apple Inc.", Symbol.APPLE.getSymbol()));
 //        companies.AddCompany(new Company("Alphabet Inc. Class A.", Symbol.GOOGLEA.getSymbol()));
@@ -47,6 +54,8 @@ public class ModelManger implements Model {
         System.out.println(orders);
     }
 
+
+
     public User getUser(String name) {
         return userList.getUser(new UserName(name));
     }
@@ -58,26 +67,33 @@ public class ModelManger implements Model {
         }
         return temporaryList;
     }
+    public Orders getOrders(User user)
+    {
+        return orders.getOrderByUser(user);
+    }
+
     public Double getPriceTotal(String name) {
         double d = 0.0;
         try {
-            for (Stock s : LoaduserStocks(name)) {
-                d = d + s.getPrice() * getUser(name).getStocks().getStock(s).getAmount();
+            for (Company s : companies.getCompanies()) {
+                d = d + s.getCurrentPrice() * getUser(name).getStocks().getStockBySymbol(s.getSymbol()).getAmount();
             }
-            return  d;
+            return d;
         } catch (Exception e) {
             System.out.println(e);
-       }
+        }
         return d;
     }
 
 
+
     public void AddOrder(Order order) {
+
         orders.AddOrder(order);
     }
 
     public void buyStock(Stock stock, User user, int Amount) {
-        user.BuyStock(new Stock(stock.getCompany(), Amount));
+        user.BuyStock(new Stock(stock.getSymbol(), user.getUserName().getName(), Amount));
     }
 
 
@@ -97,13 +113,15 @@ public class ModelManger implements Model {
     }
 
     @Override
-    public Company getCompany(String symbol) {
-        return companies.getCompany(symbol);
+    public Company getCompanyBySymbol(String symbol) {
+        return companies.getCompanyBySymbol(symbol);
     }
 
-    public Stocks getUserStocks(User user) {
-        return user.getStocks();
+
+    public Company getComapnyByName(String name) {
+        return companies.getCompanyByName(name);
     }
+
 
     @Override
     public void saveDataToFiles() {

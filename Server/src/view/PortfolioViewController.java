@@ -26,7 +26,7 @@ public class PortfolioViewController extends ViewController {
     protected void init() {
         UserName.textProperty().bind(getViewModelFactory().getPortfolioViewModel().getName());
         Bindings.bindBidirectional(TotalAmount.textProperty(),
-                getViewModelFactory().getPortfolioViewModel().getPriceTotal(),
+                getViewModelFactory().getPortfolioViewModel().getTotal(),
                 new NumberStringConverter());
         Curentcolumn.setCellValueFactory(cellData -> cellData.getValue().getCurrentValue());
         InvestedCloumn.setCellValueFactory(cellData -> cellData.getValue().getinvested());

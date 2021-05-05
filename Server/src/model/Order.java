@@ -1,36 +1,43 @@
 package model;
 
+import mediator.Symbol;
+
 import java.math.BigDecimal;
 import java.util.UUID;
 
 public class Order {
-    private Stock stock;
     private boolean sell;
     private BigDecimal askingPrice;
     private int amount;
+    private int initialAmount;
     private Status status;
-    private User user;
+    private String username;
     private UUID orderId;
-    private Company company;
+    private String symbol;
 
-    public Order(Company company, boolean sell, BigDecimal askingPrice, int amount, User user, Status status){
-        this.amount = amount;
+    public Order(boolean sell, BigDecimal askingPrice, int initialAmount, String user, Status status, String symbol) {
+        this.initialAmount = initialAmount;
+        this.amount = initialAmount;
         this.askingPrice = askingPrice;
         this.sell = sell;
-        this.company = company;
-        this.user=user;
-        this.status=status;
-
+        this.username = user;
+        this.status = status;
+        this.symbol = symbol;
         this.orderId = UUID.randomUUID();
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public int getInitialAmount() {
+        return initialAmount;
     }
 
     public boolean isSell() {
         return sell;
     }
 
-    public Stock getStock() {
-        return stock;
-    }
 
     public Double getAskingPrice() {
         return askingPrice.doubleValue();
@@ -44,8 +51,8 @@ public class Order {
         return status;
     }
 
-    public User getUser() {
-        return user;
+    public String getUser() {
+        return username;
     }
 
     public void setAmount(int amount) {
@@ -56,8 +63,11 @@ public class Order {
         this.status = status;
     }
 
-    public void close(){
+    public void close() {
         setStatus(Status.CLOSED);
+    }
+    public void complete() {
+        setStatus(Status.COMPLETED);
     }
 
     public String getOrderId() {
@@ -65,14 +75,14 @@ public class Order {
     }
 
     @Override
-    public boolean equals(Object o){
-        if (o == null){
+    public boolean equals(Object o) {
+        if (o == null) {
             return false;
         }
-        if (o == this){
+        if (o == this) {
             return true;
         }
-        if (o instanceof Order){
+        if (o instanceof Order) {
             Order other = (Order) o;
             return this.orderId.equals(other.orderId);
 //            return this.stock.equals(other.stock) && this.sell == other.sell &&
@@ -85,13 +95,13 @@ public class Order {
     @Override
     public String toString() {
         return "Order{" +
-                "stock=" + stock +
                 ", sell=" + sell +
                 ", askingPrice=" + askingPrice +
                 ", amount=" + amount +
                 ", status=" + status +
-                ", user=" + user +
+                ", user=" + username +
                 ", orderId=" + orderId +
                 '}';
     }
+
 }

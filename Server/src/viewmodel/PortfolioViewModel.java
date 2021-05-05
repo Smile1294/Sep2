@@ -30,13 +30,11 @@ public class PortfolioViewModel {
 
     public void clear() {
         this.name.setValue(viewState.getUserName().getName());
-        this.total.setValue(model.getUser(viewState.getUserName().getName()).getBalance());
+        this.total.setValue(Math.round(model.getUser(viewState.getUserName().getName()).getBalance()));
         this.investedValue = null;
-        simpleStockViewModels.removeAll();
+        simpleStockViewModels.removeAll(getAll());
         getPriceTotal();
         loadUserStock();
-
-
     }
 
     public ObservableList<SimpleStockViewModel> getAll() {
@@ -50,10 +48,12 @@ public class PortfolioViewModel {
     private void loadUserStock() {
         try {
             for (Stock s : model.LoaduserStocks(viewState.getUserName().getName())) {
-                simpleStockViewModels.add(new SimpleStockViewModel(s, model.getUser(viewState.getUserName().getName())));
+                System.out.println(model.LoaduserStocks(viewState.getUserName().getName()));
+                simpleStockViewModels.add(new SimpleStockViewModel(s, model.getUser(viewState.getUserName().getName()),model.getCompanyBySymbol(s.getSymbol()),model.getOrders(model.getUser(viewState.getUserName().getName()))));
+                System.out.println(model.getCompanyBySymbol(s.getSymbol()));
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println(e);
         }
     }
 

@@ -2,12 +2,7 @@
   "companies": [
     {
       "name": "Apple Inc.",
-      "currentPrice": 47.2666601963804851038730703294277191162109375,
-      "Symbol": "AAPL"
-    },
-    {
-      "name": "Apple Inc.",
-      "currentPrice": 567.7187420255012284542317502200603485107421875,
+      "currentPrice": 6,
       "Symbol": "AAPL"
     },
     {
