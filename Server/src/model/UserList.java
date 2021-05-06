@@ -108,7 +108,7 @@ public class UserList {
      * Withdrawing or depositing money
      * @param userName Username of the user that is transferring money
      * @param amount amount that is getting transferred
-     * @param isWithdraw
+     * @param isWithdraw if its withdrawing or depositing
      */
 
     public void transferMoney(UserName userName, double amount, boolean isWithdraw) {
