@@ -17,7 +17,10 @@
                <font>
                   <Font name="Arial Narrow" size="21.0" />
                </font></Label>
-            <Label fx:id="UserName" layoutX="63.0" layoutY="61.0" prefHeight="31.0" prefWidth="115.0" />
+            <Label fx:id="UserName" layoutX="62.0" layoutY="62.0" prefHeight="31.0" prefWidth="70.0">
+               <font>
+                  <Font name="Arial Narrow" size="21.0" />
+               </font></Label>
             <TableView fx:id="TableList" layoutX="77.0" layoutY="100.0" prefHeight="200.0" prefWidth="434.0">
               <columns>
                 <TableColumn fx:id="StockColumn" prefWidth="75.0" text="Stock" />

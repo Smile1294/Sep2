@@ -1,5 +1,7 @@
 package model;
 
+
+import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,21 +20,21 @@ public class UserList {
         users = new ArrayList<>();
     }
 
-    /**
-     * Finds a user from a user list
-     *
-     * @param userName userName of the user
-     * @return userName of the user
-     */
+  /**
+   * Finds a user from a user list
+   *
+   * @param userName userName of the user
+   * @return userName of the user
+   */
 
-    public User getUser(UserName userName) {
-        for (User u : users) {
-            if (u.getUserName().equals(userName)) {
-                return u;
-            }
-        }
-        return null;
+  public User getUser(UserName userName){
+    for (User u : users){
+      if (u.getUserName().equals(userName)){
+        return u;
+      }
     }
+    return null;
+  }
 
     /**
      * @param user new User that is added to the list

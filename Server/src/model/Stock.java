@@ -1,25 +1,33 @@
 package model;
 
+import mediator.Symbol;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+
 /**
  * Stock class represents stock
  */
 
+
 public class Stock {
-    private double price;
+    private String username;
+    private String symbol;
     private int amount;
-    private Company company;
 
-    /**
-     * Constructor which is setting up all the instance variables
-     * @param company the company that has stock
-     * @param amount a amount that of the stock that company holds
-     */
 
-    public Stock(Company company, int amount) {
-        this.company = company;
-        this.amount = amount;
-        this.price = company.getCurrentPrice();
+
+    public Stock(String symbol,String username) {
+        this.symbol = symbol;
+        this.username = username;
+        this.amount = 0;
     }
+    public Stock(String symbol,String username,int amount) {
+        this.symbol = symbol;
+        this.username = username;
+        this.amount = amount;
+    }
+
 
     /**
      * getting the amount of stock
@@ -30,22 +38,24 @@ public class Stock {
         return amount;
     }
 
-    /**
-     * getting the company
-     * @return company
-     */
-
-    public Company getCompany() {
-        return company;
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
-    /**
-     * getting the price of the stock
-     * @return price
-     */
+    public String getUsername() {
+        return username;
+    }
 
-    public double getPrice() {
-        return price;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     /**
@@ -56,9 +66,9 @@ public class Stock {
     @Override
     public String toString() {
         return "Stock{" +
-                "price=" + price +
+                "username='" + username + '\'' +
+                ", symbol='" + symbol + '\'' +
                 ", amount=" + amount +
-                ", company=" + company +
                 '}';
     }
 }

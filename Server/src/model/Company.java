@@ -38,7 +38,8 @@ public class Company {
      * @return current price
      */
 
-    public double getCurrentPrice() {
+
+    public Double getCurrentPrice() {
         return currentPrice.doubleValue();
     }
 

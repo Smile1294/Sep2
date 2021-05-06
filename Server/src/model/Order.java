@@ -1,40 +1,59 @@
 package model;
+
+import mediator.Symbol;
+
 import java.math.BigDecimal;
 import java.util.UUID;
-
 /**
  * Order class represents a order of the user
  */
+public class Order {
 
-public class Order
-{
     private Stock stock;
     private boolean sell;
     private BigDecimal askingPrice;
     private int amount;
+    private int initialAmount;
     private Status status;
-    private User user;
+    private String username;
     private UUID orderId;
-    private Company company;
+    private String symbol;
 
     /**
      * Constructor that initialises all the instance variables
-     * @param company company that hold the stock
      * @param sell is it for sell stock
      * @param askingPrice asking price for a stock
-     * @param amount amount of stock
      * @param user which user
      * @param status status of the stock
      */
 
-    public Order(Company company, boolean sell, BigDecimal askingPrice, int amount, User user, Status status){
-        this.amount = amount;
+    public Order(boolean sell, BigDecimal askingPrice, int initialAmount, String user, Status status, String symbol) {
+        this.initialAmount = initialAmount;
+        this.amount = initialAmount;
         this.askingPrice = askingPrice;
         this.sell = sell;
-        this.company = company;
-        this.user=user;
-        this.status=status;
+        this.username = user;
+        this.status = status;
+        this.symbol = symbol;
         this.orderId = UUID.randomUUID();
+    }
+
+    /**
+     * getting the company symbol
+     * @return sybol
+     */
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    /**
+     * getting initial amount
+     * @return initial amount
+     */
+
+    public int getInitialAmount() {
+        return initialAmount;
     }
 
     /**
@@ -87,8 +106,8 @@ public class Order
      * @return user
      */
 
-    public User getUser() {
-        return user;
+    public String getUser() {
+        return username;
     }
 
     /**
@@ -113,8 +132,16 @@ public class Order
      * sets the status of order to closed
      */
 
-    public void close(){
+    public void close() {
         setStatus(Status.CLOSED);
+    }
+
+    /**
+     * sets the status of order to completed
+     */
+
+    public void complete() {
+        setStatus(Status.COMPLETED);
     }
 
     /**
@@ -133,14 +160,14 @@ public class Order
      */
 
     @Override
-    public boolean equals(Object o){
-        if (o == null){
+    public boolean equals(Object o) {
+        if (o == null) {
             return false;
         }
-        if (o == this){
+        if (o == this) {
             return true;
         }
-        if (o instanceof Order){
+        if (o instanceof Order) {
             Order other = (Order) o;
             return this.orderId.equals(other.orderId);
 //            return this.stock.equals(other.stock) && this.sell == other.sell &&
@@ -163,8 +190,9 @@ public class Order
                 ", askingPrice=" + askingPrice +
                 ", amount=" + amount +
                 ", status=" + status +
-                ", user=" + user +
+                ", user=" + username +
                 ", orderId=" + orderId +
                 '}';
     }
+
 }

@@ -50,6 +50,10 @@ public interface Model {
 
     ArrayList<Company> getAllCompanies();
 
+    Company getCompanyBySymbol(String symbol);
+    Company getComapnyByName(String name);
+    void AddOrder(Order order);
+    Orders getPortfolioOrders(User user);
     /**
      * gets the company by symbol
      * @param symbol symbol that is being compared to

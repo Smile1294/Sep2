@@ -22,8 +22,7 @@ public class Stocks {
      * @return all stocks
      */
 
-    public ArrayList<Stock> getAllStocks()
-    {
+    public ArrayList<Stock> getAllStocks() {
         {
             ArrayList<Stock> localList = new ArrayList<>();
             for (Stock stock : stocks) {
@@ -33,10 +32,20 @@ public class Stocks {
         }
     }
 
+    public Stock getStockBySymbol(String symbol) {
+        for (Stock stock : stocks) {
+            if (symbol.equals(stock.getSymbol())) {
+                return stock;
+            }
+        }
+        return null;
+    }
+
     /**
      * adding a stock to the list
      * @param stock that is being added
      */
+
 
     public void addStock(Stock stock) {
         stocks.add(stock);
@@ -66,14 +75,16 @@ public class Stocks {
      * @return stock
      */
 
-    public Stock getStock(Stock stock){
-        for (Stock s: stocks){
-            if (s.equals(stock)){
+    public Stock getStock(Stock stock) {
+        for (Stock s : stocks) {
+            if (s.equals(stock)) {
                 return stock;
             }
         }
         return null;
     }
+
+
 
     /**
      * getting the stock by index

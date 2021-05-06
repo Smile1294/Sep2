@@ -3,18 +3,17 @@ package model;
 import java.util.ArrayList;
 
 /**
- * Companies class representing list of companies
+ * constructor which is initialising arraylist of companies
  */
 
 public class Companies
 {
     public ArrayList<Company> companies;
-
     /**
      * constructor which is initialising arraylist of companies
      */
-    public Companies()
-    {
+
+    public Companies() {
         this.companies = new ArrayList<>();
     }
 
@@ -33,12 +32,9 @@ public class Companies
      * @return company
      */
 
-    public Company getCompany(Company company)
-    {
-        for(Company companies2:companies)
-        {
-            if(companies2 == company)
-            {
+    public Company getCompany(Company company) {
+        for (Company companies2 : companies) {
+            if (companies2 == company) {
                 return companies2;
             }
         }
@@ -51,10 +47,18 @@ public class Companies
      * @return company
      */
 
+    public Company getCompanyBySymbol(String symbol) {
+        for (Company d : companies) {
+            if (d.getSymbol().equals(symbol)) {
+                return d;
+            }
+        }
+        return null;
+    }
 
-    public Company getCompany(String symbol) {
-        for(Company c:companies) {
-            if(c.getSymbol().equals(symbol)) {
+    public Company getCompanyByName(String name) {
+        for (Company c : companies) {
+            if (c.getName().equals(name)) {
                 return c;
             }
         }
@@ -66,8 +70,8 @@ public class Companies
      * @param company company that is being added
      */
 
-    public void AddCompany(Company company)
-    {
+
+    public void AddCompany(Company company) {
         companies.add(company);
     }
 
@@ -76,8 +80,8 @@ public class Companies
      * @param company company that is being removed
      */
 
-    public void RemoveCompany(Company company)
-    {
+
+    public void RemoveCompany(Company company) {
         companies.remove(company);
     }
 

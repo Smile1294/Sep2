@@ -1,6 +1,14 @@
 package model;
+
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import mediator.Symbol;
 import persistence.*;
+import viewmodel.SimpleStockViewModel;
+
+import java.awt.image.AreaAveragingScaleFilter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
@@ -14,6 +22,8 @@ public class ModelManger implements Model {
     private UserListPersistence userListPersistence;
     private CompaniesPersistence companiesPersistence;
     private OrdersPersistence ordersPersistence;
+    private Stocks stocks;
+    private Thread thread;
 
     /**
      * Constructor initialing all the instance variables
@@ -27,6 +37,10 @@ public class ModelManger implements Model {
         userList = userListPersistence.load("users.json");
         orders = ordersPersistence.load("orders.json");
         companies = companiesPersistence.load("companies.json");
+        this.stocks = new Stocks();
+        thread = new Thread(orders);
+        thread.start();
+
 
 
 //        companies.AddCompany(new Company("Apple Inc.", Symbol.APPLE.getSymbol()));
@@ -47,6 +61,7 @@ public class ModelManger implements Model {
         System.out.println(orders);
     }
 
+
     /**
      * gets the user by name
      * @param name name of the user
@@ -65,11 +80,22 @@ public class ModelManger implements Model {
 
     public ArrayList<Stock> LoaduserStocks(String name) {
         ArrayList<Stock> temporaryList = new ArrayList<Stock>();
-        for (Stock s : getUser(getUser(name).getUserName().getName()).getStocks().getAllStocks()) {
-            temporaryList.add(s);
+        try {
+            for (Company s : getAllCompanies()) {
+                getUser(name).getStocks().getStockBySymbol(s.getSymbol()).setAmount(orders.getCompeltedUserOwnedStock(s.getSymbol(), name));
+                temporaryList.add(getUser(name).getStocks().getStockBySymbol(s.getSymbol()));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
         }
+
         return temporaryList;
     }
+
+    public Orders getPortfolioOrders(User user) {
+        return orders.getOrderByUser(user);
+    }
+
 
     /**
      * gets users total stocks amount
@@ -80,13 +106,13 @@ public class ModelManger implements Model {
     public Double getPriceTotal(String name) {
         double d = 0.0;
         try {
-            for (Stock s : LoaduserStocks(name)) {
-                d = d + s.getPrice() * getUser(name).getStocks().getStock(s).getAmount();
+            for (Company s : companies.getCompanies()) {
+                d = d + s.getCurrentPrice() * getUser(name).getStocks().getStockBySymbol(s.getSymbol()).getAmount();
             }
-            return  d;
+            return d;
         } catch (Exception e) {
             System.out.println(e);
-       }
+        }
         return d;
     }
 
@@ -96,8 +122,22 @@ public class ModelManger implements Model {
      */
 
     public void AddOrder(Order order) {
-        orders.AddOrder(order);
-    }
+
+        if (order.isSell()) {
+            if (getUser(order.getUser()).getStocks().getStockBySymbol(order.getSymbol()).getAmount() > order.getAmount()) {
+                orders.AddOrder(order);
+                System.out.println("Added order for sale");
+            } else {
+                System.out.println("Insufficient resources");
+            }
+        } else {
+            if (getUser(order.getUser()).getBalance() > order.getAskingPrice()) {
+                orders.AddOrder(order);
+                System.out.println("Added order to buy");
+            } else {
+                System.out.println("Not enough money to place order to buy");
+            }
+        }
 
     /**
      * buying stock
@@ -150,10 +190,13 @@ public class ModelManger implements Model {
      */
 
     @Override
-    public Company getCompany(String symbol) {
-        return companies.getCompany(symbol);
+    public Company getCompanyBySymbol(String symbol) {
+        return companies.getCompanyBySymbol(symbol);
     }
 
+
+    public Company getComapnyByName(String name) {
+        return companies.getCompanyByName(name);
     /**
      * getting the stock from a user
      * @param user user that we are getting stock from
@@ -164,6 +207,7 @@ public class ModelManger implements Model {
         return user.getStocks();
     }
 
+
     /**
      *  saving data to the files
      */
@@ -173,6 +217,7 @@ public class ModelManger implements Model {
         userListPersistence.save(userList, "users.json");
         ordersPersistence.save(orders, "orders.json");
         companiesPersistence.save(companies, "companies.json");
+        thread.stop();
     }
 
     /**
