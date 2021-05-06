@@ -8,6 +8,9 @@ import model.User;
 
 import java.util.ArrayList;
 
+import static java.lang.Double.NaN;
+
+
 public class SimpleStockViewModel {
     private StringProperty name;
     private DoubleProperty value;
@@ -18,15 +21,23 @@ public class SimpleStockViewModel {
     private StringProperty username;
 
 
-    public SimpleStockViewModel(Stock stock, User user, Company company,Orders orders) {
+    public SimpleStockViewModel(Stock stock, User user, Company company, Orders orders) {
 
         username = new SimpleStringProperty(user.getUserName().getName());
         numberowned = new SimpleIntegerProperty(user.getStocks().getStock(stock).getAmount());
         currentValue = new SimpleDoubleProperty(company.getCurrentPrice() * user.getStocks().getStock(stock).getAmount());
-        invested = new SimpleDoubleProperty(orders.getboughtPriceInStock(user,stock));
+        invested = new SimpleDoubleProperty(orders.getboughtPriceInStock(user, stock));
         name = new SimpleStringProperty(company.getName());
         value = new SimpleDoubleProperty(company.getCurrentPrice());
-        percentage = new SimpleStringProperty(Double.toString(((((company.getCurrentPrice()*user.getStocks().getStock(stock).getAmount())/orders.getboughtPriceInStock(user,stock))*100)-100)));
+
+        if (((((company.getCurrentPrice() * user.getStocks().getStock(stock).getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100) > 0) {
+            percentage = new SimpleStringProperty("+" + Double.toString(((((company.getCurrentPrice() * user.getStocks().getStock(stock).getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100)));
+        } else {
+            percentage = new SimpleStringProperty(Double.toString(((((company.getCurrentPrice() * user.getStocks().getStock(stock).getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100)));
+        }
+        if (Double.isNaN(((((company.getCurrentPrice() * user.getStocks().getStock(stock).getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100))) {
+            percentage = new SimpleStringProperty(Double.toString(0.00));
+        }
     }
 
 

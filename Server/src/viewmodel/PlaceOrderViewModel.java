@@ -41,11 +41,11 @@ public class PlaceOrderViewModel {
     }
 
     public void buy(String nameofcompany) throws Exception {
-        model.AddOrder(new Order(true, BigDecimal.valueOf(price.get()), amount.get(),viewState.getUserName().getName(), Status.OPEN,model.getComapnyByName(nameofcompany).getSymbol()));
+        model.AddOrder(new Order(false, BigDecimal.valueOf(price.get()), amount.get(),viewState.getUserName().getName(), Status.OPEN,model.getComapnyByName(nameofcompany).getSymbol()));
     }
     //make price get big decimal,amount integer,user
     public void sell(String nameofcompany) {
-        model.AddOrder(new Order(false, BigDecimal.valueOf(price.get()), amount.get(),viewState.getUserName().getName(), Status.OPEN,model.getComapnyByName(nameofcompany).getSymbol()));
+        model.AddOrder(new Order(true, BigDecimal.valueOf(price.get()), amount.get(),viewState.getUserName().getName(), Status.OPEN,model.getComapnyByName(nameofcompany).getSymbol()));
     }
 
     public SimpleIntegerProperty getAmount() {

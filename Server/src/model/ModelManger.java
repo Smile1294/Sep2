@@ -19,6 +19,7 @@ public class ModelManger implements Model {
     private CompaniesPersistence companiesPersistence;
     private OrdersPersistence ordersPersistence;
     private Stocks stocks;
+    private Thread thread;
 
 
     public ModelManger() throws IOException {
@@ -28,13 +29,11 @@ public class ModelManger implements Model {
         userList = userListPersistence.load("users.json");
         orders = ordersPersistence.load("orders.json");
         companies = companiesPersistence.load("companies.json");
-        Thread t = new Thread(orders);
-        t.start();
         this.stocks = new Stocks();
-        for (int i = 0; i < companies.getCompanies().size(); i++) {
-            stocks.addStock(new Stock(companies.getCompanies().get(i).getSymbol(), "Admin", 200));
-        }
-        System.out.println(stocks.toString());
+        thread = new Thread(orders);
+        thread.start();
+
+
 
 //        companies.AddCompany(new Company("Apple Inc.", Symbol.APPLE.getSymbol()));
 //        companies.AddCompany(new Company("Alphabet Inc. Class A.", Symbol.GOOGLEA.getSymbol()));
@@ -51,9 +50,7 @@ public class ModelManger implements Model {
 
 //        }
 
-        System.out.println(orders);
     }
-
 
 
     public User getUser(String name) {
@@ -62,13 +59,19 @@ public class ModelManger implements Model {
 
     public ArrayList<Stock> LoaduserStocks(String name) {
         ArrayList<Stock> temporaryList = new ArrayList<Stock>();
-        for (Stock s : getUser(getUser(name).getUserName().getName()).getStocks().getAllStocks()) {
-            temporaryList.add(s);
+        try {
+            for (Company s : getAllCompanies()) {
+                getUser(name).getStocks().getStockBySymbol(s.getSymbol()).setAmount(orders.getCompeltedUserOwnedStock(s.getSymbol(), name));
+                temporaryList.add(getUser(name).getStocks().getStockBySymbol(s.getSymbol()));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
         }
+
         return temporaryList;
     }
-    public Orders getOrders(User user)
-    {
+
+    public Orders getPortfolioOrders(User user) {
         return orders.getOrderByUser(user);
     }
 
@@ -86,14 +89,24 @@ public class ModelManger implements Model {
     }
 
 
-
     public void AddOrder(Order order) {
 
-        orders.AddOrder(order);
-    }
+        if (order.isSell()) {
+            if (getUser(order.getUser()).getStocks().getStockBySymbol(order.getSymbol()).getAmount() > order.getAmount()) {
+                orders.AddOrder(order);
+                System.out.println("Added order for sale");
+            } else {
+                System.out.println("Insufficient resources");
+            }
+        } else {
+            if (getUser(order.getUser()).getBalance() > order.getAskingPrice()) {
+                orders.AddOrder(order);
+                System.out.println("Added order to buy");
+            } else {
+                System.out.println("Not enough money to place order to buy");
+            }
+        }
 
-    public void buyStock(Stock stock, User user, int Amount) {
-        user.BuyStock(new Stock(stock.getSymbol(), user.getUserName().getName(), Amount));
     }
 
 
@@ -128,6 +141,7 @@ public class ModelManger implements Model {
         userListPersistence.save(userList, "users.json");
         ordersPersistence.save(orders, "orders.json");
         companiesPersistence.save(companies, "companies.json");
+        thread.stop();
     }
 
     @Override

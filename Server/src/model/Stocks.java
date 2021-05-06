@@ -23,9 +23,9 @@ public class Stocks {
     }
 
     public Stock getStockBySymbol(String symbol) {
-        for (int i = 0; i < stocks.size(); i++) {
-            if (symbol.equals(stocks.get(i).getSymbol())) {
-               return stocks.get(i);
+        for (Stock stock : stocks) {
+            if (symbol.equals(stock.getSymbol())) {
+                return stock;
             }
         }
         return null;

@@ -18,7 +18,7 @@ public class Company {
         return name;
     }
 
-    public double getCurrentPrice() {
+    public Double getCurrentPrice() {
         return currentPrice.doubleValue();
     }
 

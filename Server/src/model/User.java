@@ -1,5 +1,7 @@
 package model;
 
+import mediator.Symbol;
+
 public class User {
     private Balance balance;
     private UserName userName;
@@ -23,6 +25,16 @@ public class User {
         this.email = null;
         this.balance = new Balance();
         this.stocks = new Stocks();
+        stocks.addStock(new Stock(Symbol.APPLE.getSymbol(), userName.getName()));
+        stocks.addStock(new Stock(Symbol.AMAZON.getSymbol(), userName.getName()));
+        stocks.addStock(new Stock(Symbol.MICROSOFT.getSymbol(), userName.getName()));
+        stocks.addStock(new Stock(Symbol.IBM.getSymbol(), userName.getName()));
+        stocks.addStock(new Stock(Symbol.TESLA.getSymbol(), userName.getName()));
+        stocks.addStock(new Stock(Symbol.GOOGLEC.getSymbol(), userName.getName()));
+        stocks.addStock(new Stock(Symbol.GOOGLEA.getSymbol(), userName.getName()));
+        stocks.addStock(new Stock(Symbol.FACEBOOK.getSymbol(), userName.getName()));
+        stocks.addStock(new Stock(Symbol.PAYPAL.getSymbol(), userName.getName()));
+
     }
 
     /**
@@ -47,6 +59,15 @@ public class User {
         this.email = email;
         this.balance = new Balance();
         this.stocks = new Stocks();
+        stocks.addStock(new Stock(Symbol.APPLE.getSymbol(), userName.getName()));
+        stocks.addStock(new Stock(Symbol.AMAZON.getSymbol(), userName.getName()));
+        stocks.addStock(new Stock(Symbol.MICROSOFT.getSymbol(), userName.getName()));
+        stocks.addStock(new Stock(Symbol.IBM.getSymbol(), userName.getName()));
+        stocks.addStock(new Stock(Symbol.TESLA.getSymbol(), userName.getName()));
+        stocks.addStock(new Stock(Symbol.GOOGLEC.getSymbol(), userName.getName()));
+        stocks.addStock(new Stock(Symbol.GOOGLEA.getSymbol(), userName.getName()));
+        stocks.addStock(new Stock(Symbol.FACEBOOK.getSymbol(), userName.getName()));
+        stocks.addStock(new Stock(Symbol.PAYPAL.getSymbol(), userName.getName()));
     }
     /**
      *

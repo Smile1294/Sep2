@@ -2,25 +2,64 @@
   "users": [
     {
       "balance": {
-        "balance": 233.0
+        "balance": 2222.0
       },
       "userName": {
-        "name": "Kim"
+        "name": "Kim123"
       },
       "password": {
-        "password": "Asd123"
+        "password": "Kim123"
+      },
+      "email": {
+        "name": "Kim123",
+        "domain": "g"
       },
       "stocks": {
         "stocks": [
           {
-            "username": "Kim",
+            "username": "Kim123",
             "symbol": "AAPL",
-            "amount": 8
+            "amount": 0
           },
           {
-            "username": "Kim",
+            "username": "Kim123",
+            "symbol": "AMZN",
+            "amount": 0
+          },
+          {
+            "username": "Kim123",
+            "symbol": "MSFT",
+            "amount": 0
+          },
+          {
+            "username": "Kim123",
+            "symbol": "IBM",
+            "amount": 0
+          },
+          {
+            "username": "Kim123",
             "symbol": "TSLA",
-            "amount": 5
+            "amount": 0
+          },
+          {
+            "username": "Kim123",
+            "symbol": "GOOG",
+            "amount": 0
+          },
+          {
+            "username": "Kim123",
+            "symbol": "GOOGl",
+            "amount": 0
+          },
+          {
+            "username": "Kim123",
+            "symbol": "FB",
+            "amount": 0
+          },
+          {
+            "username": "Kim123",
+            "symbol": "PYPL",
+            "amount": 0
           }
         ]
       }

@@ -19,6 +19,16 @@ public class Orders implements Runnable {
         }
     }
 
+    public ArrayList<Order> getUserOrders(String user) {
+        ArrayList<Order> userOrders = new ArrayList<>();
+        for (Order o : orders) {
+            if (o.getUser().equals(user)) {
+                userOrders.add(o);
+            }
+        }
+        return userOrders;
+    }
+
     public void closeOrder(Order order) {
         for (Order o : orders) {
             if (o.equals(order)) {
@@ -62,6 +72,16 @@ public class Orders implements Runnable {
         return byUser;
     }
 
+    public int getCompeltedUserOwnedStock(String symbol, String name) {
+        int i = 0;
+        for (Order o : getUserOrders(name)) {
+            if (o.getSymbol().equals(symbol) && !o.isSell() && o.getStatus().equals(Status.COMPLETED)) {
+                i = i + o.getAmount();
+            }
+        }
+        return i;
+    }
+
     public Double getboughtPrice(User user) {
         double d = 0;
         for (int i = 0; i < getOrderByUser(user).orders.size(); i++) {
@@ -76,7 +96,7 @@ public class Orders implements Runnable {
         double d = 0;
         for (int i = 0; i < getOrderByUser(user).orders.size(); i++) {
             if (getOrderByUser(user).orders.get(i).getStatus() == Status.COMPLETED && !getOrderByUser(user).orders.get(i).isSell())
-                if(stock.getSymbol().equals(orders.get(i).getSymbol())) {
+                if (stock.getSymbol().equals(orders.get(i).getSymbol())) {
                     d = d + orders.get(i).getAmount() * getOrderByUser(user).orders.get(i).getAskingPrice();
                 }
         }
@@ -95,11 +115,31 @@ public class Orders implements Runnable {
         while (true) {
             for (Order o : getForSale()) {
                 for (Order b : getToBuy()) {
-                    if (o.getAskingPrice() <= b.getAskingPrice()) {
-                        o.complete();
-                        b.complete();
+                    if (!o.getUser().equals(b.getUser())) {
+                        if (o.getAskingPrice() <= b.getAskingPrice() && o.getSymbol().equals(b.getSymbol())) {
+                            System.out.println(o.getAskingPrice() + "  >   " + b.getAskingPrice());
+                            if (o.getAmount() > b.getAmount()) {
+                                o.setAmount(o.getAmount() - b.getAmount());
+                                b.complete();
+                            }
+                            if (o.getAmount() == b.getAmount()) {
+                                o.setAmount(0);
+                                b.complete();
+                                o.complete();
+                            }
+                            if (o.getAmount() < b.getAmount()) {
+                                o.complete();
+                                b.setAmount(b.getAmount() - o.getAmount());
+                            }
+                        }
                     }
                 }
+            }
+            try {
+                Thread.sleep(5000);
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }

@@ -14,6 +14,7 @@ public class UserList
     users = new ArrayList<>();
   }
 
+
   public User getUser(UserName userName){
     for (User u : users){
       if (u.getUserName().equals(userName)){

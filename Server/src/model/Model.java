@@ -17,7 +17,7 @@ public interface Model {
     Company getCompanyBySymbol(String symbol);
     Company getComapnyByName(String name);
     void AddOrder(Order order);
-    Orders getOrders(User user);
+    Orders getPortfolioOrders(User user);
     User getUser(String name);
     ArrayList<Stock> LoaduserStocks(String name);
      Double getPriceTotal(String name);
