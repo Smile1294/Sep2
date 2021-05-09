@@ -119,6 +119,16 @@
       "username": "Kim123",
       "orderId": "f34b0920-0435-4efc-a3a4-3a24f7fde57f",
       "symbol": "AAPL"
+    },
+    {
+      "sell": false,
+      "askingPrice": 6,
+      "amount": 12,
+      "initialAmount": 12,
+      "status": "OPEN",
+      "username": "Kim123",
+      "orderId": "fa95d9a8-87ac-48e0-a739-438f209a34ee",
+      "symbol": "AAPL"
     }
   ]
 }

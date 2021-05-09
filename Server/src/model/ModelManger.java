@@ -1,14 +1,10 @@
 package model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import mediator.Symbol;
 import persistence.*;
-import viewmodel.SimpleStockViewModel;
+import utility.observer.listener.GeneralListener;
+import utility.observer.subject.PropertyChangeHandler;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class ModelManger implements Model {
@@ -16,6 +12,7 @@ public class ModelManger implements Model {
     private Companies companies;
     private UserList userList;
     private UserListPersistence userListPersistence;
+    private PropertyChangeHandler<String, Order> property;
     private CompaniesPersistence companiesPersistence;
     private OrdersPersistence ordersPersistence;
     private Stocks stocks;
@@ -23,6 +20,7 @@ public class ModelManger implements Model {
 
 
     public ModelManger() throws IOException {
+        this.property = new PropertyChangeHandler<>(this, true);
         userListPersistence = new UserListFile();
         companiesPersistence = new CompaniesFiles();
         ordersPersistence = new OrdersFile();
@@ -30,9 +28,6 @@ public class ModelManger implements Model {
         orders = ordersPersistence.load("orders.json");
         companies = companiesPersistence.load("companies.json");
         this.stocks = new Stocks();
-        thread = new Thread(orders);
-        thread.start();
-
 
 
 //        companies.AddCompany(new Company("Apple Inc.", Symbol.APPLE.getSymbol()));
@@ -94,6 +89,7 @@ public class ModelManger implements Model {
         if (order.isSell()) {
             if (getUser(order.getUser()).getStocks().getStockBySymbol(order.getSymbol()).getAmount() > order.getAmount()) {
                 orders.AddOrder(order);
+                property.firePropertyChange("Order", order.getUser(), order);
                 System.out.println("Added order for sale");
             } else {
                 System.out.println("Insufficient resources");
@@ -101,6 +97,7 @@ public class ModelManger implements Model {
         } else {
             if (getUser(order.getUser()).getBalance() > order.getAskingPrice()) {
                 orders.AddOrder(order);
+                property.firePropertyChange("Order", order.getUser(), order);
                 System.out.println("Added order to buy");
             } else {
                 System.out.println("Not enough money to place order to buy");
@@ -141,7 +138,6 @@ public class ModelManger implements Model {
         userListPersistence.save(userList, "users.json");
         ordersPersistence.save(orders, "orders.json");
         companiesPersistence.save(companies, "companies.json");
-        thread.stop();
     }
 
     @Override
@@ -158,5 +154,14 @@ public class ModelManger implements Model {
         return result;
     }
 
+    @Override
+    public boolean addListener(GeneralListener<String, Order> listener, String... propertyNames) {
+        return property.addListener(listener, propertyNames);
+    }
+
+    @Override
+    public boolean removeListener(GeneralListener<String, Order> listener, String... propertyNames) {
+        return property.removeListener(listener, propertyNames);
+    }
 
 }
