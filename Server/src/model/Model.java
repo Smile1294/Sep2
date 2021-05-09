@@ -50,17 +50,38 @@ public interface Model {
 
     ArrayList<Company> getAllCompanies();
 
-    Company getCompanyBySymbol(String symbol);
-    Company getComapnyByName(String name);
-    void AddOrder(Order order);
-    Orders getPortfolioOrders(User user);
     /**
      * gets the company by symbol
      * @param symbol symbol that is being compared to
      * @return company
      */
 
-    Company getCompany(String symbol);
+    Company getCompanyBySymbol(String symbol);
+
+    /**
+     * gets the company by name
+     * @param name name that is being compared to
+     * @return company
+     */
+
+    Company getComapnyByName(String name);
+
+    /**
+     * adds an order
+     * @param order order that is getting added
+     */
+
+    void AddOrder(Order order);
+
+    /**
+     * getting order by user
+     * @param user that is getting check it
+     * @return order
+     */
+
+    Orders getPortfolioOrders(User user);
+
+
 
     /**
      * gets the user by name

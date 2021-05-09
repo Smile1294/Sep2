@@ -92,6 +92,12 @@ public class ModelManger implements Model {
         return temporaryList;
     }
 
+    /**
+     * getting order by user
+     * @param user that is getting check it
+     * @return order
+     */
+
     public Orders getPortfolioOrders(User user) {
         return orders.getOrderByUser(user);
     }
@@ -138,16 +144,6 @@ public class ModelManger implements Model {
                 System.out.println("Not enough money to place order to buy");
             }
         }
-
-    /**
-     * buying stock
-     * @param stock stock that user want to buy
-     * @param user user that wants to buy
-     * @param Amount amount of stock
-     */
-
-    public void buyStock(Stock stock, User user, int Amount) {
-        user.BuyStock(new Stock(stock.getCompany(), Amount));
     }
 
     /**
@@ -194,19 +190,15 @@ public class ModelManger implements Model {
         return companies.getCompanyBySymbol(symbol);
     }
 
+    /**
+     * gets the company by name
+     * @param name name that is being compared to
+     * @return company
+     */
 
     public Company getComapnyByName(String name) {
         return companies.getCompanyByName(name);
-    /**
-     * getting the stock from a user
-     * @param user user that we are getting stock from
-     * @return stock
-     */
-
-    public Stocks getUserStocks(User user) {
-        return user.getStocks();
     }
-
 
     /**
      *  saving data to the files
@@ -223,7 +215,7 @@ public class ModelManger implements Model {
     /**
      * login for user
      * @param user user that wants login
-     * @return
+     * @return logged in user
      * @throws Exception
      */
 
@@ -238,7 +230,7 @@ public class ModelManger implements Model {
     /**
      * adding registered user to the list
      * @param user user that is being added
-     * @return
+     * @return user that is registered
      * @throws Exception
      */
 
