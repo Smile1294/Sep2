@@ -35,7 +35,6 @@ public class PortfolioViewController extends ViewController {
         numberownedcolumn.setCellValueFactory(cellData -> cellData.getValue().getNumberowned());
         TableList.setItems(getViewModelFactory().getPortfolioViewModel().getAll());
         reset();
-
     }
     @Override public void reset()
     {

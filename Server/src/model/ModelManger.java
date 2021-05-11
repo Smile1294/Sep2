@@ -1,52 +1,42 @@
 package model;
 
+import mediator.Symbol;
 import persistence.*;
 import utility.observer.listener.GeneralListener;
 import utility.observer.subject.PropertyChangeHandler;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ModelManger implements Model {
     private Orders orders;
     private Companies companies;
     private UserList userList;
+    private Stocks stocks;
     private UserListPersistence userListPersistence;
     private PropertyChangeHandler<String, Order> property;
+    private UsersPersistence usersPersistence;
     private CompaniesPersistence companiesPersistence;
     private OrdersPersistence ordersPersistence;
-    private Stocks stocks;
-    private Thread thread;
+    private StocksPersistence stocksPersistence;
 
+    public ModelManger() throws IOException, SQLException {
+        usersPersistence = UsersDatabase.getInstance();
+        companiesPersistence = CompaniesDatabase.getInstance();
+        ordersPersistence = OrdersDatabase.getInstance();
+        stocksPersistence = StocksDatabase.getInstance();
 
-    public ModelManger() throws IOException {
-        this.property = new PropertyChangeHandler<>(this, true);
-        userListPersistence = new UserListFile();
-        companiesPersistence = new CompaniesFiles();
-        ordersPersistence = new OrdersFile();
-        userList = userListPersistence.load("users.json");
-        orders = ordersPersistence.load("orders.json");
-        companies = companiesPersistence.load("companies.json");
-        this.stocks = new Stocks();
+        userList = usersPersistence.load();
+        companies = companiesPersistence.load();
+        orders = ordersPersistence.load();
 
-
-//        companies.AddCompany(new Company("Apple Inc.", Symbol.APPLE.getSymbol()));
-//        companies.AddCompany(new Company("Alphabet Inc. Class A.", Symbol.GOOGLEA.getSymbol()));
-//        companies.AddCompany(new Company("Tesla Inc.", Symbol.TESLA.getSymbol()));
-//        companies.AddCompany(new Company("Facebook Inc.", Symbol.FACEBOOK.getSymbol()));
-//        companies.AddCompany(new Company("Paypal Holdings Inc.", Symbol.PAYPAL.getSymbol()));
-//        companies.AddCompany(new Company("Microsoft Corporation", Symbol.MICROSOFT.getSymbol()));
-//        companies.AddCompany(new Company("Amazon.com Inc.", Symbol.AMAZON.getSymbol()));
-//        companies.AddCompany(new Company("Alphabet Inc. Class C", Symbol.GOOGLEC.getSymbol()));
-//        companies.AddCompany(new Company("International Business Machines Corporation", Symbol.IBM.getSymbol()));
-
-//        for (Company c : companies.getCompanies()){
-//            c.setCurrentPrice(Math.random()*1000);
-
-//        }
-
+        for (User u : userList.getUsers()){
+            for (Company c : companies.getCompanies()){
+                u.addStock(stocksPersistence.load(u, c));
+            }
+        }
     }
-
 
     public User getUser(String name) {
         return userList.getUser(new UserName(name));
@@ -62,9 +52,9 @@ public class ModelManger implements Model {
         } catch (Exception e) {
             System.out.println(e);
         }
-
         return temporaryList;
     }
+
 
     public Orders getPortfolioOrders(User user) {
         return orders.getOrderByUser(user);
@@ -89,7 +79,6 @@ public class ModelManger implements Model {
         if (order.isSell()) {
             if (getUser(order.getUser()).getStocks().getStockBySymbol(order.getSymbol()).getAmount() > order.getAmount()) {
                 orders.AddOrder(order);
-                property.firePropertyChange("Order", order.getUser(), order);
                 System.out.println("Added order for sale");
             } else {
                 System.out.println("Insufficient resources");
@@ -97,13 +86,14 @@ public class ModelManger implements Model {
         } else {
             if (getUser(order.getUser()).getBalance() > order.getAskingPrice()) {
                 orders.AddOrder(order);
-                property.firePropertyChange("Order", order.getUser(), order);
                 System.out.println("Added order to buy");
             } else {
                 System.out.println("Not enough money to place order to buy");
             }
         }
 
+    public void buyStock(Stock stock, User user, int Amount) {
+        user.BuyStock(new Stock(stock.getCompany(), Amount));
     }
 
 
@@ -113,8 +103,9 @@ public class ModelManger implements Model {
     }
 
     @Override
-    public void transferMoney(UserName userName, double amount, boolean isWithdraw) {
+    public void transferMoney(UserName userName, double amount, boolean isWithdraw) throws SQLException {
         userList.transferMoney(userName, amount, isWithdraw);
+        usersPersistence.update(userList.getUser(userName));
     }
 
     @Override
@@ -151,17 +142,11 @@ public class ModelManger implements Model {
     @Override
     public boolean registerUser(User user) throws Exception {
         boolean result = userList.addUser(user);
+        if (result){
+            usersPersistence.save(user);
+        }
         return result;
     }
 
-    @Override
-    public boolean addListener(GeneralListener<String, Order> listener, String... propertyNames) {
-        return property.addListener(listener, propertyNames);
-    }
-
-    @Override
-    public boolean removeListener(GeneralListener<String, Order> listener, String... propertyNames) {
-        return property.removeListener(listener, propertyNames);
-    }
 
 }

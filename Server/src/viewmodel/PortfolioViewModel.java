@@ -35,6 +35,8 @@ public class PortfolioViewModel {
         simpleStockViewModels.removeAll(getAll());
         getPriceTotal();
         loadUserStock();
+
+
     }
 
     public ObservableList<SimpleStockViewModel> getAll() {

@@ -1,9 +1,7 @@
 package model;
 
 
-
-import utility.observer.subject.LocalSubject;
-
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface Model extends LocalSubject<String,Order> {
@@ -14,8 +12,7 @@ public interface Model extends LocalSubject<String,Order> {
 
 
     double getBalance(UserName userName);
-
-    void transferMoney(UserName userName, double amount, boolean isWithdraw);
+    void transferMoney(UserName userName, double amount, boolean isWithdraw) throws SQLException;
 
     ArrayList<Company> getAllCompanies();
 
@@ -35,5 +32,5 @@ public interface Model extends LocalSubject<String,Order> {
 
 
     //tmp
-    void saveDataToFiles();
+//    void saveDataToFiles();
 }

@@ -55,11 +55,11 @@ public class SimpleStockViewModel {
     }
 
     public StringProperty getCurrentValue() {
-        return new SimpleStringProperty(Double.toString(Math.round(currentValue.get())));
+        return new SimpleStringProperty(Double.toString(currentValue.get()));
     }
 
     public StringProperty getinvested() {
-        return new SimpleStringProperty(Double.toString(Math.round(invested.get())));
+        return new SimpleStringProperty(Double.toString(invested.get()));
     }
 
     public StringProperty getName() {

@@ -25,7 +25,7 @@ public class TransferViewModel {
 
     public void clear(){
         title.setValue(viewState.isWithdraw()?"Withdraw cash":"Add cash");
-        balance.setValue(model.getBalance(viewState.getUserName()));
+        balance.setValue(Math.round(model.getBalance(viewState.getUserName())*100.0)/100.0);
         amount.setValue(null);
         error.setValue(null);
     }

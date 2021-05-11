@@ -69,6 +69,25 @@ public class User {
         stocks.addStock(new Stock(Symbol.FACEBOOK.getSymbol(), userName.getName()));
         stocks.addStock(new Stock(Symbol.PAYPAL.getSymbol(), userName.getName()));
     }
+
+    /**
+     *
+     *
+     * @param userName
+     * @param password
+     */
+    public User(UserName userName, Password password, Email email, int balance) {
+        if (userName == null || password == null)
+        {
+            throw new IllegalArgumentException("Null username or password");
+        }
+        this.userName = userName;
+        this.password = password;
+        this.email = email;
+        this.balance = new Balance(balance);
+        this.stocks = new Stocks();
+    }
+
     /**
      *
      * @void
@@ -141,6 +160,14 @@ public class User {
                 return true;
         }
         return false;
+    }
+
+    public void setStocks(Stocks stocks){
+        this.stocks = stocks;
+    }
+
+    public void addStock(Stock stock){
+        this.stocks.addStock(stock);
     }
 
 
