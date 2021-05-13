@@ -30,7 +30,7 @@ public class CompaniesDatabase implements CompaniesPersistence{
                 int price = resultSet.getInt("price");
                 Company company = new Company(name, symbol);
                 company.setCurrentPrice(price);
-                companies.addCompany(company);
+                companies.AddCompany(company);
             }
             return companies;
         }
@@ -40,7 +40,7 @@ public class CompaniesDatabase implements CompaniesPersistence{
     public void update(Company company) throws SQLException {
         try (Connection connection = GetConnection.get()){
             PreparedStatement statement = connection.prepareStatement("update Company set price = ? where symbol = ?");
-            statement.setInt(1, (int)company.getCurrentPrice());
+            statement.setInt(1, (int)Math.round(company.getCurrentPrice()));
             statement.setString(2, company.getSymbol());
             statement.executeUpdate();
         }
@@ -52,8 +52,8 @@ public class CompaniesDatabase implements CompaniesPersistence{
             PreparedStatement statement = connection.prepareStatement("insert into Company(symbol,name,price)values (?,?,?)");
             statement.setString(1, company.getSymbol());
             statement.setString(2, company.getName());
-//            statement.setString(3,user.getEmail().toString());
-            statement.setInt(3, (int)company.getCurrentPrice());
+//          statement.setString(3,user.getEmail().toString());
+            statement.setInt(3, (int)Math.round(company.getCurrentPrice()));
             statement.executeUpdate();
         }
     }

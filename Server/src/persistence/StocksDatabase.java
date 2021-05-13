@@ -1,23 +1,22 @@
 package persistence;
 
-import model.Company;
-import model.Stock;
-import model.Stocks;
-import model.User;
+import model.*;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
-public class StocksDatabase implements StocksPersistence{
+public class StocksDatabase implements StocksPersistence {
     private static StocksDatabase instance;
 
-    private StocksDatabase() { }
+    private StocksDatabase() {
+    }
 
     public synchronized static StocksDatabase getInstance() {
-        if (instance == null){
+        if (instance == null) {
             instance = new StocksDatabase();
         }
         return instance;
@@ -26,18 +25,34 @@ public class StocksDatabase implements StocksPersistence{
     @Override
     public Stock load(User user, Company company) throws SQLException {
         try (Connection connection = GetConnection.get()) {
-            PreparedStatement statement = connection.prepareStatement("select * from Stock where user_name = ? and symbol = ?");
-            statement.setString(1, user.getUserName().toString());
+            PreparedStatement statement = connection.prepareStatement("select * from stock where user_name = ?  and symbol = ?");
+            statement.setString(1,  user.getUserName().toString());
             statement.setString(2, company.getSymbol());
             ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()){
+            if (resultSet.next()) {
+                String username = resultSet.getString("user_name");
+                String symbol = resultSet.getString("symbol");
                 int amount = resultSet.getInt("amount");
-                Stock stock = new Stock(company,amount);
-                return stock;
+                return new Stock(symbol, username,amount);
+            }
+            return null;
+        }
+    }
+
+    @Override
+    public Stocks loadAll() throws SQLException {
+        Stocks stocks = new Stocks();
+        try (Connection connection = GetConnection.get()) {
+            PreparedStatement statement = connection.prepareStatement("select * from stock");
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                String username = resultSet.getString("user_name");
+                String symbol = resultSet.getString("symbol");
+                int amount = resultSet.getInt("amount");
+                stocks.addStock(new Stock(username, symbol,amount));
             }
 
-            return null;
+            return stocks;
         }
     }
 
@@ -47,8 +62,15 @@ public class StocksDatabase implements StocksPersistence{
     }
 
     @Override
-    public void save(Stock stock) throws SQLException {
-
+    public void save(Stock stock, User user) throws SQLException {
+        try (Connection connection = GetConnection.get()) {
+            PreparedStatement statement = connection.prepareStatement("insert into stock(user_name,symbol,amount,price)values (?,?,?,?)");
+            statement.setString(1, user.getUserName().getName());
+            statement.setString(2, stock.getSymbol());
+            statement.setInt(3, stock.getAmount());
+            statement.setInt(4, 0);
+            statement.executeUpdate();
+        }
     }
 
     @Override

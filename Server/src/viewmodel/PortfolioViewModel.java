@@ -35,8 +35,6 @@ public class PortfolioViewModel {
         simpleStockViewModels.removeAll(getAll());
         getPriceTotal();
         loadUserStock();
-
-
     }
 
     public ObservableList<SimpleStockViewModel> getAll() {
@@ -53,7 +51,7 @@ public class PortfolioViewModel {
                 simpleStockViewModels.add(new SimpleStockViewModel(s, model.getUser(viewState.getUserName().getName()), model.getCompanyBySymbol(s.getSymbol()), model.getPortfolioOrders(model.getUser(viewState.getUserName().getName()))));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
     }
 

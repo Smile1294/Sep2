@@ -1,13 +1,27 @@
 package model;
 
+import utility.observer.event.ObserverEvent;
+import utility.observer.listener.LocalListener;
+import utility.observer.subject.PropertyChangeHandler;
+
+import javax.swing.plaf.basic.BasicListUI;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Orders implements Runnable {
+
+public class Orders implements Runnable{
     private List<Order> orders;
+    private Model localModel;
+    private PropertyChangeHandler<String, Order> property;
 
     public Orders() {
         orders = new ArrayList<>();
+    }
+
+    public Orders(Model model) {
+        orders = new ArrayList<>();
+        this.localModel = model;
+
     }
 
     public void AddOrder(Order order) {
@@ -17,6 +31,11 @@ public class Orders implements Runnable {
             orders.add(order);
 
         }
+    }
+    public ArrayList<Order> getOrders() {
+        ArrayList<Order> userOrders = new ArrayList<>();
+        userOrders.addAll(orders);
+        return userOrders;
     }
 
     public ArrayList<Order> getUserOrders(String user) {
@@ -112,12 +131,10 @@ public class Orders implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
             for (Order o : getForSale()) {
                 for (Order b : getToBuy()) {
                     if (!o.getUser().equals(b.getUser())) {
                         if (o.getAskingPrice() <= b.getAskingPrice() && o.getSymbol().equals(b.getSymbol())) {
-                            System.out.println(o.getAskingPrice() + "  >   " + b.getAskingPrice());
                             if (o.getAmount() > b.getAmount()) {
                                 o.setAmount(o.getAmount() - b.getAmount());
                                 b.complete();
@@ -135,12 +152,6 @@ public class Orders implements Runnable {
                     }
                 }
             }
-            try {
-                Thread.sleep(5000);
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
-    }
+
 }

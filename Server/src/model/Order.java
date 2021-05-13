@@ -95,13 +95,14 @@ public class Order {
     @Override
     public String toString() {
         return "Order{" +
-                ", sell=" + sell +
+                "sell=" + sell +
                 ", askingPrice=" + askingPrice +
                 ", amount=" + amount +
+                ", initialAmount=" + initialAmount +
                 ", status=" + status +
-                ", user=" + username +
+                ", username='" + username + '\'' +
                 ", orderId=" + orderId +
+                ", symbol='" + symbol + '\'' +
                 '}';
     }
-
 }

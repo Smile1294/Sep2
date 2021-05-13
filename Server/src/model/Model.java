@@ -1,10 +1,12 @@
 package model;
 
 
+import utility.observer.subject.LocalSubject;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface Model extends LocalSubject<String,Order> {
+public interface Model {
 
     boolean login(User user) throws Exception;
 

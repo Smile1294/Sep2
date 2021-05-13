@@ -10,6 +10,7 @@ public class Stocks {
 
     public Stocks() {
         this.stocks = new ArrayList<>();
+
     }
 
     public ArrayList<Stock> getAllStocks() {
@@ -23,12 +24,17 @@ public class Stocks {
     }
 
     public Stock getStockBySymbol(String symbol) {
-        for (Stock stock : stocks) {
-            if (symbol.equals(stock.getSymbol())) {
-                return stock;
+        try {
+            for (Stock stock : stocks) {
+                if (symbol.equals(stock.getSymbol())) {
+                    return stock;
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
+
     }
 
     public void addStock(Stock stock) {
