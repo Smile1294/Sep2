@@ -105,7 +105,7 @@ public class User {
      *
      * @param stock the stock that is being bought
      */
-    public void BuyStock(Stock stock){
+    public void addStock(Stock stock){
 
         stocks.addStock(stock);
     }

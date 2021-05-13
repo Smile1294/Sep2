@@ -1,6 +1,7 @@
 package model;
 
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -42,7 +43,7 @@ public interface Model {
      * @param amount amount that is getting transferred
      * @param isWithdraw if its withdrawing or depositing
      */
-    void transferMoney(UserName userName, double amount, boolean isWithdraw);
+    void transferMoney(UserName userName, double amount, boolean isWithdraw) throws SQLException;
 
     /**
      * gets all the companies
