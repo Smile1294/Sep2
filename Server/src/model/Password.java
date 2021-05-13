@@ -1,9 +1,17 @@
 package model;
 
+/**
+ * Password class represents password of the user
+ */
+
 public class Password
 {
   private String password;
 
+  /**
+   * Constructor that is setting instance variable
+   * @param password password that user is setting
+   */
   public Password(String password)
   {
     if (password == null)
@@ -18,10 +26,22 @@ public class Password
     this.password = password;
   }
 
+  /**
+   * checking if the password legal
+   * @param password password that is being checked
+   * @return legal or not password
+   */
+
   public static boolean isLegalPassword(String password)
   {
     return isLegal(password) == null;
   }
+
+  /**
+   * checks if the password legal
+   * @param password password that is being checked
+   * @return legal or not password
+   */
 
   private static String isLegal(String password)
   {
@@ -65,10 +85,21 @@ public class Password
     return null;
   }
 
+  /**
+   * getting the password
+   * @return password
+   */
+
   public String getPassword()
   {
     return password;
   }
+
+  /**
+   * comparing object to the password
+   * @param o object that is being compared
+   * @return password
+   */
 
   @Override
   public boolean equals(Object o){
@@ -84,6 +115,11 @@ public class Password
     }
     return false;
   }
+
+  /**
+   * toString version of password
+   * @return password
+   */
 
   @Override public String toString()
   {

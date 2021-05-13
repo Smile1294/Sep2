@@ -5,9 +5,14 @@ import persistence.*;
 import utility.observer.listener.GeneralListener;
 import utility.observer.subject.PropertyChangeHandler;
 
+import java.awt.image.AreaAveragingScaleFilter;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+/**
+ * ModelManager implements model interface and implements functionality
+ */
 
 public class ModelManger implements Model {
     private Orders orders;
@@ -19,6 +24,10 @@ public class ModelManger implements Model {
     private CompaniesPersistence companiesPersistence;
     private OrdersPersistence ordersPersistence;
     private StocksPersistence stocksPersistence;
+    /**
+     * Constructor initialing all the instance variables
+     * @throws IOException
+     */
 
     public ModelManger() throws IOException, SQLException {
 
@@ -37,10 +46,21 @@ public class ModelManger implements Model {
         }
 
     }
+    /**
+     * gets the user by name
+     * @param name name of the user
+     * @return user
+     */
 
     public User getUser(String name) {
         return userList.getUser(new UserName(name));
     }
+
+    /**
+     * gets and loads users stocks
+     * @param name name of the user
+     * @return stock/s
+     */
 
     public ArrayList<Stock> LoaduserStocks(String name) {
         ArrayList<Stock> temporaryList = new ArrayList<Stock>();
@@ -52,6 +72,7 @@ public class ModelManger implements Model {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return temporaryList;
     }
 
@@ -59,9 +80,22 @@ public class ModelManger implements Model {
         return orders.getOrders();
     }
 
+    /**
+     * getting order by user
+     * @param user that is getting check it
+     * @return order
+     */
+
     public Orders getPortfolioOrders(User user) {
         return orders.getOrderByUser(user);
     }
+
+
+    /**
+     * gets users total stocks amount
+     * @param name name of the user
+     * @return stock amount
+     */
 
     public Double getPriceTotal(String name) {
         double d = 0.0;
@@ -76,8 +110,13 @@ public class ModelManger implements Model {
         return d;
     }
 
+    /**
+     * adds an order
+     * @param order order that is getting added
+     */
 
     public void AddOrder(Order order) {
+
         if (order.isSell()) {
             if (getUser(order.getUser()).getStocks().getStockBySymbol(order.getSymbol()).getAmount() > order.getAmount()) {
                 orders.AddOrder(order);
@@ -107,13 +146,26 @@ public class ModelManger implements Model {
                 System.out.println("Not enough money to place order to buy");
             }
         }
+
     }
 
+    /**
+     * gets the balance of the user
+     * @param userName username of the user
+     * @return balance
+     */
 
     @Override
     public double getBalance(UserName userName) {
         return userList.getBalance(userName);
     }
+
+    /**
+     * Withdrawing or depositing money
+     * @param userName Username of the user that is transferring money
+     * @param amount amount that is getting transferred
+     * @param isWithdraw if its withdrawing or depositing
+     */
 
     @Override
     public void transferMoney(UserName userName, double amount, boolean isWithdraw) throws SQLException {
@@ -121,21 +173,43 @@ public class ModelManger implements Model {
         usersPersistence.update(userList.getUser(userName));
     }
 
+    /**
+     * gets all the companies
+     * @return companies
+     */
+
     @Override
     public ArrayList<Company> getAllCompanies() {
         return companies.getCompanies();
     }
+
+    /**
+     * gets the company by symbol
+     * @param symbol symbol that is being compared to
+     * @return company
+     */
 
     @Override
     public Company getCompanyBySymbol(String symbol) {
         return companies.getCompanyBySymbol(symbol);
     }
 
+    /**
+     * gets the company by name
+     * @param name name that is being compared to
+     * @return company
+     */
 
     public Company getComapnyByName(String name) {
         return companies.getCompanyByName(name);
     }
 
+    /**
+     * login for user
+     * @param user user that wants login
+     * @return logged in user
+     * @throws Exception
+     */
 
     @Override
     public boolean login(User user) throws Exception {
@@ -152,6 +226,13 @@ public class ModelManger implements Model {
         return true;
     }
 
+
+    /**
+     * adding registered user to the list
+     * @param user user that is being added
+     * @return user that is registered
+     * @throws Exception
+     */
 
     @Override
     public boolean registerUser(User user) throws Exception {

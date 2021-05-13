@@ -6,12 +6,27 @@ import parser.XmlJsonParser;
 
 import java.io.File;
 
+/**
+ * OrdersFiles class is implementing OrdersPersistence for saving and loading orders
+ */
+
 public class OrdersFile implements OrdersPersistence{
     private XmlJsonParser parser;
+
+    /**
+     * Constructor initialising instance variable
+     */
+
 
     public OrdersFile() {
         this.parser = new XmlJsonParser();
     }
+
+    /**
+     * saving orders list into a file
+     * @param ordersList list of orders that is being stored
+     * @param filename name of a file that is information stored on
+     */
 
     @Override
     public void save(Orders ordersList, String filename) {
@@ -23,6 +38,12 @@ public class OrdersFile implements OrdersPersistence{
         }
         System.out.println("Saved to file: " + file.getAbsolutePath());
     }
+
+    /**
+     * loading orders list from a file
+     * @param fileName from file to load
+     * @return order list
+     */
 
     @Override
     public Orders load(String fileName) {

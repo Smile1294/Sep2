@@ -1,28 +1,28 @@
 package model;
-
-import utility.observer.event.ObserverEvent;
-import utility.observer.listener.LocalListener;
-import utility.observer.subject.PropertyChangeHandler;
-
-import javax.swing.plaf.basic.BasicListUI;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Orders implements Runnable{
+/**
+ * Orders represents a list of orders
+ */
+
+
+public class Orders implements Runnable {
     private List<Order> orders;
-    private Model localModel;
-    private PropertyChangeHandler<String, Order> property;
+
+    /**
+     * Constructor initialising arraylist of type order
+     */
 
     public Orders() {
         orders = new ArrayList<>();
     }
 
-    public Orders(Model model) {
-        orders = new ArrayList<>();
-        this.localModel = model;
-
-    }
+    /**
+     * adding an order
+     * @param order order that is being added
+     */
 
     public void AddOrder(Order order) {
         if (order.isSell()) {
@@ -48,6 +48,11 @@ public class Orders implements Runnable{
         return userOrders;
     }
 
+    /**
+     * closing an order
+     * @param order order that is being closed
+     */
+
     public void closeOrder(Order order) {
         for (Order o : orders) {
             if (o.equals(order)) {
@@ -56,6 +61,11 @@ public class Orders implements Runnable{
             }
         }
     }
+
+    /**
+     * getting the order on sale
+     * @return order
+     */
 
     public ArrayList<Order> getForSale() {
         ArrayList<Order> forSale = new ArrayList<>();
@@ -67,6 +77,11 @@ public class Orders implements Runnable{
         return forSale;
     }
 
+    /**
+     * getting order to buy
+     * @return order
+     */
+
     public ArrayList<Order> getToBuy() {
         ArrayList<Order> toBuy = new ArrayList<>();
         for (Order o : orders) {
@@ -77,9 +92,21 @@ public class Orders implements Runnable{
         return toBuy;
     }
 
+    /**
+     * adding order
+     * @param order order that is being added
+     */
+
     private void add(Order order) {
         orders.add(order);
     }
+
+    /**
+     * getting the order by the user
+     * @param user user that is getting checked
+     * @return order
+     */
+
 
     public Orders getOrderByUser(User user) {
         Orders byUser = new Orders();
@@ -122,6 +149,11 @@ public class Orders implements Runnable{
         return d;
     }
 
+    /**
+     * toString version of the Orders
+     * @return orders
+     */
+
     @Override
     public String toString() {
         return "Orders{" +
@@ -153,5 +185,5 @@ public class Orders implements Runnable{
                 }
             }
         }
+    }
 
-}
