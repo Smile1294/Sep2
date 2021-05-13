@@ -10,6 +10,9 @@ import java.util.ArrayList;
 
 import static java.lang.Double.NaN;
 
+/**
+ * SimpleCompanyViewModel is class for functionality of company
+ */
 
 public class SimpleStockViewModel {
     private StringProperty name;
@@ -20,6 +23,13 @@ public class SimpleStockViewModel {
     private IntegerProperty numberowned;
     private StringProperty username;
 
+    /**
+     * Constructor that is initialising all the instance variables
+     * @param stock user stock
+     * @param user which user
+     * @param company which company
+     * @param orders list of orders
+     */
 
     public SimpleStockViewModel(Stock stock, User user, Company company, Orders orders) {
 
@@ -40,31 +50,64 @@ public class SimpleStockViewModel {
         }
     }
 
+    /**
+     * gets the username
+     * @return username
+     */
 
     public StringProperty getUsername() {
         return username;
     }
 
+    /**
+     * gets number owned
+     * @return number owned
+     */
 
     public StringProperty getNumberowned() {
         return new SimpleStringProperty(Double.toString(numberowned.get()));
     }
 
+    /**
+     * gets percentage
+     * @return percentage
+     */
+
     public StringProperty getPercentage() {
         return percentage;
     }
+
+    /**
+     * gets current value
+     * @return current value
+     */
 
     public StringProperty getCurrentValue() {
         return new SimpleStringProperty(Double.toString(currentValue.get()));
     }
 
+    /**
+     * gets invested
+     * @return invested
+     */
+
     public StringProperty getinvested() {
         return new SimpleStringProperty(Double.toString(invested.get()));
     }
 
+    /**
+     * gets name
+     * @return name
+     */
+
     public StringProperty getName() {
         return name;
     }
+
+    /**
+     * gets value
+     * @return value
+     */
 
     public DoubleProperty getValue() {
         return value;

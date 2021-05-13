@@ -32,6 +32,12 @@ public class Stocks {
         }
     }
 
+    /**
+     * gets the stock by symbol
+     * @param symbol symbol that is being searched
+     * @return stock
+     */
+
     public Stock getStockBySymbol(String symbol) {
         for (Stock stock : stocks) {
             if (symbol.equals(stock.getSymbol())) {

@@ -6,6 +6,10 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import model.Model;
 
+/**
+ * TransferViewModel is class for functionality of transfer view
+ */
+
 public class TransferViewModel {
     private Model model;
     private ViewState viewState;
@@ -13,6 +17,12 @@ public class TransferViewModel {
     private StringProperty error;
     private DoubleProperty balance;
     private DoubleProperty amount;
+
+    /**
+     * Constructor that is initialising all the instance variables
+     * @param model model for functionality
+     * @param viewState viewState state of the account
+     */
 
     public TransferViewModel(Model model, ViewState viewState){
         this.model = model;
@@ -23,12 +33,20 @@ public class TransferViewModel {
         error = new SimpleStringProperty();
     }
 
+    /**
+     * clears the information and sets it to default
+     */
+
     public void clear(){
         title.setValue(viewState.isWithdraw()?"Withdraw cash":"Add cash");
         balance.setValue(Math.round(model.getBalance(viewState.getUserName())*100.0)/100.0);
         amount.setValue(null);
         error.setValue(null);
     }
+
+    /**
+     * confirms the money transfer
+     */
 
     public void confirm(){
         try {
@@ -39,15 +57,38 @@ public class TransferViewModel {
         }
     }
 
+    /**
+     * gets the title
+     * @return title
+     */
+
     public StringProperty titleProperty() {
         return title;
     }
+
+    /**
+     * gets error
+     * @return error
+     */
+
     public StringProperty errorProperty() {
         return error;
     }
+
+    /**
+     * gets balance
+     * @return balance
+     */
+
     public DoubleProperty balanceProperty() {
         return balance;
     }
+
+    /**
+     * gets amount
+     * @return amount
+     */
+
     public DoubleProperty amountProperty() {
         return amount;
     }
