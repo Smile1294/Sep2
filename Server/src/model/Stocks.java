@@ -20,21 +20,19 @@ public class Stocks {
 
     /**
      * getting all stocks
-     * @return all stocks
+     *
+     * @return all stocksd
      */
 
     public ArrayList<Stock> getAllStocks() {
         {
-            ArrayList<Stock> localList = new ArrayList<>();
-            for (Stock stock : stocks) {
-                localList.add(stock);
-            }
-            return localList;
+            return new ArrayList<>(stocks);
         }
     }
 
     /**
      * gets the stock by symbol
+     *
      * @param symbol symbol that is being searched
      * @return stock
      */
@@ -54,7 +52,49 @@ public class Stocks {
     }
 
     /**
+     * gets the stock by symbol
+     *
+     * @param user username that is beeing serached
+     * @return stocks list
+     */
+    public Stocks getStocksByUser(String user) {
+        Stocks list = new Stocks();
+        try {
+            for (Stock stock : stocks) {
+                if (user.equals(stock.getUsername())) {
+                    stocks.add(stock);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+
+    }
+
+    /**
+     * gets the stock by symbol
+     *
+     * @param user symbol that is being searched
+     * @return stock
+     */
+    public Stock getStockByUser(String user) {
+        try {
+            for (Stock stock : stocks) {
+                if (user.equals(stock.getUsername())) {
+                    return stock;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
+    /**
      * adding a stock to the list
+     *
      * @param stock that is being added
      */
 
@@ -65,6 +105,7 @@ public class Stocks {
 
     /**
      * getting the size of the stock
+     *
      * @return stock size
      */
 
@@ -74,6 +115,7 @@ public class Stocks {
 
     /**
      * removing the stock
+     *
      * @param stock stock that is being removed
      */
 
@@ -83,6 +125,7 @@ public class Stocks {
 
     /**
      * getting the stock
+     *
      * @param stock stock that is wanted
      * @return stock
      */
@@ -97,9 +140,9 @@ public class Stocks {
     }
 
 
-
     /**
      * getting the stock by index
+     *
      * @param i index of the stock
      * @return stock
      */
@@ -110,6 +153,7 @@ public class Stocks {
 
     /**
      * toString version of the stocks
+     *
      * @return stocks
      */
 

@@ -2,10 +2,7 @@ package model;
 
 import filePersistence.UserListPersistence;
 import persistence.*;
-import utility.observer.listener.GeneralListener;
-import utility.observer.subject.PropertyChangeHandler;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -24,8 +21,10 @@ public class ModelManger implements Model {
     private CompaniesPersistence companiesPersistence;
     private OrdersPersistence ordersPersistence;
     private StocksPersistence stocksPersistence;
+
     /**
      * Constructor initialing all the instance variables
+     *
      * @throws IOException
      */
 
@@ -38,16 +37,14 @@ public class ModelManger implements Model {
         userList = usersPersistence.load();
         companies = companiesPersistence.load();
         orders = ordersPersistence.load();
-
-        for (User u : userList.getUsers()) {
-            for (Company c : companies.getCompanies()) {
-                u.addStock(stocksPersistence.load(u, c));
-            }
-        }
+        stocks = stocksPersistence.loadAll();
 
     }
+
+
     /**
      * gets the user by name
+     *
      * @param name name of the user
      * @return user
      */
@@ -58,6 +55,7 @@ public class ModelManger implements Model {
 
     /**
      * gets and loads users stocks
+     *
      * @param name name of the user
      * @return stock/s
      */
@@ -65,14 +63,14 @@ public class ModelManger implements Model {
     public ArrayList<Stock> LoaduserStocks(String name) {
         ArrayList<Stock> temporaryList = new ArrayList<Stock>();
         try {
-            for (Company s : getAllCompanies()) {
-                getUser(name).getStocks().getStockBySymbol(s.getSymbol()).setAmount(orders.getCompeltedUserOwnedStock(s.getSymbol(), name));
-                temporaryList.add(getUser(name).getStocks().getStockBySymbol(s.getSymbol()));
+            for (Stock s : stocks.getAllStocks()) {
+                if (name.equals(s.getUsername())) {
+                    temporaryList.add(s);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return temporaryList;
     }
 
@@ -82,6 +80,7 @@ public class ModelManger implements Model {
 
     /**
      * getting order by user
+     *
      * @param user that is getting check it
      * @return order
      */
@@ -93,6 +92,7 @@ public class ModelManger implements Model {
 
     /**
      * gets users total stocks amount
+     *
      * @param name name of the user
      * @return stock amount
      */
@@ -101,7 +101,7 @@ public class ModelManger implements Model {
         double d = 0.0;
         try {
             for (Company s : companies.getCompanies()) {
-                d = d + s.getCurrentPrice() * getUser(name).getStocks().getStockBySymbol(s.getSymbol()).getAmount();
+                d = d + s.getCurrentPrice() * stocks.getStockByUser(name).getAmount();
             }
             return d;
         } catch (Exception e) {
@@ -112,18 +112,16 @@ public class ModelManger implements Model {
 
     /**
      * adds an order
+     *
      * @param order order that is getting added
      */
-
     public void AddOrder(Order order) {
-
         if (order.isSell()) {
-            if (getUser(order.getUser()).getStocks().getStockBySymbol(order.getSymbol()).getAmount() > order.getAmount()) {
+            if (stocks.getStocksByUser(order.getUser()).getStockBySymbol(order.getSymbol()).getAmount() > order.getAmount()) {
                 orders.AddOrder(order);
                 try {
                     new Thread(orders).start();
                     ordersPersistence.save(order);
-                    ordersPersistence.update(orders);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
@@ -132,25 +130,24 @@ public class ModelManger implements Model {
                 System.out.println("Insufficient resources");
             }
         } else {
-            if (getUser(order.getUser()).getBalance() > order.getAskingPrice()) {
+            if (getUser(order.getUser()).getBalance() > order.getAskingPrice()&&order.getAmount() >= 1) {
                 orders.AddOrder(order);
                 try {
                     new Thread(orders).start();
                     ordersPersistence.save(order);
-                    ordersPersistence.update(orders);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
                 System.out.println("Added order to buy");
             } else {
-                System.out.println("Not enough money to place order to buy");
+                System.out.println("Not enough money to place order to buy or cannot buy less than 1 stock");
             }
         }
-
     }
 
     /**
      * gets the balance of the user
+     *
      * @param userName username of the user
      * @return balance
      */
@@ -162,8 +159,9 @@ public class ModelManger implements Model {
 
     /**
      * Withdrawing or depositing money
-     * @param userName Username of the user that is transferring money
-     * @param amount amount that is getting transferred
+     *
+     * @param userName   Username of the user that is transferring money
+     * @param amount     amount that is getting transferred
      * @param isWithdraw if its withdrawing or depositing
      */
 
@@ -175,6 +173,7 @@ public class ModelManger implements Model {
 
     /**
      * gets all the companies
+     *
      * @return companies
      */
 
@@ -185,6 +184,7 @@ public class ModelManger implements Model {
 
     /**
      * gets the company by symbol
+     *
      * @param symbol symbol that is being compared to
      * @return company
      */
@@ -196,6 +196,7 @@ public class ModelManger implements Model {
 
     /**
      * gets the company by name
+     *
      * @param name name that is being compared to
      * @return company
      */
@@ -206,6 +207,7 @@ public class ModelManger implements Model {
 
     /**
      * login for user
+     *
      * @param user user that wants login
      * @return logged in user
      * @throws Exception
@@ -216,19 +218,13 @@ public class ModelManger implements Model {
         if (!userList.userExist(user)) {
             throw new Exception("Wrong username or password");
         }
-
-
-        for (int i = 0; i < companies.getCompanies().size(); i++) {
-            user.addStock(stocksPersistence.load(user, companies.getCompanies().get(i)));
-            System.out.println(stocksPersistence.load(user, companies.getCompanies().get(i)));
-        }
-
         return true;
     }
 
 
     /**
      * adding registered user to the list
+     *
      * @param user user that is being added
      * @return user that is registered
      * @throws Exception
@@ -239,10 +235,6 @@ public class ModelManger implements Model {
         boolean result = userList.addUser(user);
         if (result) {
             usersPersistence.save(user);
-            for (int i = 0; i < user.getStocks().getSize(); i++) {
-                stocksPersistence.save(user.getStocks().getStock(i), user);
-                stocksPersistence.update(user.getStocks().getStock(i));
-            }
         }
         return result;
     }

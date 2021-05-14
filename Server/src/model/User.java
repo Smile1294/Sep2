@@ -7,7 +7,6 @@ public class User {
     private UserName userName;
     private Password password;
     private Email email;
-    private Stocks stocks;
 
     /**
      * A constructor which is setting instance variables for logging in.
@@ -23,16 +22,7 @@ public class User {
         this.password = password;
         this.email = null;
         this.balance = new Balance();
-        this.stocks = new Stocks();
-        stocks.addStock(new Stock(Symbol.APPLE.getSymbol(), userName.getName()));
-        stocks.addStock(new Stock(Symbol.AMAZON.getSymbol(), userName.getName()));
-        stocks.addStock(new Stock(Symbol.MICROSOFT.getSymbol(), userName.getName()));
-        stocks.addStock(new Stock(Symbol.IBM.getSymbol(), userName.getName()));
-        stocks.addStock(new Stock(Symbol.TESLA.getSymbol(), userName.getName()));
-        stocks.addStock(new Stock(Symbol.GOOGLEC.getSymbol(), userName.getName()));
-        stocks.addStock(new Stock(Symbol.GOOGLEA.getSymbol(), userName.getName()));
-        stocks.addStock(new Stock(Symbol.FACEBOOK.getSymbol(), userName.getName()));
-        stocks.addStock(new Stock(Symbol.PAYPAL.getSymbol(), userName.getName()));
+
 
     }
 
@@ -60,16 +50,7 @@ public class User {
         this.password = password;
         this.email = email;
         this.balance = new Balance();
-        this.stocks = new Stocks();
-        stocks.addStock(new Stock(Symbol.APPLE.getSymbol(), userName.getName()));
-        stocks.addStock(new Stock(Symbol.AMAZON.getSymbol(), userName.getName()));
-        stocks.addStock(new Stock(Symbol.MICROSOFT.getSymbol(), userName.getName()));
-        stocks.addStock(new Stock(Symbol.IBM.getSymbol(), userName.getName()));
-        stocks.addStock(new Stock(Symbol.TESLA.getSymbol(), userName.getName()));
-        stocks.addStock(new Stock(Symbol.GOOGLEC.getSymbol(), userName.getName()));
-        stocks.addStock(new Stock(Symbol.GOOGLEA.getSymbol(), userName.getName()));
-        stocks.addStock(new Stock(Symbol.FACEBOOK.getSymbol(), userName.getName()));
-        stocks.addStock(new Stock(Symbol.PAYPAL.getSymbol(), userName.getName()));
+
     }
 
     /**
@@ -87,16 +68,7 @@ public class User {
         this.password = password;
         this.email = email;
         this.balance = new Balance(balance);
-        this.stocks = new Stocks();
-        stocks.addStock(new Stock(Symbol.APPLE.getSymbol(), userName.getName()));
-        stocks.addStock(new Stock(Symbol.AMAZON.getSymbol(), userName.getName()));
-        stocks.addStock(new Stock(Symbol.MICROSOFT.getSymbol(), userName.getName()));
-        stocks.addStock(new Stock(Symbol.IBM.getSymbol(), userName.getName()));
-        stocks.addStock(new Stock(Symbol.TESLA.getSymbol(), userName.getName()));
-        stocks.addStock(new Stock(Symbol.GOOGLEC.getSymbol(), userName.getName()));
-        stocks.addStock(new Stock(Symbol.GOOGLEA.getSymbol(), userName.getName()));
-        stocks.addStock(new Stock(Symbol.FACEBOOK.getSymbol(), userName.getName()));
-        stocks.addStock(new Stock(Symbol.PAYPAL.getSymbol(), userName.getName()));
+
 
     }
 
@@ -105,27 +77,6 @@ public class User {
      *
      * @param stock the stock that is being bought
      */
-    public void addStock(Stock stock){
-
-        stocks.addStock(stock);
-    }
-    /**
-     * Sells a stock
-     *
-     * @param stock the stock that is being sold
-     */
-    public void SellStock(Stock stock) {
-        stocks.addStock(stock);
-    }
-    /**
-     * gets the stock
-     *
-     * @return a stock
-     */
-
-    public Stocks getStocks() {
-        return stocks;
-    }
 
     /**
      * gets the balance
@@ -173,20 +124,7 @@ public class User {
         balance.withDraw(amount);
     }
 
-    /**
-     * goes thro the stocks and checks if the user holds a stock
-     *
-     * @param stock the stock that is being checked
-     * @return returns true if the user holds a stock , else it returns false
-     */
 
-    public boolean UserOwnStock(Stock stock) {
-        for (Stock stock1 : stocks.getAllStocks()) {
-            if (stock1.equals(stock))
-                return true;
-        }
-        return false;
-    }
 
     /**
      * gets a email

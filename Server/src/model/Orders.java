@@ -52,7 +52,6 @@ public class Orders implements Runnable {
      * closing an order
      * @param order order that is being closed
      */
-
     public void closeOrder(Order order) {
         for (Order o : orders) {
             if (o.equals(order)) {
@@ -61,12 +60,10 @@ public class Orders implements Runnable {
             }
         }
     }
-
     /**
      * getting the order on sale
      * @return order
      */
-
     public ArrayList<Order> getForSale() {
         ArrayList<Order> forSale = new ArrayList<>();
         for (Order o : orders) {
@@ -76,12 +73,10 @@ public class Orders implements Runnable {
         }
         return forSale;
     }
-
     /**
      * getting order to buy
      * @return order
      */
-
     public ArrayList<Order> getToBuy() {
         ArrayList<Order> toBuy = new ArrayList<>();
         for (Order o : orders) {
@@ -91,23 +86,18 @@ public class Orders implements Runnable {
         }
         return toBuy;
     }
-
     /**
      * adding order
      * @param order order that is being added
      */
-
     private void add(Order order) {
         orders.add(order);
     }
-
     /**
      * getting the order by the user
      * @param user user that is getting checked
      * @return order
      */
-
-
     public Orders getOrderByUser(User user) {
         Orders byUser = new Orders();
         for (Order o : orders) {
@@ -117,7 +107,6 @@ public class Orders implements Runnable {
         }
         return byUser;
     }
-
     public int getCompeltedUserOwnedStock(String symbol, String name) {
         int i = 0;
         for (Order o : getUserOrders(name)) {
@@ -127,7 +116,6 @@ public class Orders implements Runnable {
         }
         return i;
     }
-
     public Double getboughtPrice(User user) {
         double d = 0;
         for (int i = 0; i < getOrderByUser(user).orders.size(); i++) {
@@ -137,7 +125,6 @@ public class Orders implements Runnable {
         }
         return d;
     }
-
     public Double getboughtPriceInStock(User user, Stock stock) {
         double d = 0;
         for (int i = 0; i < getOrderByUser(user).orders.size(); i++) {
@@ -148,19 +135,16 @@ public class Orders implements Runnable {
         }
         return d;
     }
-
     /**
      * toString version of the Orders
      * @return orders
      */
-
     @Override
     public String toString() {
         return "Orders{" +
                 "orders=" + orders +
                 '}';
     }
-
     @Override
     public void run() {
             for (Order o : getForSale()) {

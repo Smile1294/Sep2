@@ -45,13 +45,12 @@ public class StocksDatabase implements StocksPersistence {
         try (Connection connection = GetConnection.get()) {
             PreparedStatement statement = connection.prepareStatement("select * from stock");
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 String username = resultSet.getString("user_name");
                 String symbol = resultSet.getString("symbol");
                 int amount = resultSet.getInt("amount");
-                stocks.addStock(new Stock(username, symbol,amount));
+                stocks.addStock(new Stock(symbol, username,amount));
             }
-
             return stocks;
         }
     }
