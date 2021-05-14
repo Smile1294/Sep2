@@ -51,7 +51,7 @@ public class OrdersDatabase implements OrdersPersistence {
     public void update(Orders orders) throws SQLException {
         try (Connection connection = GetConnection.get()) {
             PreparedStatement statement = connection.prepareStatement("UPDATE Orders SET status = 'Completed' WHERE order_id = ?");
-
+            // update more things ??? maybe not just set status to complete, what about amount or when canceling order????
             for (Order o : orders.getOrders()) {
                 System.out.println(o);
                 if (o.getStatus().equals(Status.COMPLETED)) {
