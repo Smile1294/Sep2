@@ -1,6 +1,10 @@
 package viewmodel;
 
-import javafx.beans.property.*;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import model.Company;
 import model.Model;
 
 /**
@@ -35,9 +39,11 @@ public class CompanyViewModel
 
   public void clear()
   {
-    name.setValue(model.getCompanyBySymbol(viewState.getSelectedSymbol()).getName());
-    symbol.setValue(viewState.getSelectedSymbol());
-    price.setValue(Math.round(model.getCompanyBySymbol(viewState.getSelectedSymbol()).getCurrentPrice() *1000.0)/1000.0);
+    System.out.println("viewState.getSelectedSymbol()"+viewState.getSelectedSymbol());
+    Company company = model.getCompanyBySymbol(viewState.getSelectedSymbol());
+    name.setValue(company.getName());
+    symbol.setValue(company.getSymbol());
+    price.setValue(Math.round(company.getCurrentPrice() *1000.0)/1000.0);
   }
 
   /**

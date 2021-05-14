@@ -1,23 +1,26 @@
+
+import javafx.application.Application;
 import javafx.stage.Stage;
 import model.Model;
-import model.ModelManger;
+import model.ModelManager;
 import view.ViewHandler;
 import viewmodel.ViewModelFactory;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.sql.SQLException;
 
-public class MyApplication extends javafx.application.Application {
+public class ClientApplication extends Application {
     private Model model;
-    @Override public void start(Stage primaryStage) throws IOException, SQLException {
-        model = new ModelManger();
+    @Override
+    public void start(Stage primaryStage) throws IOException, SQLException {
+        model = new ModelManager();
         ViewModelFactory viewModelFactory = new ViewModelFactory(model);
         ViewHandler view = new ViewHandler(viewModelFactory);
         view.start(primaryStage);
     }
 
-    @Override public void stop() throws RemoteException {
+    @Override
+    public void stop() throws Exception {
         model.close();
     }
 }
