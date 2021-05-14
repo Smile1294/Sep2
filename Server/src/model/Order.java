@@ -1,7 +1,5 @@
 package model;
 
-import mediator.Symbol;
-
 import java.math.BigDecimal;
 import java.util.UUID;
 /**

@@ -1,6 +1,5 @@
 package persistence;
 
-import mediator.Symbol;
 import model.*;
 
 import java.math.BigDecimal;

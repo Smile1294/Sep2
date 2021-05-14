@@ -1,6 +1,6 @@
 package model;
 
-import mediator.Symbol;
+import stockAPI.Symbol;
 
 public class User {
     private Balance balance;

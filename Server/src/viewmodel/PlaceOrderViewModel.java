@@ -1,15 +1,11 @@
 package viewmodel;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import mediator.Symbol;
 import model.*;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 
 /**
  * PlaceOrderViewModel is class for functionality of login view
