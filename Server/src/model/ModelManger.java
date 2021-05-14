@@ -1,11 +1,7 @@
 package model;
 
-import filePersistence.UserListPersistence;
 import persistence.*;
-import utility.observer.listener.GeneralListener;
-import utility.observer.subject.PropertyChangeHandler;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,7 +15,6 @@ public class ModelManger implements Model {
     private Companies companies;
     private UserList userList;
     private Stocks stocks;
-    private UserListPersistence userListPersistence;
     private UsersPersistence usersPersistence;
     private CompaniesPersistence companiesPersistence;
     private OrdersPersistence ordersPersistence;
@@ -36,14 +31,34 @@ public class ModelManger implements Model {
         ordersPersistence = OrdersDatabase.getInstance();
         stocksPersistence = StocksDatabase.getInstance();
         userList = usersPersistence.load();
-        companies = companiesPersistence.load();
-        orders = ordersPersistence.load();
 
-        for (User u : userList.getUsers()) {
-            for (Company c : companies.getCompanies()) {
-                u.addStock(stocksPersistence.load(u, c));
+        new Thread(()->{
+            try {
+                companies = companiesPersistence.load();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
             }
-        }
+        }).start();
+        new Thread(()->{
+            try {
+                orders = ordersPersistence.load();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }).start();
+
+
+//        new Thread(()->{
+//            for (User u : userList.getUsers()) {
+//                for (Company c : companies.getCompanies()) {
+//                    try {
+//                        u.addStock(stocksPersistence.load(u, c));
+//                    } catch (SQLException throwables) {
+//                        throwables.printStackTrace();
+//                    }
+//                }
+//            }
+//        }).start();
 
     }
     /**

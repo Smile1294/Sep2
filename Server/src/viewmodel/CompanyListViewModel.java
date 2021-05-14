@@ -34,7 +34,7 @@ public class CompanyListViewModel
     errorProperty = new SimpleStringProperty("");
     selectedSimpleCompany = new SimpleObjectProperty<>();
     this.viewState = viewState;
-    loadFromModel();
+//    loadFromModel();
   }
 
   /**

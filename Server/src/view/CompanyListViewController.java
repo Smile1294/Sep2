@@ -26,6 +26,7 @@ public class CompanyListViewController extends ViewController
     symbolColumn.setCellValueFactory(cellData -> cellData.getValue().getSymbol());
     priceColumn.setCellValueFactory(cellData -> cellData.getValue().getPrice());
     companyList.setItems(getViewModelFactory().getCompanyListViewModel().getList());
+    reset();
   }
 
   @Override public void reset()
