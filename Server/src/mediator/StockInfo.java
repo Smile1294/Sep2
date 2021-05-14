@@ -7,6 +7,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * StockInfo class is representing stock information
+ */
+
 public class StockInfo {
     @SerializedName("Meta Data")
     private MetaData metaData;
@@ -15,17 +19,32 @@ public class StockInfo {
 
     private ArrayList<TradingData> timeSeries;
 
+    /**
+     * Constructor that is setting the instance variables to null
+     */
+
     public StockInfo(){
         metaData = null;
         tradingDataMap = null;
         timeSeries = null;
     }
 
+    /**
+     * Constructor that is initialising all the instance variables
+     * @param metaData data from stock
+     * @param tradingDataMap trading data
+     */
+
     public StockInfo(MetaData metaData, Map<String,TradingData> tradingDataMap) {
         this.metaData = metaData;
         this.tradingDataMap = tradingDataMap;
         timeSeries = null;
     }
+
+    /**
+     * converting time zone
+     * @return stock information
+     */
 
     public StockInfo convert(){
         timeSeries = new ArrayList<>();
@@ -53,6 +72,11 @@ public class StockInfo {
         return this;
     }
 
+    /**
+     * getting the open price
+     * @return open price
+     */
+
     public ArrayList<Double> getOpen() {
         ArrayList<Double> prices = new ArrayList<Double>();
             for (String k : tradingDataMap.keySet()) {
@@ -61,25 +85,55 @@ public class StockInfo {
         return prices;
     }
 
+    /**
+     * setting data
+     * @param metaData data that is being set
+     */
+
     public void setMetaData(MetaData metaData) {
         this.metaData = metaData;
     }
+
+    /**
+     * setting trading data
+     * @param tradingDataMap data that is being set
+     */
 
     public void setTradingDataMap(Map<String, TradingData> tradingDataMap) {
         this.tradingDataMap = tradingDataMap;
     }
 
+    /**
+     * getting data
+     * @return data
+     */
+
     public MetaData getMetaData() {
         return metaData;
     }
+
+    /**
+     * getting trading data
+     * @return trading data
+     */
 
     public Map<String, TradingData> getTradingDataMap() {
         return tradingDataMap;
     }
 
+    /**
+     * getting date
+     * @return date
+     */
+
     public ArrayList<TradingData> getTimeSeries() {
         return timeSeries;
     }
+
+    /**
+     * toString version of stock information
+     * @return stock information
+     */
 
     @Override public String toString(){
         StringBuilder sb = new StringBuilder(metaData.toString());

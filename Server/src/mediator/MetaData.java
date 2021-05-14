@@ -2,6 +2,9 @@ package mediator;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * MetaData class is data that is send by stock api
+ */
 
 public class MetaData {
     @SerializedName("1. Information")
@@ -17,6 +20,16 @@ public class MetaData {
     @SerializedName("6. Time Zone")
     private String timeZone;
 
+    /**
+     *  Constructor setting all the instance variables
+     * @param information stock information
+     * @param symbol company symbol
+     * @param lastRefreshed when its last refreshed
+     * @param interval interval of stock amount and when if happened
+     * @param outputSize output size of stock amount
+     * @param timeZone time zone
+     */
+
     public MetaData(String information, String symbol, String lastRefreshed, String interval, String outputSize, String timeZone) {
         this.information = information;
         this.symbol = symbol;
@@ -26,29 +39,64 @@ public class MetaData {
         this.timeZone = timeZone;
     }
 
+    /**
+     * getting the stock information
+     * @return information
+     */
+
     public String getInformation() {
         return information;
     }
+
+    /**
+     * getting the symbols
+     * @return symbol
+     */
 
     public String getSymbol() {
         return symbol;
     }
 
+    /**
+     * getting when its last time refreshed
+     * @return last refreshed time
+     */
+
     public String getLastRefreshed() {
         return lastRefreshed;
     }
+
+    /**
+     * getting the interval
+     * @return interval
+     */
 
     public String getInterval() {
         return interval;
     }
 
+    /**
+     * getting the output size
+     * @return output size
+     */
+
     public String getOutputSize() {
         return outputSize;
     }
 
+    /**
+     * getting time zone
+     * @return time zone
+     */
+
     public String getTimeZone() {
         return timeZone;
     }
+
+    /**
+     * toString version of stocks data
+     * @return stocks data
+     */
 
     @Override public String toString(){
         String stub = "\nInterval: " + interval

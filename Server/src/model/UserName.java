@@ -1,8 +1,17 @@
 package model;
 
+/**
+ * UserName class represents username of the user
+ */
+
 public class UserName
 {
   private String name;
+
+  /**
+   * The constructor that is setting the username
+   * @param username username of the user
+   */
 
   public UserName(String username)
   {
@@ -13,10 +22,21 @@ public class UserName
     this.name = username;
   }
 
+  /**
+   * getting the name
+   * @return the name
+   */
+
   public String getName()
   {
     return name;
   }
+
+  /**
+   * Comparing an object to the username
+   * @param o the object that is getting compared with
+   * @return name
+   */
 
   @Override
   public boolean equals(Object o){
@@ -32,6 +52,11 @@ public class UserName
     }
     return false;
   }
+
+  /**
+   * toString version of the name
+   * @return name
+   */
 
   @Override public String toString()
   {

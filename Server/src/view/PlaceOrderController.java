@@ -1,10 +1,12 @@
 package view;
 
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import utility.NumberStringConverter;
 
 public class PlaceOrderController extends ViewController {
     public ChoiceBox stockChoice;
@@ -17,16 +19,22 @@ public class PlaceOrderController extends ViewController {
     @Override
     protected void init() {
         stockChoice.setItems(getViewModelFactory().getPlaceOrderController().getStockChoice());
-        stockChoice.setValue("Apple");
-        priceField.textProperty().bindBidirectional(getViewModelFactory().getPlaceOrderController().getPrice());
-        amountField.textProperty().bindBidirectional(getViewModelFactory().getPlaceOrderController().getAmount());
-        ballanceLabel.textProperty().bindBidirectional(getViewModelFactory().getPlaceOrderController().balanceProperty());
-
+        Bindings.bindBidirectional(priceField.textProperty(),
+                getViewModelFactory().getPlaceOrderController().getPrice(),
+                new NumberStringConverter());
+        Bindings.bindBidirectional(amountField.textProperty(),
+                getViewModelFactory().getPlaceOrderController().getAmount(),
+                new NumberStringConverter());
+        Bindings.bindBidirectional(ballanceLabel.textProperty(),
+                getViewModelFactory().getPlaceOrderController().balanceProperty(),
+                new NumberStringConverter());
+        stockChoice.setValue("Apple Inc.");
 
     }
 
-    @Override public void reset()
-    {
+    @Override
+    public void reset() {
+        stockChoice.setValue("Apple Inc.");
 
     }
 

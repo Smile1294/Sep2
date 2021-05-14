@@ -4,11 +4,21 @@ import javafx.beans.property.*;
 import model.Model;
 import model.Stock;
 
+/**
+ * AccountViewModel is class for functionality of account view
+ */
+
 public class AccountViewModel {
     private Model model;
     private StringProperty user;
     private DoubleProperty total,value,balance;
     private ViewState viewState;
+
+    /**
+     * Constructor that is initialising all the instance variables
+     * @param model model for functionality
+     * @param viewState state of the account
+     */
 
     public AccountViewModel(Model model, ViewState viewState){
         this.model = model;
@@ -18,6 +28,10 @@ public class AccountViewModel {
         balance = new SimpleDoubleProperty();
         user = new SimpleStringProperty();
     }
+
+    /**
+     * clears the information and sets it to default
+     */
 
     public void clear(){
 
@@ -29,25 +43,53 @@ public class AccountViewModel {
         user.setValue(viewState.getUserName().toString());
     }
 
+    /**
+     * sets the state to withdraw
+     */
+
     public void setWithdraw(){
         viewState.setWithdraw(true);
     }
+
+    /**
+     * sets the deposit by putting withdraw to false
+     */
 
     public void setAdd(){
         viewState.setWithdraw(false);
     }
 
+    /**
+     * getting total invested
+     * @return total invested
+     */
+
     public DoubleProperty totalProperty() {
         return total;
     }
+
+    /**
+     * getting value of investments
+     * @return value of investments
+     */
 
     public DoubleProperty valueProperty() {
         return value;
     }
 
+    /**
+     * getting the balance of account
+     * @return balance of account
+     */
+
     public DoubleProperty balanceProperty() {
         return balance;
     }
+
+    /**
+     * getting user of the account
+     * @return user
+     */
 
     public StringProperty userProperty() {
         return user;

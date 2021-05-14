@@ -4,65 +4,96 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.Model;
-import model.ModelManger;
-import model.Stock;
+import mediator.Symbol;
+import model.*;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+
+/**
+ * PlaceOrderViewModel is class for functionality of login view
+ */
 
 public class PlaceOrderViewModel {
     private Model model;
     private ObservableList<String> list;
-    private SimpleStringProperty price;
-    private SimpleStringProperty amount;
-    private SimpleStringProperty balance;
+    private SimpleIntegerProperty price;
+    private SimpleIntegerProperty amount;
+    private SimpleIntegerProperty balance;
     private ViewState viewState;
 
+    /**
+     * Constructor that is initialising all the instance variables
+     * @param model model for functionality
+     * @param viewState viewState state of the account
+     */
 
     public PlaceOrderViewModel(Model model, ViewState viewState){
-        this.balance = new SimpleStringProperty();
-        this.amount = new SimpleStringProperty();
-        this.price = new SimpleStringProperty();
+        this.balance = new SimpleIntegerProperty();
+        this.amount = new SimpleIntegerProperty();
+        this.price = new SimpleIntegerProperty();
         list = FXCollections.observableArrayList();
         this.model = model;
         this.viewState = viewState;
     }
 
+    /**
+     * gets companies that user wants
+     * @return list of companies
+     */
+
     public ObservableList getStockChoice() {
-//        for (int i = 0; i < model.getStocks().getSize(); i++) {
-//            list.add(model.getStocks().getStock(i).getName());
-//        }
-//        return list;
-        return null;
+        for (int i = 0; i < model.getAllCompanies().size();i++) {
+        list.add(model.getAllCompanies().get(i).getName());
+        }
+        return list;
     }
 
-    public SimpleStringProperty balanceProperty() {
+    /**
+     * gets balance
+     * @return balance
+     */
+
+    public SimpleIntegerProperty balanceProperty() {
         return balance;
     }
 
-    public void buy(String stock) throws Exception {
-//        for (int i = 0; i < model.getStocks().getSize(); i++) {
-//            if (stock.equals(model.getStocks().getStock(i).getName())) {
-//                model.PlaceOrdertoBuy(model.getStocks().getStock(i), Integer.parseInt(getAmount().get()), Integer.parseInt(getPrice().get()));
-//            }
-//        }
+    /**
+     * adding an order to buy
+     * @param nameofcompany name of the company that we want to get order from
+     * @throws Exception
+     */
+
+    public void buy(String nameofcompany) throws Exception {
+        model.AddOrder(new Order(false, BigDecimal.valueOf(price.get()), amount.get(),viewState.getUserName().getName(), Status.OPEN,model.getComapnyByName(nameofcompany).getSymbol()));
     }
 
-    public void sell(String stock) {
-//        for (int i = 0;i<model.getStocks().getSize();i++)
-//        {
-//            if(stock.equals(model.getStocks().getStock(i).getName()))
-//            {
-//                model.PlaceOrdertoSell(model.getStocks().getStock(i),Integer.parseInt(getAmount().get()),Integer.parseInt(getPrice().get()));
-//            }
-//        }
+    /**
+     * adding an order to sell
+     * @param nameofcompany name of the company that we want to get order from
+     */
+
+    //make price get big decimal,amount integer,user
+    public void sell(String nameofcompany) {
+        model.AddOrder(new Order(true, BigDecimal.valueOf(price.get()), amount.get(),viewState.getUserName().getName(), Status.OPEN,model.getComapnyByName(nameofcompany).getSymbol()));
     }
 
-    public SimpleStringProperty getAmount() {
+    /**
+     * gets the amount
+     * @return amount
+     */
+
+    public SimpleIntegerProperty getAmount() {
         return amount;
     }
 
-    public SimpleStringProperty getPrice() {
+    /**
+     * gets price
+     * @return price
+     */
+
+    public SimpleIntegerProperty getPrice() {
         return price;
     }
 }

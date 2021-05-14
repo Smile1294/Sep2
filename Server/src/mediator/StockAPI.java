@@ -6,6 +6,10 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+/**
+ * StockAPI class is requesting stock information from api
+ */
+
 public class StockAPI {
     public String getStockInfo(Symbol ticker, RequestType requestType) throws IOException, InterruptedException {
         String interval = "";

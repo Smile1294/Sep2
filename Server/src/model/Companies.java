@@ -2,44 +2,86 @@ package model;
 
 import java.util.ArrayList;
 
-public class Companies {
+/**
+ * constructor which is initialising arraylist of companies
+ */
+
+public class Companies
+{
     public ArrayList<Company> companies;
-    public Companies()
-    {
+    /**
+     * constructor which is initialising arraylist of companies
+     */
+
+    public Companies() {
         this.companies = new ArrayList<>();
     }
+
+    /**
+     * getting the companies
+     * @return companies
+     */
 
     public ArrayList<Company> getCompanies() {
         return companies;
     }
 
-    public Company getCompany(Company company)
-    {
-        for(Company companies2:companies)
-        {
-            if(companies2 == company)
-            {
+    /**
+     * getting the company
+     * @param company company that is wanted
+     * @return company
+     */
+
+    public Company getCompany(Company company) {
+        for (Company companies2 : companies) {
+            if (companies2 == company) {
                 return companies2;
             }
         }
         return null;
     }
 
-    public Company getCompany(String symbol) {
-        for(Company c:companies) {
-            if(c.getSymbol().equals(symbol)) {
+    /**
+     * getting the company by symbol
+     * @param symbol symbol of the company
+     * @return company
+     */
+
+    public Company getCompanyBySymbol(String symbol) {
+        for (Company d : companies) {
+            if (d.getSymbol().equals(symbol)) {
+                return d;
+            }
+        }
+        return null;
+    }
+
+    public Company getCompanyByName(String name) {
+        for (Company c : companies) {
+            if (c.getName().equals(name)) {
                 return c;
             }
         }
         return null;
     }
 
-    public void AddCompany(Company company)
-    {
+    /**
+     * adds a company to the list
+     * @param company company that is being added
+     */
+
+
+    public void AddCompany(Company company) {
         companies.add(company);
     }
-    public void RemoveCompany(Company company)
-    {
+
+    /**
+     * removes a company from list
+     * @param company company that is being removed
+     */
+
+
+    public void RemoveCompany(Company company) {
         companies.remove(company);
     }
 

@@ -2,57 +2,66 @@
   "users": [
     {
       "balance": {
-        "balance": 233.574234000000000022190249637787928804755210876464843750
+        "balance": 2222.0
       },
       "userName": {
-        "name": "Kim"
+        "name": "Kim123"
       },
       "password": {
-        "password": "Asd123"
+        "password": "Kim123"
       },
       "email": {
-        "name": "kim",
-        "domain": "mail.dk"
+        "name": "Kim123",
+        "domain": "g"
       },
       "stocks": {
         "stocks": [
           {
-            "price": 47.266660196380485,
-            "amount": 10,
-            "company": {
-              "name": "Apple Inc.",
-              "currentPrice": 47.2666601963804851038730703294277191162109375,
-              "Symbol": "AAPL"
-            }
+            "username": "Kim123",
+            "symbol": "AAPL",
+            "amount": 6
           },
           {
-            "price": 47.266660196380485,
-            "amount": 5,
-            "company": {
-              "name": "Facebook ",
-              "currentPrice": 233,
-              "Symbol": "GAY"
-            }
+            "username": "Kim123",
+            "symbol": "AMZN",
+            "amount": 0
+          },
+          {
+            "username": "Kim123",
+            "symbol": "MSFT",
+            "amount": 0
+          },
+          {
+            "username": "Kim123",
+            "symbol": "IBM",
+            "amount": 0
+          },
+          {
+            "username": "Kim123",
+            "symbol": "TSLA",
+            "amount": 0
+          },
+          {
+            "username": "Kim123",
+            "symbol": "GOOG",
+            "amount": 0
+          },
+          {
+            "username": "Kim123",
+            "symbol": "GOOGl",
+            "amount": 0
+          },
+          {
+            "username": "Kim123",
+            "symbol": "FB",
+            "amount": 0
+          },
+          {
+            "username": "Kim123",
+            "symbol": "PYPL",
+            "amount": 0
           }
         ]
-      }
-    },
-    {
-      "balance": {
-        "balance": 1337.0
-      },
-      "userName": {
-        "name": "David"
-      },
-      "password": {
-        "password": "Strong1337"
-      },
-      "email": {
-        "name": "david",
-        "domain": "boss.cz"
-      },
-      "stocks": {
-        "stocks": []
       }
     }
   ]

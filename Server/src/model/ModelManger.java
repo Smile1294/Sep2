@@ -1,128 +1,249 @@
 package model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import mediator.Symbol;
+import filePersistence.UserListPersistence;
 import persistence.*;
-import viewmodel.SimpleStockViewModel;
+import utility.observer.listener.GeneralListener;
+import utility.observer.subject.PropertyChangeHandler;
 
 import java.awt.image.AreaAveragingScaleFilter;
 import java.io.IOException;
-import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.ArrayList;
+
+/**
+ * ModelManager implements model interface and implements functionality
+ */
 
 public class ModelManger implements Model {
     private Orders orders;
     private Companies companies;
     private UserList userList;
+    private Stocks stocks;
     private UserListPersistence userListPersistence;
+    private UsersPersistence usersPersistence;
     private CompaniesPersistence companiesPersistence;
     private OrdersPersistence ordersPersistence;
+    private StocksPersistence stocksPersistence;
+    /**
+     * Constructor initialing all the instance variables
+     * @throws IOException
+     */
 
+    public ModelManger() throws IOException, SQLException {
 
-    public ModelManger() throws IOException {
-        userListPersistence = new UserListFile();
-        companiesPersistence = new CompaniesFiles();
-        ordersPersistence = new OrdersFile();
-        userList = userListPersistence.load("users.json");
-        orders = ordersPersistence.load("orders.json");
-        companies = companiesPersistence.load("companies.json");
+        usersPersistence = UsersDatabase.getInstance();
+        companiesPersistence = CompaniesDatabase.getInstance();
+        ordersPersistence = OrdersDatabase.getInstance();
+        stocksPersistence = StocksDatabase.getInstance();
+        userList = usersPersistence.load();
+        companies = companiesPersistence.load();
+        orders = ordersPersistence.load();
 
+        for (User u : userList.getUsers()) {
+            for (Company c : companies.getCompanies()) {
+                u.addStock(stocksPersistence.load(u, c));
+            }
+        }
 
-//        companies.AddCompany(new Company("Apple Inc.", Symbol.APPLE.getSymbol()));
-//        companies.AddCompany(new Company("Alphabet Inc. Class A.", Symbol.GOOGLEA.getSymbol()));
-//        companies.AddCompany(new Company("Tesla Inc.", Symbol.TESLA.getSymbol()));
-//        companies.AddCompany(new Company("Facebook Inc.", Symbol.FACEBOOK.getSymbol()));
-//        companies.AddCompany(new Company("Paypal Holdings Inc.", Symbol.PAYPAL.getSymbol()));
-//        companies.AddCompany(new Company("Microsoft Corporation", Symbol.MICROSOFT.getSymbol()));
-//        companies.AddCompany(new Company("Amazon.com Inc.", Symbol.AMAZON.getSymbol()));
-//        companies.AddCompany(new Company("Alphabet Inc. Class C", Symbol.GOOGLEC.getSymbol()));
-//        companies.AddCompany(new Company("International Business Machines Corporation", Symbol.IBM.getSymbol()));
-
-//        for (Company c : companies.getCompanies()){
-//            c.setCurrentPrice(Math.random()*1000);
-
-//        }
-
-        System.out.println(orders);
     }
+    /**
+     * gets the user by name
+     * @param name name of the user
+     * @return user
+     */
 
     public User getUser(String name) {
         return userList.getUser(new UserName(name));
     }
 
+    /**
+     * gets and loads users stocks
+     * @param name name of the user
+     * @return stock/s
+     */
+
     public ArrayList<Stock> LoaduserStocks(String name) {
         ArrayList<Stock> temporaryList = new ArrayList<Stock>();
-        for (Stock s : getUser(getUser(name).getUserName().getName()).getStocks().getAllStocks()) {
-            temporaryList.add(s);
+        try {
+            for (Company s : getAllCompanies()) {
+                getUser(name).getStocks().getStockBySymbol(s.getSymbol()).setAmount(orders.getCompeltedUserOwnedStock(s.getSymbol(), name));
+                temporaryList.add(getUser(name).getStocks().getStockBySymbol(s.getSymbol()));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
         return temporaryList;
     }
+
+    public ArrayList<Order> getOrders() {
+        return orders.getOrders();
+    }
+
+    /**
+     * getting order by user
+     * @param user that is getting check it
+     * @return order
+     */
+
+    public Orders getPortfolioOrders(User user) {
+        return orders.getOrderByUser(user);
+    }
+
+
+    /**
+     * gets users total stocks amount
+     * @param name name of the user
+     * @return stock amount
+     */
+
     public Double getPriceTotal(String name) {
         double d = 0.0;
         try {
-            for (Stock s : LoaduserStocks(name)) {
-                d = d + s.getPrice() * getUser(name).getStocks().getStock(s).getAmount();
+            for (Company s : companies.getCompanies()) {
+                d = d + s.getCurrentPrice() * getUser(name).getStocks().getStockBySymbol(s.getSymbol()).getAmount();
             }
-            return  d;
+            return d;
         } catch (Exception e) {
-            System.out.println(e);
-       }
+            e.printStackTrace();
+        }
         return d;
     }
 
+    /**
+     * adds an order
+     * @param order order that is getting added
+     */
 
     public void AddOrder(Order order) {
-        orders.AddOrder(order);
+
+        if (order.isSell()) {
+            if (getUser(order.getUser()).getStocks().getStockBySymbol(order.getSymbol()).getAmount() > order.getAmount()) {
+                orders.AddOrder(order);
+                try {
+                    new Thread(orders).start();
+                    ordersPersistence.save(order);
+                    ordersPersistence.update(orders);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                System.out.println("Added order for sale");
+            } else {
+                System.out.println("Insufficient resources");
+            }
+        } else {
+            if (getUser(order.getUser()).getBalance() > order.getAskingPrice()) {
+                orders.AddOrder(order);
+                try {
+                    new Thread(orders).start();
+                    ordersPersistence.save(order);
+                    ordersPersistence.update(orders);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                System.out.println("Added order to buy");
+            } else {
+                System.out.println("Not enough money to place order to buy");
+            }
+        }
+
     }
 
-    public void buyStock(Stock stock, User user, int Amount) {
-        user.BuyStock(new Stock(stock.getCompany(), Amount));
-    }
-
+    /**
+     * gets the balance of the user
+     * @param userName username of the user
+     * @return balance
+     */
 
     @Override
     public double getBalance(UserName userName) {
         return userList.getBalance(userName);
     }
 
+    /**
+     * Withdrawing or depositing money
+     * @param userName Username of the user that is transferring money
+     * @param amount amount that is getting transferred
+     * @param isWithdraw if its withdrawing or depositing
+     */
+
     @Override
-    public void transferMoney(UserName userName, double amount, boolean isWithdraw) {
+    public void transferMoney(UserName userName, double amount, boolean isWithdraw) throws SQLException {
         userList.transferMoney(userName, amount, isWithdraw);
+        usersPersistence.update(userList.getUser(userName));
     }
+
+    /**
+     * gets all the companies
+     * @return companies
+     */
 
     @Override
     public ArrayList<Company> getAllCompanies() {
         return companies.getCompanies();
     }
 
-    @Override
-    public Company getCompany(String symbol) {
-        return companies.getCompany(symbol);
-    }
-
-    public Stocks getUserStocks(User user) {
-        return user.getStocks();
-    }
+    /**
+     * gets the company by symbol
+     * @param symbol symbol that is being compared to
+     * @return company
+     */
 
     @Override
-    public void saveDataToFiles() {
-        userListPersistence.save(userList, "users.json");
-        ordersPersistence.save(orders, "orders.json");
-        companiesPersistence.save(companies, "companies.json");
+    public Company getCompanyBySymbol(String symbol) {
+        return companies.getCompanyBySymbol(symbol);
     }
+
+    /**
+     * gets the company by name
+     * @param name name that is being compared to
+     * @return company
+     */
+
+    public Company getComapnyByName(String name) {
+        return companies.getCompanyByName(name);
+    }
+
+    /**
+     * login for user
+     * @param user user that wants login
+     * @return logged in user
+     * @throws Exception
+     */
 
     @Override
     public boolean login(User user) throws Exception {
         if (!userList.userExist(user)) {
             throw new Exception("Wrong username or password");
         }
+
+
+        for (int i = 0; i < companies.getCompanies().size(); i++) {
+            user.addStock(stocksPersistence.load(user, companies.getCompanies().get(i)));
+            System.out.println(stocksPersistence.load(user, companies.getCompanies().get(i)));
+        }
+
         return true;
     }
+
+
+    /**
+     * adding registered user to the list
+     * @param user user that is being added
+     * @return user that is registered
+     * @throws Exception
+     */
 
     @Override
     public boolean registerUser(User user) throws Exception {
         boolean result = userList.addUser(user);
+        if (result) {
+            usersPersistence.save(user);
+            for (int i = 0; i < user.getStocks().getSize(); i++) {
+                stocksPersistence.save(user.getStocks().getStock(i), user);
+                stocksPersistence.update(user.getStocks().getStock(i));
+            }
+        }
         return result;
     }
 
