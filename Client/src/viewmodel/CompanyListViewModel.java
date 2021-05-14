@@ -55,9 +55,12 @@ public class CompanyListViewModel
   public void loadFromModel()
   {
     // load all companies
-    for (Company c : model.getAllCompanies())
-    {
-      list.add(new SimpleCompanyViewModel(c));
+    try {
+      for (Company c : model.getAllCompanies()) {
+        list.add(new SimpleCompanyViewModel(c));
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 

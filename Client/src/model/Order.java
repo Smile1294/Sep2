@@ -3,6 +3,7 @@ package model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.UUID;
+
 /**
  * Order class represents a order of the user
  */

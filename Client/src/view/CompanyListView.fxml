@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<VBox prefHeight="435.0" prefWidth="377.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.CompanyListViewController">
+   <children>
+      <TableView fx:id="companyList" prefHeight="312.0" prefWidth="367.0">
+        <columns>
+          <TableColumn fx:id="nameColumn" prefWidth="181.0" text="Name" />
+            <TableColumn fx:id="symbolColumn" prefWidth="49.0" text="Symbol" />
+          <TableColumn fx:id="priceColumn" prefWidth="99.0" text="Current Price" />
+        </columns>
+      </TableView>
+      <VBox prefHeight="60.0" prefWidth="367.0">
+         <children>
+            <Label fx:id="errorLabel" text="Error Label" textFill="RED">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <HBox alignment="CENTER" prefHeight="43.0" prefWidth="318.0" spacing="70.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#onBack" text="Back">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onChoose" text="Choose">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</VBox>

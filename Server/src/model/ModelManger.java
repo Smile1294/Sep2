@@ -1,8 +1,10 @@
 package model;
 
+import mediator.TradingServer;
 import persistence.*;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -15,10 +17,13 @@ public class ModelManger implements Model {
     private Companies companies;
     private UserList userList;
     private Stocks stocks;
+    private TradingServer tradingServer;
     private UsersPersistence usersPersistence;
     private CompaniesPersistence companiesPersistence;
     private OrdersPersistence ordersPersistence;
     private StocksPersistence stocksPersistence;
+
+
     /**
      * Constructor initialing all the instance variables
      * @throws IOException
@@ -31,22 +36,10 @@ public class ModelManger implements Model {
         ordersPersistence = OrdersDatabase.getInstance();
         stocksPersistence = StocksDatabase.getInstance();
         userList = usersPersistence.load();
+        companies = companiesPersistence.load();
+        orders = ordersPersistence.load();
 
-        new Thread(()->{
-            try {
-                companies = companiesPersistence.load();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        }).start();
-        new Thread(()->{
-            try {
-                orders = ordersPersistence.load();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        }).start();
-
+        tradingServer = new TradingServer(this);
 
 //        new Thread(()->{
 //            for (User u : userList.getUsers()) {
@@ -262,5 +255,9 @@ public class ModelManger implements Model {
         return result;
     }
 
+    @Override
+    public void close() throws RemoteException {
+        tradingServer.close();
+    }
 
 }

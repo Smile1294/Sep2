@@ -18,7 +18,7 @@ public class Company implements Serializable {
      * @param symbol symbol of the company
      */
 
-    public Company(String name,String symbol)
+    public Company(String name, String symbol)
     {
         this.name = name;
         this.Symbol = symbol;

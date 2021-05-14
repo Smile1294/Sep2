@@ -36,7 +36,7 @@ public interface Model {
      * @return userName
      */
 
-    double getBalance(UserName userName);
+    double getBalance(UserName userName) throws RemoteException;
 
     /**
      * Withdrawing or depositing money
@@ -44,14 +44,14 @@ public interface Model {
      * @param amount amount that is getting transferred
      * @param isWithdraw if its withdrawing or depositing
      */
-    void transferMoney(UserName userName, double amount, boolean isWithdraw) throws SQLException;
+    void transferMoney(UserName userName, double amount, boolean isWithdraw) throws SQLException, RemoteException;
 
     /**
      * gets all the companies
      * @return companies
      */
 
-    ArrayList<Company> getAllCompanies();
+    ArrayList<Company> getAllCompanies() throws RemoteException;
 
     /**
      * gets the company by symbol
@@ -74,7 +74,7 @@ public interface Model {
      * @param order order that is getting added
      */
 
-    void AddOrder(Order order);
+//    void AddOrder(Order order);
 
     /**
      * getting order by user
@@ -82,7 +82,7 @@ public interface Model {
      * @return order
      */
 
-    Orders getPortfolioOrders(User user);
+//    Orders getPortfolioOrders(User user);
 
 
 
@@ -109,9 +109,9 @@ public interface Model {
      * @return stock amount
      */
 
-     Double getPriceTotal(String name);
+    Double getPriceTotal(String name) throws RemoteException;
 
 
-     void close() throws RemoteException;
+    void close() throws RemoteException;
 
 }
