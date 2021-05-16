@@ -34,7 +34,8 @@ public class OrdersDatabase implements OrdersPersistence {
             while (resultSet.next()) {
                 boolean sell = resultSet.getBoolean("sale");
                 BigDecimal askingPrice = resultSet.getBigDecimal("askingPrice");
-                int initialAmount = resultSet.getInt("initialAmount");
+                int initialAmount = resultSet.getInt("initialamount");
+                int Amount = resultSet.getInt("amount");
                 Status status = Status.valueOf(resultSet.getString("status").toUpperCase());
                 String username = resultSet.getString("username");
                 String symbol = resultSet.getString("symbol");
@@ -68,14 +69,15 @@ public class OrdersDatabase implements OrdersPersistence {
     @Override
     public void save(Order order) throws SQLException {
         try (Connection connection = GetConnection.get()) {
-            PreparedStatement statement = connection.prepareStatement("insert into Orders(sale,askingPrice,initialAmount,status,username,symbol,order_id)values (?,?,?,?,?,?,?)");
+            PreparedStatement statement = connection.prepareStatement("insert into Orders(sale,askingPrice,initialAmount,amount,status,username,symbol,order_id)values (?,?,?,?,?,?,?,?)");
             statement.setBoolean(1, order.isSell());
             statement.setDouble(2, order.getAskingPrice());
             statement.setInt(3, order.getInitialAmount());
-            statement.setString(4, order.getStatus().getStatus());
-            statement.setString(5, order.getUser());
-            statement.setString(6, order.getSymbol());
-            statement.setObject(7, UUID.fromString(order.getOrderId()));
+            statement.setInt(4, order.getAmount());
+            statement.setString(5, order.getStatus().getStatus());
+            statement.setString(6, order.getUser());
+            statement.setString(7, order.getSymbol());
+            statement.setObject(8, UUID.fromString(order.getOrderId()));
             statement.executeUpdate();
         }
 

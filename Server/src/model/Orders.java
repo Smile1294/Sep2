@@ -1,4 +1,5 @@
 package model;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class Orders implements Runnable {
 
     /**
      * adding an order
+     *
      * @param order order that is being added
      */
 
@@ -32,12 +34,21 @@ public class Orders implements Runnable {
 
         }
     }
+
+    /**
+     * returning an array list of orders
+     */
     public ArrayList<Order> getOrders() {
         ArrayList<Order> userOrders = new ArrayList<>();
         userOrders.addAll(orders);
         return userOrders;
     }
 
+    /**
+     * returning an arraylist of user orders by name
+     *
+     * @param user
+     */
     public ArrayList<Order> getUserOrders(String user) {
         ArrayList<Order> userOrders = new ArrayList<>();
         for (Order o : orders) {
@@ -49,7 +60,21 @@ public class Orders implements Runnable {
     }
 
     /**
+     * returning an arraylist of completed orders
+     */
+    public ArrayList<Order> getCompletedOrders() {
+        ArrayList<Order> CompletedOrders = new ArrayList<>();
+        for (Order o : orders) {
+            if (o.getStatus().equals(Status.COMPLETED)) {
+                CompletedOrders.add(o);
+            }
+        }
+        return CompletedOrders;
+    }
+
+    /**
      * closing an order
+     *
      * @param order order that is being closed
      */
     public void closeOrder(Order order) {
@@ -60,8 +85,21 @@ public class Orders implements Runnable {
             }
         }
     }
+
+    public int getAmount2(String user,Order order) {
+        int i = 0;
+
+        for (Order o : getCompletedOrders()) {
+            if (user.equals(o.getUser())&&o.getSymbol().equals(order.getSymbol())) {
+                i = i + o.getAmount();
+            }
+        }
+        return i;
+    }
+
     /**
      * getting the order on sale
+     *
      * @return order
      */
     public ArrayList<Order> getForSale() {
@@ -73,8 +111,10 @@ public class Orders implements Runnable {
         }
         return forSale;
     }
+
     /**
      * getting order to buy
+     *
      * @return order
      */
     public ArrayList<Order> getToBuy() {
@@ -86,15 +126,19 @@ public class Orders implements Runnable {
         }
         return toBuy;
     }
+
     /**
      * adding order
+     *
      * @param order order that is being added
      */
     private void add(Order order) {
         orders.add(order);
     }
+
     /**
      * getting the order by the user
+     *
      * @param user user that is getting checked
      * @return order
      */
@@ -107,24 +151,7 @@ public class Orders implements Runnable {
         }
         return byUser;
     }
-    public int getCompeltedUserOwnedStock(String symbol, String name) {
-        int i = 0;
-        for (Order o : getUserOrders(name)) {
-            if (o.getSymbol().equals(symbol) && !o.isSell() && o.getStatus().equals(Status.COMPLETED)) {
-                i = i + o.getAmount();
-            }
-        }
-        return i;
-    }
-    public Double getboughtPrice(User user) {
-        double d = 0;
-        for (int i = 0; i < getOrderByUser(user).orders.size(); i++) {
-            if (getOrderByUser(user).orders.get(i).getStatus() == Status.COMPLETED && !getOrderByUser(user).orders.get(i).isSell()) {
-                d = d + getOrderByUser(user).orders.get(i).getAskingPrice();
-            }
-        }
-        return d;
-    }
+
     public Double getboughtPriceInStock(User user, Stock stock) {
         double d = 0;
         for (int i = 0; i < getOrderByUser(user).orders.size(); i++) {
@@ -135,8 +162,10 @@ public class Orders implements Runnable {
         }
         return d;
     }
+
     /**
      * toString version of the Orders
+     *
      * @return orders
      */
     @Override
@@ -145,29 +174,30 @@ public class Orders implements Runnable {
                 "orders=" + orders +
                 '}';
     }
+
     @Override
     public void run() {
-            for (Order o : getForSale()) {
-                for (Order b : getToBuy()) {
-                    if (!o.getUser().equals(b.getUser())) {
-                        if (o.getAskingPrice() <= b.getAskingPrice() && o.getSymbol().equals(b.getSymbol())) {
-                            if (o.getAmount() > b.getAmount()) {
-                                o.setAmount(o.getAmount() - b.getAmount());
-                                b.complete();
-                            }
-                            if (o.getAmount() == b.getAmount()) {
-                                o.setAmount(0);
-                                b.complete();
-                                o.complete();
-                            }
-                            if (o.getAmount() < b.getAmount()) {
-                                o.complete();
-                                b.setAmount(b.getAmount() - o.getAmount());
-                            }
+        for (Order o : getForSale()) {
+            for (Order b : getToBuy()) {
+                if (!o.getUser().equals(b.getUser())) {
+                    if (o.getAskingPrice() <= b.getAskingPrice() && o.getSymbol().equals(b.getSymbol())) {
+                        if (o.getAmount() > b.getAmount()) {
+                            o.setAmount(o.getAmount() - b.getAmount());
+                            b.complete();
+                        }
+                        if (o.getAmount() == b.getAmount()) {
+                            b.complete();
+                            o.complete();
+                            o.setAmount(0);
+                        }
+                        if (o.getAmount() < b.getAmount()) {
+                            o.complete();
+                            b.setAmount(b.getAmount() - o.getAmount());
                         }
                     }
                 }
             }
         }
     }
+}
 

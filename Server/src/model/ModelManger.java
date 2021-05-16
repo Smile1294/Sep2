@@ -38,9 +38,33 @@ public class ModelManger implements Model {
         companies = companiesPersistence.load();
         orders = ordersPersistence.load();
         stocks = stocksPersistence.loadAll();
-
+        UpdateOwnedStock(orders);
     }
 
+    public void UpdateOwnedStock(Orders orders) throws SQLException {
+        Stocks s = new Stocks();
+        Stock newStock = new Stock(null, null);
+        for (Company o : companies.getCompanies()) {
+            int i = 0;
+            for (Order d : orders.getOrders()) {
+                newStock = new Stock(o.getSymbol(), d.getUser(), 0);
+                newStock.setAmount(i);
+                if (o.getSymbol().equals(d.getSymbol()) && d.getStatus().equals(Status.COMPLETED) || d.getStatus().equals(Status.CLOSED)) {
+                    i = d.getAmount() + i;
+                    newStock.setAmount(i);
+                }
+            }
+            if (newStock.getSymbol() == null) {
+            } else {
+                s.addStock(newStock);
+            }
+        }
+        if (s.getSize() > 1) {
+            stocks = s;
+            stocksPersistence.saveAll(s);
+            stocksPersistence.update(s);
+        }
+    }
 
     /**
      * gets the user by name
@@ -64,7 +88,7 @@ public class ModelManger implements Model {
         ArrayList<Stock> temporaryList = new ArrayList<Stock>();
         try {
             for (Stock s : stocks.getAllStocks()) {
-                if (name.equals(s.getUsername())) {
+                if (name.equals(s.getUsername()) && s.getAmount() > 0) {
                     temporaryList.add(s);
                 }
             }
@@ -122,6 +146,7 @@ public class ModelManger implements Model {
                 try {
                     new Thread(orders).start();
                     ordersPersistence.save(order);
+                    UpdateOwnedStock(orders);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
@@ -130,11 +155,12 @@ public class ModelManger implements Model {
                 System.out.println("Insufficient resources");
             }
         } else {
-            if (getUser(order.getUser()).getBalance() > order.getAskingPrice()&&order.getAmount() >= 1) {
+            if (getUser(order.getUser()).getBalance() > order.getAskingPrice() && order.getAmount() >= 1) {
                 orders.AddOrder(order);
                 try {
                     new Thread(orders).start();
                     ordersPersistence.save(order);
+                    UpdateOwnedStock(orders);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
@@ -151,7 +177,6 @@ public class ModelManger implements Model {
      * @param userName username of the user
      * @return balance
      */
-
     @Override
     public double getBalance(UserName userName) {
         return userList.getBalance(userName);
