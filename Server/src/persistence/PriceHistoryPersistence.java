@@ -2,7 +2,7 @@ package persistence;
 
 
 
-import stockAPI.StockInfo;
+import model.Company;
 import stockAPI.TradingData;
 
 import java.sql.SQLException;
@@ -12,5 +12,7 @@ public interface PriceHistoryPersistence
 {
   void save(TradingData tradingData)throws SQLException;
 
-  ArrayList<stockAPI.TradingData> load() throws SQLException;
+  Company loadNewestOf(String symbol) throws SQLException;
+
+  ArrayList<Company> loadAllOf(String symbol) throws SQLException;
 }
