@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public interface PriceHistoryPersistence
 {
-  void save(StockInfo stockInfo)throws SQLException;
+  void save(TradingData tradingData)throws SQLException;
 
   StockInfo load() throws SQLException;
 }

@@ -28,21 +28,18 @@ public class PriceHistoryDatabase implements PriceHistoryPersistence
   }
 
 
-  @Override public void save(StockInfo stockInfo) throws SQLException
+  @Override public void save(TradingData tradingData) throws SQLException
   {
     try (Connection connection = GetConnection.get()) {
-      for(int x = 0; x < stockInfo.getTimeSeries().size(); x++)
-      {
         PreparedStatement statement = connection.prepareStatement(
             "INSERT INTO stockpricehistory(date_time, open, low, high, close, volume, symbol) VALUES (?,?,?,?,?,?,?)");
         statement.setTimestamp(1, null);
-        statement.setDouble(2, stockInfo.getTimeSeries().get(x).getOpen());
-        statement.setDouble(3, stockInfo.getTimeSeries().get(x).getLow());
-        statement.setDouble(4, stockInfo.getTimeSeries().get(x).getHigh());
-        statement.setDouble(5, stockInfo.getTimeSeries().get(x).getClose());
-        statement.setLong(6, stockInfo.getTimeSeries().get(x).getVolume());
+        statement.setDouble(2, tradingData.getOpen());
+        statement.setDouble(3, tradingData.getLow());
+        statement.setDouble(4, tradingData.getHigh());
+        statement.setDouble(5, tradingData.getClose());
+        statement.setLong(6, tradingData.getVolume());
         statement.setString(7, "APPL");
-      }
     }
   }
 
