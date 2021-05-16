@@ -1,13 +1,12 @@
 package model;
 
-import mediator.Symbol;
-
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.UUID;
 /**
  * Order class represents a order of the user
  */
-public class Order {
+public class Order implements Serializable {
 
     private boolean sell;
     private BigDecimal askingPrice;

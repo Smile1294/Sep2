@@ -1,8 +1,11 @@
 package model;
 
-import filePersistence.UserListPersistence;
+import mediator.TradingServer;
 import persistence.*;
+import utility.observer.listener.GeneralListener;
+import utility.observer.subject.PropertyChangeHandler;
 
+import java.awt.image.AreaAveragingScaleFilter;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,15 +19,13 @@ public class ModelManger implements Model {
     private Companies companies;
     private UserList userList;
     private Stocks stocks;
-    private UserListPersistence userListPersistence;
+    private TradingServer tradingServer;
     private UsersPersistence usersPersistence;
     private CompaniesPersistence companiesPersistence;
     private OrdersPersistence ordersPersistence;
     private StocksPersistence stocksPersistence;
-
     /**
      * Constructor initialing all the instance variables
-     *
      * @throws IOException
      */
 
@@ -37,8 +38,6 @@ public class ModelManger implements Model {
         userList = usersPersistence.load();
         companies = companiesPersistence.load();
         orders = ordersPersistence.load();
-        stocks = stocksPersistence.loadAll();
-        UpdateOwnedStock(orders);
     }
 
     public void UpdateOwnedStock(Orders orders) throws SQLException {
@@ -65,10 +64,8 @@ public class ModelManger implements Model {
             stocksPersistence.update(s);
         }
     }
-
     /**
      * gets the user by name
-     *
      * @param name name of the user
      * @return user
      */
@@ -79,7 +76,6 @@ public class ModelManger implements Model {
 
     /**
      * gets and loads users stocks
-     *
      * @param name name of the user
      * @return stock/s
      */
@@ -95,6 +91,7 @@ public class ModelManger implements Model {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return temporaryList;
     }
 
@@ -104,7 +101,6 @@ public class ModelManger implements Model {
 
     /**
      * getting order by user
-     *
      * @param user that is getting check it
      * @return order
      */
@@ -116,7 +112,6 @@ public class ModelManger implements Model {
 
     /**
      * gets users total stocks amount
-     *
      * @param name name of the user
      * @return stock amount
      */
@@ -136,10 +131,11 @@ public class ModelManger implements Model {
 
     /**
      * adds an order
-     *
      * @param order order that is getting added
      */
+
     public void AddOrder(Order order) {
+
         if (order.isSell()) {
             if (stocks.getStocksByUser(order.getUser()).getStockBySymbol(order.getSymbol()).getAmount() > order.getAmount()) {
                 orders.AddOrder(order);
@@ -169,14 +165,15 @@ public class ModelManger implements Model {
                 System.out.println("Not enough money to place order to buy or cannot buy less than 1 stock");
             }
         }
+
     }
 
     /**
      * gets the balance of the user
-     *
      * @param userName username of the user
      * @return balance
      */
+
     @Override
     public double getBalance(UserName userName) {
         return userList.getBalance(userName);
@@ -198,7 +195,6 @@ public class ModelManger implements Model {
 
     /**
      * gets all the companies
-     *
      * @return companies
      */
 
@@ -209,7 +205,6 @@ public class ModelManger implements Model {
 
     /**
      * gets the company by symbol
-     *
      * @param symbol symbol that is being compared to
      * @return company
      */
@@ -221,7 +216,6 @@ public class ModelManger implements Model {
 
     /**
      * gets the company by name
-     *
      * @param name name that is being compared to
      * @return company
      */
@@ -232,7 +226,6 @@ public class ModelManger implements Model {
 
     /**
      * login for user
-     *
      * @param user user that wants login
      * @return logged in user
      * @throws Exception
@@ -249,7 +242,6 @@ public class ModelManger implements Model {
 
     /**
      * adding registered user to the list
-     *
      * @param user user that is being added
      * @return user that is registered
      * @throws Exception
@@ -264,5 +256,9 @@ public class ModelManger implements Model {
         return result;
     }
 
+    @Override
+    public void close() throws RemoteException {
+        tradingServer.close();
+    }
 
 }

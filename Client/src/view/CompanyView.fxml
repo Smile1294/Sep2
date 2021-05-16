@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<VBox xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.CompanyViewController">
+   <children>
+      <VBox prefHeight="101.0" prefWidth="633.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="43.0" prefWidth="633.0" spacing="10.0">
+               <children>
+                  <Label fx:id="nameLabel" text="Company">
+                     <font>
+                        <Font size="22.0" />
+                     </font></Label>
+                  <Label fx:id="symbolLabel" text="Symbol">
+                     <font>
+                        <Font size="22.0" />
+                     </font></Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="42.0" prefWidth="633.0">
+               <children>
+                  <Label text="Current price:">
+                     <font>
+                        <Font size="33.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="priceLabel" text="price">
+                     <font>
+                        <Font size="33.0" />
+                     </font>
+                  </Label>
+                  <Label text="\$" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <LineChart fx:id="historyChart" title="History">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </LineChart>
+      <HBox alignment="CENTER" prefHeight="69.0" prefWidth="633.0" spacing="5.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#onOrder" text="Place order" />
+            <Button mnemonicParsing="false" onAction="#onBack" text="Back" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

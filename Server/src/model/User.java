@@ -1,8 +1,10 @@
 package model;
 
-import mediator.Symbol;
+import stockAPI.Symbol;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private Balance balance;
     private UserName userName;
     private Password password;

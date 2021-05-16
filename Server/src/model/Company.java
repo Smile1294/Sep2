@@ -1,12 +1,13 @@
 package model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * Company class is representing company that holds a stock
  */
 
-public class Company {
+public class Company implements Serializable {
     private String name;
     private BigDecimal currentPrice;
     private String Symbol;

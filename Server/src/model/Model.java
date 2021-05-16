@@ -1,6 +1,7 @@
 package model;
 
 
+import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -110,5 +111,7 @@ public interface Model {
 
      Double getPriceTotal(String name);
 
+
+     void close() throws RemoteException;
 
 }

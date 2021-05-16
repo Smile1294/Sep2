@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.*?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.PortfolioViewController">
+   <children>
+      <Pane prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" prefHeight="45.0" prefWidth="125.0" text="Portfolio">
+               <font>
+                  <Font name="Berlin Sans FB" size="25.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="59.0" prefHeight="36.0" prefWidth="48.0" text="User:">
+               <font>
+                  <Font name="Arial Narrow" size="21.0" />
+               </font></Label>
+            <Label fx:id="UserName" layoutX="62.0" layoutY="62.0" prefHeight="31.0" prefWidth="70.0">
+               <font>
+                  <Font name="Arial Narrow" size="21.0" />
+               </font></Label>
+            <TableView fx:id="TableList" layoutX="77.0" layoutY="100.0" prefHeight="200.0" prefWidth="434.0">
+              <columns>
+                <TableColumn fx:id="StockColumn" prefWidth="75.0" text="Stock" />
+                <TableColumn fx:id="InvestedCloumn" prefWidth="95.0" text="Invested value" />
+                  <TableColumn fx:id="Curentcolumn" prefWidth="91.0" text="Current value" />
+                  <TableColumn fx:id="percentcolumn" prefWidth="75.0" text="\%" />
+                  <TableColumn fx:id="numberownedcolumn" prefWidth="97.0" text="Number owned" />
+              </columns>
+            </TableView>
+            <Label layoutX="77.0" layoutY="323.0" prefHeight="17.0" prefWidth="56.0" text="Total:">
+               <font>
+                  <Font name="Berlin Sans FB" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="TotalAmount" layoutX="133.0" layoutY="318.0" prefHeight="31.0" prefWidth="115.0">
+               <font>
+                  <Font size="21.0" />
+               </font></Label>
+            <Button fx:id="Back" layoutX="511.0" layoutY="316.0" mnemonicParsing="false" onAction="#GoBack" prefHeight="36.0" prefWidth="70.0" text="Back" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

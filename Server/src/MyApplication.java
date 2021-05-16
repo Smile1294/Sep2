@@ -5,6 +5,7 @@ import view.ViewHandler;
 import viewmodel.ViewModelFactory;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.sql.SQLException;
 
 public class MyApplication extends javafx.application.Application {
@@ -16,7 +17,7 @@ public class MyApplication extends javafx.application.Application {
         view.start(primaryStage);
     }
 
-    @Override public void stop() {
-        ;
+    @Override public void stop() throws RemoteException {
+        model.close();
     }
 }
