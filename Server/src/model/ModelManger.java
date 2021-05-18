@@ -55,6 +55,12 @@ public class ModelManger implements Model, LocalListener<String, Order> {
         orders.addListener(this);
     }
 
+    /**
+     * Checks trought all stocks finds matching stock symbol with order symbol adds amount of stocks in order to stock depending if its buying/selling
+     * Updates database with newest information about orders/stocks
+     * @param order
+     * @throws SQLException
+     */
     public void UpdateOwnedStock(Order order) throws SQLException {
         for (Stock s : stocks.getAllStocks()) {
             if (s.getSymbol().equals(order.getSymbol()) && order.getUser().equals(s.getUsername())) {
@@ -95,6 +101,10 @@ public class ModelManger implements Model, LocalListener<String, Order> {
 
     }
 
+    /**
+     * Closes order by UUID of order
+     * @param uuid of order that is closed
+     */
     public void closeOrder(UUID uuid) {
         try {
             for (Order o : orders.getOrders()) {
@@ -108,6 +118,12 @@ public class ModelManger implements Model, LocalListener<String, Order> {
             System.out.println(e);
         }
     }
+
+    /**
+     * gets order by UUID
+     * @param uuid of order
+     * @return order with specific uuid
+     */
 
     public Order getOrderByID(String uuid) {
         return orders.getOrderbyID(uuid);
@@ -146,6 +162,11 @@ public class ModelManger implements Model, LocalListener<String, Order> {
         return temporaryList;
     }
 
+    /**
+     * Gets orders as arraylist
+     * @return ArrayList<Order>
+     */
+
     public ArrayList<Order> getOrders() {
         return orders.getOrders();
     }
@@ -163,7 +184,7 @@ public class ModelManger implements Model, LocalListener<String, Order> {
 
 
     /**
-     * gets users total stocks amount
+     * gets users total stocks price
      *
      * @param name name of the user
      * @return stock amount
@@ -183,9 +204,11 @@ public class ModelManger implements Model, LocalListener<String, Order> {
     }
 
     /**
-     * adds an order
+     * Adds order depending if is user buying/selling checking for balance and available stocks on user account,
+     * Starts a new thread with orders.
+     * Calls methods UpdateOwnedStock(order) to update newest stocks
      *
-     * @param order order that is getting added
+     * @param order that is getting added
      */
 
     public synchronized void AddOrder(Order order) {
@@ -297,6 +320,12 @@ public class ModelManger implements Model, LocalListener<String, Order> {
         return true;
     }
 
+    /**
+     * Gets all user orders
+     * @param user whos orders will be serached
+     * @return templist list of all userorders
+     */
+
     public ArrayList<Order> getAllUserOrders(String user) {
         ArrayList<Order> templist = new ArrayList<>();
         for (Order o : orders.getUserOrders(user)) {
@@ -343,6 +372,10 @@ public class ModelManger implements Model, LocalListener<String, Order> {
 
     }
 
+    /**
+     * Waits for event of order getting completed
+     * @param event
+     */
     @Override
     public void propertyChange(ObserverEvent<String, Order> event) {
         Platform.runLater(() ->

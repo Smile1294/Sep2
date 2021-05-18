@@ -1,8 +1,11 @@
 package persistence;
 
 import model.*;
-
 import java.sql.*;
+
+/**
+ * UserDatabase is used to load/save from/to database
+ */
 
 public class UsersDatabase implements UsersPersistence{
     private static UsersDatabase instance;
@@ -16,6 +19,11 @@ public class UsersDatabase implements UsersPersistence{
         return instance;
     }
 
+    /**
+     * loads all of users from database to @param users
+     * @return users
+     * @throws SQLException
+     */
     @Override
     public UserList load() throws SQLException {
         try (Connection connection = GetConnection.get()){
@@ -39,6 +47,11 @@ public class UsersDatabase implements UsersPersistence{
         }
     }
 
+    /**
+     * Updates specific user in database
+     * @param user
+     * @throws SQLException
+     */
     @Override
     public void update(User user) throws SQLException{
         try (Connection connection = GetConnection.get()){
@@ -49,6 +62,11 @@ public class UsersDatabase implements UsersPersistence{
         }
     }
 
+    /**
+     * Saves specific user to database
+     * @param user
+     * @throws SQLException
+     */
     @Override
     public void save(User user) throws SQLException{
         try (Connection connection = GetConnection.get()){
@@ -61,6 +79,11 @@ public class UsersDatabase implements UsersPersistence{
         }
     }
 
+    /**
+     * Removes specific user from database
+     * @param user
+     * @throws SQLException
+     */
     @Override
     public void remove(User user) throws SQLException{
         try (Connection connection = GetConnection.get()){

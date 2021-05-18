@@ -9,6 +9,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
+/**
+ *OrdersDatabase is used to load/save from/to database orders
+ */
+
 public class OrdersDatabase implements OrdersPersistence {
     private static OrdersDatabase instance;
 
@@ -23,6 +27,11 @@ public class OrdersDatabase implements OrdersPersistence {
         return instance;
     }
 
+    /**
+     *Loads orders from database
+     * @return Orders list of orders that is from database
+     * @throws SQLException
+     */
     @Override
     public Orders load() throws SQLException {
         try (Connection connection = GetConnection.get()) {
@@ -46,6 +55,11 @@ public class OrdersDatabase implements OrdersPersistence {
 
     }
 
+    /**
+     * Updates all of orders in database
+     * @param orders updates with list of orders in databases
+     * @throws SQLException
+     */
     @Override
     public void update(Orders orders) throws SQLException {
         try (Connection connection = GetConnection.get()) {
@@ -59,6 +73,11 @@ public class OrdersDatabase implements OrdersPersistence {
         }
     }
 
+    /**
+     * Saves order to database
+     * @param order is saved to database
+     * @throws SQLException
+     */
     @Override
     public void save(Order order) throws SQLException {
         try (Connection connection = GetConnection.get()) {
@@ -75,6 +94,11 @@ public class OrdersDatabase implements OrdersPersistence {
         }
     }
 
+    /**
+     *
+     * @param  order is removed from database
+     * @throws SQLException
+     */
     @Override
     public void remove(Order order) throws SQLException {
 

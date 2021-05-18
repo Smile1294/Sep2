@@ -1,14 +1,14 @@
 package persistence;
 
 import model.*;
-
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
+/**
+ *
+ */
 public class StocksDatabase implements StocksPersistence {
     private static StocksDatabase instance;
 
@@ -22,6 +22,13 @@ public class StocksDatabase implements StocksPersistence {
         return instance;
     }
 
+    /**
+     * Loads stocks for specific user and for specific company
+     * @param user
+     * @param company
+     * @return stock from database if not found will return null
+     * @throws SQLException
+     */
     @Override
     public Stock load(User user, Company company) throws SQLException {
         try (Connection connection = GetConnection.get()) {
@@ -39,6 +46,12 @@ public class StocksDatabase implements StocksPersistence {
         }
     }
 
+    /**
+     * loads all of stocks from database
+     * @return stocks list from database
+     * @throws SQLException
+     *
+     */
     @Override
     public Stocks loadAll() throws SQLException {
         Stocks stocks = new Stocks();
@@ -57,6 +70,11 @@ public class StocksDatabase implements StocksPersistence {
         }
     }
 
+    /**
+     * updates all stocks in database with stocks list
+     * @param stocks list will be updated to database
+     * @throws SQLException
+     */
     @Override
     public void update(Stocks stocks) throws SQLException {
         try (Connection connection = GetConnection.get()) {
@@ -75,6 +93,12 @@ public class StocksDatabase implements StocksPersistence {
         }
     }
 
+    /**
+     * Saves specific stock to database
+     * @param stock
+     * @param user
+     * @throws SQLException
+     */
     @Override
     public void save(Stock stock, User user) throws SQLException {
         try (Connection connection = GetConnection.get()) {
@@ -87,6 +111,11 @@ public class StocksDatabase implements StocksPersistence {
         }
     }
 
+    /**
+     * Saves all stocks to database
+     * @param stocks
+     * @throws SQLException
+     */
     @Override
     public void saveAll(Stocks stocks) throws SQLException {
         try (Connection connection = GetConnection.get()) {

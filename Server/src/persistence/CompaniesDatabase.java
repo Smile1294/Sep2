@@ -3,6 +3,9 @@ package persistence;
 import model.*;
 import java.sql.*;
 
+/**
+ * CompaniesDatabase is used for saving/loading data to/from database about companies
+ */
 public class CompaniesDatabase implements CompaniesPersistence{
     private static CompaniesDatabase instance;
 
@@ -15,6 +18,11 @@ public class CompaniesDatabase implements CompaniesPersistence{
         return instance;
     }
 
+    /**
+     * Loads all comapnies from database
+     * @return comapnies list from database
+     * @throws SQLException
+     */
     @Override
     public Companies load() throws SQLException {
         try (Connection connection = GetConnection.get()){
@@ -35,6 +43,11 @@ public class CompaniesDatabase implements CompaniesPersistence{
         }
     }
 
+    /**
+     * Updates comapny in database
+     * @param company
+     * @throws SQLException
+     */
     @Override
     public void update(Company company) throws SQLException {
         try (Connection connection = GetConnection.get()){
@@ -45,6 +58,11 @@ public class CompaniesDatabase implements CompaniesPersistence{
         }
     }
 
+    /**
+     * Saves company to database
+     * @param company is company that is beeing saved
+     * @throws SQLException
+     */
     @Override
     public void save(Company company) throws SQLException {
         try (Connection connection = GetConnection.get()){
@@ -57,6 +75,11 @@ public class CompaniesDatabase implements CompaniesPersistence{
         }
     }
 
+    /**
+     * Removes from database
+     * @param company will be removed from database
+     * @throws SQLException
+     */
     @Override
     public void remove(Company company) throws SQLException {
         try (Connection connection = GetConnection.get()){

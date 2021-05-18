@@ -91,15 +91,22 @@ public interface Model extends LocalSubject<String, Order> {
     void AddOrder(Order order);
 
     /**
-     * getting order by user
+     * getting orders by user
      *
      * @param user that is getting check it
-     * @return order
+     * @return orders
      */
 
     Orders getPortfolioOrders(User user);
 
-    ArrayList<Order> getAllUserOrders(String u);
+    /**
+     * getting orders by name of user
+     *
+     * @param name that is getting check it as string
+     * @return ArrayList<order>
+     */
+
+    ArrayList<Order> getAllUserOrders(String name);
 
 
     /**
