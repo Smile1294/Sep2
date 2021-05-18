@@ -29,17 +29,16 @@ public class OrdersDatabase implements OrdersPersistence {
             PreparedStatement statement = connection.prepareStatement("select * from Orders");
             ResultSet resultSet = statement.executeQuery();
             Orders Orders = new Orders();
-
             while (resultSet.next()) {
                 boolean sell = resultSet.getBoolean("sale");
                 BigDecimal askingPrice = resultSet.getBigDecimal("askingPrice");
                 int initialAmount = resultSet.getInt("initialamount");
-                int Amount = resultSet.getInt("amount");
                 Status status = Status.valueOf(resultSet.getString("status").toUpperCase());
                 String username = resultSet.getString("username");
                 String symbol = resultSet.getString("symbol");
                 Order order = new Order(sell, askingPrice, initialAmount, username, status, symbol);
                 order.setAmount(resultSet.getInt("amount"));
+                order.setOrderId(UUID.fromString(resultSet.getString("order_id")));
                 Orders.AddOrder(order);
             }
             return Orders;
@@ -50,19 +49,14 @@ public class OrdersDatabase implements OrdersPersistence {
     @Override
     public void update(Orders orders) throws SQLException {
         try (Connection connection = GetConnection.get()) {
-            PreparedStatement statement = connection.prepareStatement("UPDATE Orders SET status = 'Completed' WHERE order_id = ?");
-            // update more things ??? maybe not just set status to complete, what about amount or when canceling order????
+            PreparedStatement statement = connection.prepareStatement("UPDATE Orders SET amount = ? , status = ? WHERE order_id = ?;");
             for (Order o : orders.getOrders()) {
-                System.out.println(o);
-                if (o.getStatus().equals(Status.COMPLETED)) {
-                    System.out.println("updating " + o);
-                    statement.setObject(1, UUID.fromString(o.getOrderId()));
-                    statement.execute();
-                }
+                statement.setInt(1, o.getAmount());
+                statement.setString(2, o.getStatus().getStatus());
+                statement.setObject(3, UUID.fromString(o.getOrderId()));
+                statement.executeUpdate();
             }
         }
-
-
     }
 
     @Override
@@ -77,9 +71,8 @@ public class OrdersDatabase implements OrdersPersistence {
             statement.setString(6, order.getUser());
             statement.setString(7, order.getSymbol());
             statement.setObject(8, UUID.fromString(order.getOrderId()));
-            statement.executeUpdate();
+            statement.execute();
         }
-
     }
 
     @Override

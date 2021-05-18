@@ -90,7 +90,6 @@ public class Stocks implements Serializable {
             e.printStackTrace();
         }
         return null;
-
     }
 
     /**

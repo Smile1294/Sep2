@@ -6,12 +6,8 @@ import model.Orders;
 import model.Stock;
 import model.User;
 
-import java.util.ArrayList;
-
-import static java.lang.Double.NaN;
-
 /**
- * SimpleCompanyViewModel is class for functionality of company
+ * SimpleCompanyViewModel is class for functionality of portfolio
  */
 
 public class SimpleStockViewModel {
@@ -36,7 +32,7 @@ public class SimpleStockViewModel {
         username = new SimpleStringProperty(user.getUserName().getName());
         numberowned = new SimpleIntegerProperty(stock.getAmount());
         currentValue = new SimpleDoubleProperty(company.getCurrentPrice() * stock.getAmount());
-        invested = new SimpleDoubleProperty(orders.getboughtPriceInStock(user, stock));
+        invested = new SimpleDoubleProperty(stock.getPrice());
         name = new SimpleStringProperty(company.getName());
         value = new SimpleDoubleProperty(company.getCurrentPrice());
 

@@ -1,9 +1,6 @@
 package mediator;
 
-import model.Company;
-import model.Model;
-import model.User;
-import model.UserName;
+import model.*;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.GeneralListener;
 import utility.observer.listener.LocalListener;
@@ -14,41 +11,49 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class TradingServer extends UnicastRemoteObject implements RemoteModel, LocalListener<String, String> {
+public class TradingServer extends UnicastRemoteObject implements RemoteModel, LocalListener<String, Order> {
     private Model localModel;
-    private PropertyChangeHandler<String, String> property;
+    private PropertyChangeHandler<String, Order> property;
 
     public TradingServer(Model model) throws RemoteException, MalformedURLException {
         super();
         startRegistry();
         this.localModel = model;
-//        localModel.addListener(this,"Message","Log","Login","Register");
+        localModel.addListener(this, "Order","Login","Register");
         startServer();
-        property = new PropertyChangeHandler<>(this,true);
+        property = new PropertyChangeHandler<>(this, true);
+
     }
+
 
     private void startRegistry() throws RemoteException {
         try {
             Registry registry = LocateRegistry.createRegistry(1099);
             System.out.println("Registry started");
-        }catch (java.rmi.server.ExportException e){
-            System.err.println("Server exception: "+e);
+        } catch (java.rmi.server.ExportException e) {
+            System.err.println("Server exception: " + e);
             e.printStackTrace();
         }
     }
 
     private void startServer() throws MalformedURLException, RemoteException {
-        Naming.rebind("trading",this);
+        Naming.rebind("trading", this);
         System.out.println("Server ready");
     }
 
     @Override
     public void close() throws RemoteException {
-        UnicastRemoteObject.unexportObject(this,true);
+        UnicastRemoteObject.unexportObject(this, true);
+    }
+
+    @Override
+    public void AddOrder(Order order)throws RemoteException {
+        localModel.AddOrder(order);
     }
 
     @Override
@@ -68,7 +73,7 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
 
     @Override
     public void transferMoney(UserName userName, double amount, boolean isWithdraw) throws SQLException {
-        localModel.transferMoney(userName,amount,isWithdraw);
+        localModel.transferMoney(userName, amount, isWithdraw);
     }
 
     @Override
@@ -86,18 +91,19 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
         return localModel.getCompanyBySymbol(symbol);
     }
 
-    @Override
-    public void propertyChange(ObserverEvent<String, String> event) {
 
+    @Override
+    public boolean addListener(GeneralListener<String, Order> listener, String... propertyNames) throws RemoteException {
+        return property.addListener(listener, propertyNames);
     }
 
     @Override
-    public boolean addListener(GeneralListener<String, String> listener, String... propertyNames) throws RemoteException {
-        return false;
+    public boolean removeListener(GeneralListener<String, Order> listener, String... propertyNames) throws RemoteException {
+        return property.removeListener(listener, propertyNames);
     }
 
     @Override
-    public boolean removeListener(GeneralListener<String, String> listener, String... propertyNames) throws RemoteException {
-        return false;
+    public void propertyChange(ObserverEvent<String, Order> event) {
+        property.firePropertyChange(event.getPropertyName(), event.getValue1(), event.getValue2());
     }
 }

@@ -132,11 +132,18 @@ public class Order implements Serializable {
     public void complete() {
         setStatus(Status.COMPLETED);
     }
+    /**
+     * Sets UUID of order
+     */
+    public void setOrderId(UUID orderId) {
+        this.orderId = orderId;
+    }
 
     /**
      * gets the order id
      * @return order id
      */
+
 
     public String getOrderId() {
         return orderId.toString();

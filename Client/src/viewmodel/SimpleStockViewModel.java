@@ -2,12 +2,12 @@ package viewmodel;
 
 import javafx.beans.property.*;
 import model.Company;
-//import model.Orders;
+import model.Orders;
 import model.Stock;
 import model.User;
 
 /**
- * SimpleCompanyViewModel is class for functionality of company
+ * SimpleCompanyViewModel is class for functionality of portfolio
  */
 
 public class SimpleStockViewModel {
@@ -24,33 +24,26 @@ public class SimpleStockViewModel {
      * @param stock user stock
      * @param user which user
      * @param company which company
-    //* @param orders list of orders
+     * @param orders list of orders
      */
 
-    public SimpleStockViewModel(Stock stock, User user, Company company/*, Orders orders*/) {
+    public SimpleStockViewModel(Stock stock, User user, Company company, Orders orders) {
 
         username = new SimpleStringProperty(user.getUserName().getName());
-        numberowned = new SimpleIntegerProperty(user.getStocks().getStock(stock).getAmount());
-        currentValue = new SimpleDoubleProperty(company.getCurrentPrice() * user.getStocks().getStock(stock).getAmount());
-//        invested = new SimpleDoubleProperty(orders.getboughtPriceInStock(user, stock));
-        // getboughtPriceInStock() need to be a method in model
-
-        // temporary
-        invested = new SimpleDoubleProperty();
-        percentage = new SimpleStringProperty();
-
-
+        numberowned = new SimpleIntegerProperty(stock.getAmount());
+        currentValue = new SimpleDoubleProperty(company.getCurrentPrice() * stock.getAmount());
+        invested = new SimpleDoubleProperty(stock.getPrice());
         name = new SimpleStringProperty(company.getName());
         value = new SimpleDoubleProperty(company.getCurrentPrice());
 
-//        if (((((company.getCurrentPrice() * user.getStocks().getStock(stock).getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100) > 0) {
-//            percentage = new SimpleStringProperty("+" + Double.toString(((((company.getCurrentPrice() * user.getStocks().getStock(stock).getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100)));
-//        } else {
-//            percentage = new SimpleStringProperty(Double.toString(((((company.getCurrentPrice() * user.getStocks().getStock(stock).getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100)));
-//        }
-//        if (Double.isNaN(((((company.getCurrentPrice() * user.getStocks().getStock(stock).getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100))) {
-//            percentage = new SimpleStringProperty(Double.toString(0.00));
-//        }
+        if (((((company.getCurrentPrice() * stock.getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100) > 0) {
+            percentage = new SimpleStringProperty("+" + Double.toString(((((company.getCurrentPrice() * stock.getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100)));
+        } else {
+            percentage = new SimpleStringProperty(Double.toString(((((company.getCurrentPrice() * stock.getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100)));
+        }
+        if (Double.isNaN(((((company.getCurrentPrice() * stock.getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100))) {
+            percentage = new SimpleStringProperty(Double.toString(0.00));
+        }
     }
 
     /**

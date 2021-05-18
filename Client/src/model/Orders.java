@@ -1,16 +1,9 @@
 package model;
 
-import com.google.gson.internal.bind.util.ISO8601Utils;
-import utility.observer.event.ObserverEvent;
 import utility.observer.listener.GeneralListener;
-import utility.observer.listener.RemoteListener;
 import utility.observer.subject.LocalSubject;
 import utility.observer.subject.PropertyChangeHandler;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-import java.rmi.RemoteException;
-import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -204,6 +197,7 @@ public class Orders implements Runnable, LocalSubject {
                             o.setAmount(o.getAmount() - b.getAmount());
                             b.complete();
                             property.firePropertyChange("OrderCompleted", b.getOrderId(), b);
+                            property.firePropertyChange("OrderCompleted", o.getOrderId(), o);
 
                         }
                         if (o.getAmount() == b.getAmount()) {
@@ -218,6 +212,7 @@ public class Orders implements Runnable, LocalSubject {
                             o.complete();
                             b.setAmount(b.getAmount() - o.getAmount());
                             property.firePropertyChange("OrderCompleted", o.getOrderId(), o);
+                            property.firePropertyChange("OrderCompleted", b.getOrderId(), b);
 
 
                         }

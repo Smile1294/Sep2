@@ -14,6 +14,7 @@ public class ViewModelFactory {
     private AccountViewModel accountViewModel;
     private TransferViewModel transferViewModel;
     private PortfolioViewModel portfolioViewModel;
+    private OrdersListViewModel ordersListViewModel;
 
     public ViewModelFactory(Model model) throws IOException {
         ViewState viewState = new ViewState();
@@ -25,6 +26,7 @@ public class ViewModelFactory {
         this.portfolioViewModel = new PortfolioViewModel(model,viewState);
         this.companyListViewModel = new CompanyListViewModel(model,viewState);
         this.companyViewModel = new CompanyViewModel(model,viewState);
+        this.ordersListViewModel = new OrdersListViewModel(model,viewState);
     }
 
     public PlaceOrderViewModel getPlaceOrderController() {
@@ -58,4 +60,6 @@ public class ViewModelFactory {
     {
         return companyViewModel;
     }
+
+    public OrdersListViewModel getOrdersListViewModel() { return ordersListViewModel; }
 }

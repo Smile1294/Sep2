@@ -49,7 +49,9 @@ public class StocksDatabase implements StocksPersistence {
                 String username = resultSet.getString("user_name");
                 String symbol = resultSet.getString("symbol");
                 int amount = resultSet.getInt("amount");
-                stocks.addStock(new Stock(symbol, username, amount));
+                Stock s = new Stock(symbol, username, amount);
+                s.setPrice(resultSet.getInt("price"));
+                stocks.addStock(s);
             }
             return stocks;
         }
@@ -60,10 +62,11 @@ public class StocksDatabase implements StocksPersistence {
         try (Connection connection = GetConnection.get()) {
             for (Stock s : stocks.getAllStocks()) {
                 try {
-                    PreparedStatement statement = connection.prepareStatement("UPDATE stock SET amount = ? where user_name = ? AND symbol = ?");
-                    statement.setString(2, s.getUsername());
-                    statement.setString(3, s.getSymbol());
+                    PreparedStatement statement = connection.prepareStatement("UPDATE stock SET amount = ?,price = ? where user_name = ? AND symbol = ?");
+                    statement.setString(3, s.getUsername());
+                    statement.setString(4, s.getSymbol());
                     statement.setInt(1, s.getAmount());
+                    statement.setInt(2, s.getPrice());
                     statement.executeUpdate();
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
@@ -79,7 +82,7 @@ public class StocksDatabase implements StocksPersistence {
             statement.setString(1, user.getUserName().getName());
             statement.setString(2, stock.getSymbol());
             statement.setInt(3, stock.getAmount());
-            statement.setInt(4, 0);
+            statement.setInt(4, stock.getPrice());
             statement.executeUpdate();
         }
     }
@@ -89,10 +92,11 @@ public class StocksDatabase implements StocksPersistence {
         try (Connection connection = GetConnection.get()) {
             for (Stock s : stocks.getAllStocks()) {
                 try {
-                    PreparedStatement statement = connection.prepareStatement("insert into stock(user_name,symbol,amount)values (?,?,?)");
+                    PreparedStatement statement = connection.prepareStatement("insert into stock(user_name,symbol,amount,price)values (?,?,?,?)");
                     statement.setString(1, s.getUsername());
                     statement.setString(2, s.getSymbol());
                     statement.setInt(3, s.getAmount());
+                    statement.setInt(4, s.getPrice());
                     statement.executeUpdate();
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();

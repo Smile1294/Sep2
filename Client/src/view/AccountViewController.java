@@ -2,68 +2,78 @@ package view;
 
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import utility.NumberStringConverter;
 
 
-public class AccountViewController extends ViewController{
-    @FXML private Label accountTotal;
-    @FXML private Label accountBalance;
-    @FXML private Label accountValue;
-    @FXML private MenuButton menu;
+public class AccountViewController extends ViewController {
+    @FXML
+    private Label accountTotal;
+    @FXML
+    private Label accountBalance;
+    @FXML
+    private Label accountValue;
+    @FXML
+    private MenuButton menu;
 
     @Override
     protected void init() {
         Bindings.bindBidirectional(accountTotal.textProperty(),
-                getViewModelFactory().getAccountViewModel().totalProperty(),new NumberStringConverter());
+                getViewModelFactory().getAccountViewModel().totalProperty(), new NumberStringConverter());
         Bindings.bindBidirectional(accountBalance.textProperty(),
-                getViewModelFactory().getAccountViewModel().balanceProperty(),new NumberStringConverter());
+                getViewModelFactory().getAccountViewModel().balanceProperty(), new NumberStringConverter());
         Bindings.bindBidirectional(accountValue.textProperty(),
-                getViewModelFactory().getAccountViewModel().valueProperty(),new NumberStringConverter());
+                getViewModelFactory().getAccountViewModel().valueProperty(), new NumberStringConverter());
         menu.textProperty().bind(getViewModelFactory().getAccountViewModel().userProperty());
         reset();
     }
 
-    public void reset(){
+    public void reset() {
         getViewModelFactory().getAccountViewModel().clear();
     }
 
     @FXML
-    private void onPortfolio(){
+    private void onPortfolio() {
         getViewHandler().openView(View.PORTFOLIO);
     }
 
     @FXML
-    private void onList(){
+    private void onList() {
         getViewHandler().openView(View.COMPANY_LIST);
     }
 
     @FXML
-    private void onWithdraw(){
+    private void onWithdraw() {
         getViewModelFactory().getAccountViewModel().setWithdraw();
         getViewHandler().openView(View.TRANSFER);
     }
 
     @FXML
-    private void onAdd(){
+    private void onAdd() {
         getViewModelFactory().getAccountViewModel().setAdd();
         getViewHandler().openView(View.TRANSFER);
     }
 
     @FXML
-    private void onPlaceOrder(){
+    private void onPlaceOrder() {
         getViewHandler().openView(View.PLACE_ORDER);
     }
 
     @FXML
-    private void onLogout(){
+    private void onLogout() {
         getViewHandler().openView(View.LOGIN);
     }
 
     @FXML
-    private void onQuit(){
+    private void onQuit() {
         Platform.exit();
+    }
+
+    @FXML
+    public void onorderList() {
+        getViewHandler().openView(View.OrderList);
     }
 }

@@ -79,9 +79,7 @@ public class PortfolioViewModel {
     private void loadUserStock() {
         try {
             for (Stock s : model.LoaduserStocks(viewState.getUserName().getName())) {
-                simpleStockViewModels.add(new SimpleStockViewModel(s, model.getUser(viewState.getUserName().getName()),
-                        model.getCompanyBySymbol(s.getSymbol())/*,
-                        model.getPortfolioOrders(model.getUser(viewState.getUserName().getName()))*/));
+
             }
         } catch (Exception e) {
             System.out.println(e);

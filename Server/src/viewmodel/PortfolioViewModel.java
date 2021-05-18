@@ -34,8 +34,6 @@ public class PortfolioViewModel {
         this.name = new SimpleStringProperty();
         this.total = new SimpleDoubleProperty();
         simpleStockViewModels = FXCollections.observableArrayList();
-        loadUserStock();
-
     }
 
     /**
@@ -79,7 +77,7 @@ public class PortfolioViewModel {
                 simpleStockViewModels.add(new SimpleStockViewModel(s, model.getUser(viewState.getUserName().getName()), model.getCompanyBySymbol(s.getSymbol()), model.getPortfolioOrders(model.getUser(viewState.getUserName().getName()))));
             }
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 

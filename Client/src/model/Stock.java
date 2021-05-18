@@ -11,6 +11,7 @@ public class Stock implements Serializable {
     private String username;
     private String symbol;
     private int amount;
+    private int price;
 
     /**
      * Constructor initialising the instance variables
@@ -22,6 +23,7 @@ public class Stock implements Serializable {
         this.symbol = symbol;
         this.username = username;
         this.amount = 0;
+        this.price = 0;
     }
 
     /**
@@ -35,8 +37,22 @@ public class Stock implements Serializable {
         this.symbol = symbol;
         this.username = username;
         this.amount = amount;
+        this.price = 0;
     }
+    /**
+     * setting price of stock
+     */
 
+    public void setPrice(int price) {
+        this.price = price;
+    }
+    /**
+     * getting price of stock
+     * @return getPrice
+     */
+    public int getPrice() {
+        return price;
+    }
 
     /**
      * getting the amount of stock

@@ -1,9 +1,6 @@
 package mediator;
 
-import model.Company;
-import model.Model;
-import model.User;
-import model.UserName;
+import model.*;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.RemoteListener;
 
@@ -13,7 +10,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class TradingClient extends UnicastRemoteObject implements LocalClientModel, RemoteListener<String, String> {
+public class TradingClient extends UnicastRemoteObject implements LocalClientModel, RemoteListener<String, Order> {
     private RemoteModel server;
     private Model localModel;
 
@@ -21,17 +18,25 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
         super();
         this.localModel = localModel;
         try {
-            server = (RemoteModel) Naming.lookup("rmi://"+host+":1099/trading");
-        }catch (Exception e){
-            System.err.println("Client exception: "+e);
+            server = (RemoteModel) Naming.lookup("rmi://" + host + ":1099/trading");
+        } catch (Exception e) {
+            System.err.println("Client exception: " + e);
             e.printStackTrace();
         }
-//        server.addListener(this);
+        server.addListener(this);
+
+    }
+    public void CloseOrder(Order order) throws RemoteException {
+        server.CloseOrder(order);
     }
 
     @Override
-    public void propertyChange(ObserverEvent<String, String> event) throws RemoteException {
-
+    public void AddOrder(Order order) throws RemoteException {
+        server.AddOrder(order);
+    }
+    @Override
+    public void propertyChange(ObserverEvent<String, Order> event) throws RemoteException {
+        localModel.receivedRemoteEvent(event);
     }
 
     @Override
@@ -71,6 +76,8 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
 
     @Override
     public void close() throws RemoteException {
-        UnicastRemoteObject.unexportObject(this,true);
+        UnicastRemoteObject.unexportObject(this, true);
     }
+
+
 }

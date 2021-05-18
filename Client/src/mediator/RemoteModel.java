@@ -1,15 +1,13 @@
 package mediator;
 
-import model.Company;
-import model.User;
-import model.UserName;
+import model.*;
 import utility.observer.subject.RemoteSubject;
 
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface RemoteModel extends RemoteSubject<String, String> {
+public interface RemoteModel extends RemoteSubject<String, Order> {
     boolean login(User user) throws Exception;
     boolean registerUser(User user) throws Exception;
     double getBalance(UserName userName) throws RemoteException;
@@ -18,4 +16,6 @@ public interface RemoteModel extends RemoteSubject<String, String> {
     ArrayList<Company> getAllCompanies() throws RemoteException;
     Company getCompanyBySymbol(String symbol) throws RemoteException;
     void close() throws RemoteException;
+    void AddOrder(Order order) throws RemoteException;
+    void CloseOrder(Order order) throws RemoteException;
 }

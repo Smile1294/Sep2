@@ -75,12 +75,6 @@ public class User implements Serializable {
     }
 
     /**
-     * Buys stock
-     *
-     * @param stock the stock that is being bought
-     */
-
-    /**
      * gets the balance
      *
      * @return a balace
@@ -96,6 +90,12 @@ public class User implements Serializable {
      */
     public UserName getUserName() {
         return userName;
+    }
+    /**
+     * sets balance of user
+     */
+    public void setBalance(Balance balance) {
+        this.balance = balance;
     }
 
     /**
