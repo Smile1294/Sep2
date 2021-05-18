@@ -13,25 +13,25 @@ public class TestApi {
 
 
         // deserialize from API request
-        String json = stockAPI.getStockInfo(Symbol.FACEBOOK,RequestType.INTRADAY);
+        String json = stockAPI.getStockInfo(Symbol.FACEBOOK.getSymbol(),RequestType.INTRADAY);
         StockInfo stockInfo = gson.fromJson(json,StockInfo.class).convert();
         System.out.println(stockInfo);
 
         Thread.sleep(2000);
 
-        json = stockAPI.getStockInfo(Symbol.IBM,RequestType.DAILY);
+        json = stockAPI.getStockInfo(Symbol.IBM.getSymbol(),RequestType.DAILY);
         stockInfo = gson.fromJson(json,StockInfo.class).convert();
         System.out.println(stockInfo);
 
         Thread.sleep(2000);
 
-        json = stockAPI.getStockInfo(Symbol.TESLA,RequestType.WEEKLY);
+        json = stockAPI.getStockInfo(Symbol.TESLA.getSymbol(),RequestType.WEEKLY);
         stockInfo = gson.fromJson(json,StockInfo.class).convert();
         System.out.println(stockInfo);
 
         Thread.sleep(2000);
 
-        json = stockAPI.getStockInfo(Symbol.MICROSOFT,RequestType.MONTHLY);
+        json = stockAPI.getStockInfo(Symbol.MICROSOFT.getSymbol(),RequestType.MONTHLY);
         stockInfo = gson.fromJson(json,StockInfo.class).convert();
         System.out.println(stockInfo);
     }
