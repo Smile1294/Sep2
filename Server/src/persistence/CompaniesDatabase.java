@@ -1,7 +1,6 @@
 package persistence;
 
 import model.*;
-
 import java.sql.*;
 
 public class CompaniesDatabase implements CompaniesPersistence{

@@ -75,7 +75,6 @@ public class PlaceOrderViewModel {
      * @param nameofcompany name of the company that we want to get order from
      */
 
-    //make price get big decimal,amount integer,user
     public synchronized void sell(String nameofcompany) {
         model.AddOrder(new Order(true, BigDecimal.valueOf(price.get()), amount.get(), viewState.getUserName().getName(), Status.OPEN, model.getComapnyByName(nameofcompany).getSymbol()));
     }

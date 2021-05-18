@@ -189,6 +189,13 @@ public class Orders implements Runnable, LocalSubject<String, Order>, Serializab
         return byUser;
     }
 
+    /**
+     * This methods will count how much has user invested in specific stock taking the the price and amount of stocks from order multiplying them and then adding them to stock
+     * @param user
+     * @param stock
+     * @return Double how much has user invested in specific stock
+     */
+
     public Double getboughtPriceInStock(User user, Stock stock) {
         double d = 0;
         for (int i = 0; i < getOrderByUser(user).orders.size(); i++) {
@@ -218,32 +225,38 @@ public class Orders implements Runnable, LocalSubject<String, Order>, Serializab
                 '}';
     }
 
+    /**
+     * Thread that is run everytime a new order is added will loop trought all orders that are for sale and are that are to buy and will execute every matching sell/buy order
+     * update theyr value and fire them to model manager where they will be saved to database
+     */
     @Override
     public void run() {
         for (Order o : getForSale()) {
             for (Order b : getToBuy()) {
                 if (!o.getUser().equals(b.getUser())) {
-                    if (o.getAskingPrice() <= b.getAskingPrice() && o.getSymbol().equals(b.getSymbol())) {
-                        if (o.getAmount() > b.getAmount()) {
-                            o.setAmount(o.getAmount() - b.getAmount());
-                            b.complete();
-                            property.firePropertyChange("OrderCompleted", b.getOrderId(), b);
+                    if (b.getStatus().equals(Status.OPEN) && o.getStatus().equals(Status.OPEN)) {
+                        if (o.getAskingPrice() <= b.getAskingPrice() && o.getSymbol().equals(b.getSymbol())) {
+                            if (o.getAmount() > b.getAmount()) {
+                                o.setAmount(o.getAmount() - b.getAmount());
+                                b.complete();
+                                property.firePropertyChange("OrderCompleted", b.getOrderId(), b);
 
-                        }
-                        if (o.getAmount() == b.getAmount()) {
-                            b.complete();
-                            o.complete();
-                            o.setAmount(0);
-                            property.firePropertyChange("OrderCompleted", o.getOrderId(), o);
-                            property.firePropertyChange("OrderCompleted", b.getOrderId(), b);
+                            }
+                            if (o.getAmount() == b.getAmount()) {
+                                o.setAmount(0);
+                                b.complete();
+                                o.complete();
+                                property.firePropertyChange("OrderCompleted", o.getOrderId(), o);
+                                property.firePropertyChange("OrderCompleted", b.getOrderId(), b);
 
-                        }
-                        if (o.getAmount() < b.getAmount()) {
-                            o.complete();
-                            b.setAmount(b.getAmount() - o.getAmount());
-                            property.firePropertyChange("OrderCompleted", o.getOrderId(), o);
+                            }
+                            if (o.getAmount() < b.getAmount()) {
+                                b.setAmount(b.getAmount() - o.getAmount());
+                                o.complete();
+                                property.firePropertyChange("OrderCompleted", o.getOrderId(), o);
 
 
+                            }
                         }
                     }
                 }
