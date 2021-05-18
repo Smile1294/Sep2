@@ -34,7 +34,7 @@ public class PortfolioViewModel {
         this.name = new SimpleStringProperty();
         this.total = new SimpleDoubleProperty();
         simpleStockViewModels = FXCollections.observableArrayList();
-        loadUserStock();
+//        loadUserStock();
 
     }
 
