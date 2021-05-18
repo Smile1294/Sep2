@@ -1,13 +1,11 @@
 package mediator;
 
-import model.Company;
-import model.Order;
-import model.User;
-import model.UserName;
+import model.*;
 
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public interface LocalClientModel {
     boolean login(User user) throws Exception;
@@ -28,6 +26,17 @@ public interface LocalClientModel {
 
     void AddOrder(Order order) throws RemoteException;
 
-    void CloseOrder(Order order) throws RemoteException;
+    void CloseOrder(UUID uuid) throws RemoteException;
+
+    Company getCompanyname(String name);
+
+    ArrayList<Stock> getAllUserStock(String name) throws RemoteException;
+
+    ArrayList<Order> getAllUserOrders(String user) throws RemoteException;
+
+    Order getOrderbyID(String uuid) throws RemoteException;
+
+    User getUser(String name) throws RemoteException;
+
 
 }

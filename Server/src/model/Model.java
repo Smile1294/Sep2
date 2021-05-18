@@ -15,6 +15,8 @@ import java.util.UUID;
 public interface Model extends LocalSubject<String, Order> {
     void closeOrder(UUID uuid);
 
+    Order getOrderByID(String uuid);
+
     /**
      * login for user
      *

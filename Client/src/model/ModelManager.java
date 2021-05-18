@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * ModelManager implements model interface and implements functionality
@@ -32,39 +33,12 @@ public class ModelManager implements Model {
     }
 
 
-    public void CloseOrder(Order order) {
-        try {
-            tradingClient.CloseOrder(order);
-
-        } catch (RemoteException e) {
-            System.out.println(e);
+    public void CloseOrder(UUID uuid) throws RemoteException {
+        if (getOrderbyID(uuid.toString()).getStatus().equals(Status.OPEN)) {
+            tradingClient.CloseOrder(uuid);
+            property.firePropertyChange("ClosingOrder", uuid.toString(), getOrderbyID(uuid.toString()));
         }
-    }
 
-
-    /**
-     * gets the user by name
-     *
-     * @param name name of the user
-     * @return user
-     */
-    public User getUser(String name) {
-        return null;
-    }
-
-    /**
-     * gets and loads users stocks
-     *
-     * @param name name of the user
-     * @return stock/s
-     */
-
-    public ArrayList<Stock> LoaduserStocks(String name) {
-        return null;
-    }
-
-    public ArrayList<Order> getOrders() {
-        return null;
     }
 
     /**
@@ -74,7 +48,37 @@ public class ModelManager implements Model {
      * @return order
      */
 
-    public ArrayList<Order> getPortfolioOrders(User user) {
+    public ArrayList<Order> getAllUserOrders(String user) throws RemoteException {
+        return tradingClient.getAllUserOrders(user);
+    }
+
+    public Order getOrderbyID(String uuid) throws RemoteException {
+        return tradingClient.getOrderbyID(uuid);
+    }
+
+
+    /**
+     * gets the user by name
+     *
+     * @param name name of the user
+     * @return user
+     */
+    public User getUser(String name) throws RemoteException {
+        return tradingClient.getUser(name);
+    }
+
+    /**
+     * gets and loads users stocks
+     *
+     * @param name name of the user
+     * @return stock/s
+     */
+
+    public ArrayList<Stock> LoaduserStocks(String name) throws RemoteException {
+        return tradingClient.getAllUserStock(name);
+    }
+
+    public ArrayList<Order> getOrders() {
         return null;
     }
 
@@ -172,7 +176,7 @@ public class ModelManager implements Model {
      */
 
     public Company getComapnyByName(String name) {
-        return null;
+        return tradingClient.getCompanyname(name);
     }
 
     /**
@@ -208,13 +212,18 @@ public class ModelManager implements Model {
         tradingClient.close();
     }
 
+
+
     @Override
     public boolean addListener(GeneralListener<String, Order> listener, String... propertyNames) {
-        return false;
+        return property.addListener(listener, propertyNames);
+
     }
 
     @Override
     public boolean removeListener(GeneralListener<String, Order> listener, String... propertyNames) {
-        return false;
+        return property.removeListener(listener, propertyNames);
+
     }
+
 }

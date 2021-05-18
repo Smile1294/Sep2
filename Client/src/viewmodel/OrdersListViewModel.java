@@ -9,11 +9,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Model;
 import model.Order;
-import model.Orders;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.LocalListener;
 
-import java.sql.SQLException;
+import java.rmi.RemoteException;
 import java.util.UUID;
 
 public class OrdersListViewModel implements LocalListener<String, Order> {
@@ -44,7 +43,11 @@ public class OrdersListViewModel implements LocalListener<String, Order> {
     }
 
     public void CloseOrder(UUID uuid) {
-        model.closeOrder(uuid);
+        try {
+            model.CloseOrder(uuid);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     public ObservableList<SimpleOrderViewModel> getSimpleOrderViewModels() {
@@ -56,7 +59,6 @@ public class OrdersListViewModel implements LocalListener<String, Order> {
             for (Order o : model.getAllUserOrders(viewState.getUserName().getName())) {
                 simpleOrderViewModels.add(new SimpleOrderViewModel(o));
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -82,15 +84,16 @@ public class OrdersListViewModel implements LocalListener<String, Order> {
         return Price;
     }
 
-    private void RemoveOrder(UUID uuid){
-        for (SimpleOrderViewModel e : simpleOrderViewModels){
-            if (e.getUuid().equals(uuid)){
+    private void RemoveOrder(UUID uuid) {
+        for (SimpleOrderViewModel e : simpleOrderViewModels) {
+            if (e.getUuid().equals(uuid)) {
                 simpleOrderViewModels.remove(e);
                 return;
             }
         }
     }
-    private void addOrder(Order order){
+
+    private void addOrder(Order order) {
         simpleOrderViewModels.add(new SimpleOrderViewModel(order));
     }
 
@@ -100,7 +103,9 @@ public class OrdersListViewModel implements LocalListener<String, Order> {
         Platform.runLater(() ->
         {
             try {
-                if (event.getPropertyName().equals("ClosingOrder")) {
+                System.out.println(event.getValue2().toString());
+                if (event.getPropertyName().toString().equals("ClosingOrder")) {
+                    System.out.println("Closing");
                     RemoveOrder(UUID.fromString(event.getValue2().getOrderId()));
                     addOrder(event.getValue2());
                 }

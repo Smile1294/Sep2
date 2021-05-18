@@ -9,6 +9,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class TradingClient extends UnicastRemoteObject implements LocalClientModel, RemoteListener<String, Order> {
     private RemoteModel server;
@@ -26,17 +27,45 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
         server.addListener(this);
 
     }
-    public void CloseOrder(Order order) throws RemoteException {
-        server.CloseOrder(order);
+
+    @Override
+    public User getUser(String name) throws RemoteException {
+        return server.getUser(name);
+    }
+
+    @Override
+    public void CloseOrder(UUID uuid) throws RemoteException {
+        server.CloseOrder(uuid);
+    }
+
+    @Override
+    public Company getCompanyname(String name) {
+        return server.getCompanyname(name);
+    }
+
+    @Override
+    public ArrayList<Stock> getAllUserStock(String name) throws RemoteException {
+        return server.getAllUserStock(name);
     }
 
     @Override
     public void AddOrder(Order order) throws RemoteException {
         server.AddOrder(order);
     }
+
+    @Override
+    public ArrayList<Order> getAllUserOrders(String user) throws RemoteException {
+        return server.getAllUserOrders(user);
+    }
+
     @Override
     public void propertyChange(ObserverEvent<String, Order> event) throws RemoteException {
         localModel.receivedRemoteEvent(event);
+    }
+
+    @Override
+    public Order getOrderbyID(String uuid) throws RemoteException {
+        return server.getOrderbyId(uuid);
     }
 
     @Override

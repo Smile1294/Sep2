@@ -15,6 +15,7 @@ import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class TradingServer extends UnicastRemoteObject implements RemoteModel, LocalListener<String, Order> {
     private Model localModel;
@@ -24,7 +25,7 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
         super();
         startRegistry();
         this.localModel = model;
-        localModel.addListener(this, "Order","Login","Register");
+        localModel.addListener(this, "Order", "Login", "Register");
         startServer();
         property = new PropertyChangeHandler<>(this, true);
 
@@ -52,8 +53,44 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
     }
 
     @Override
-    public void AddOrder(Order order)throws RemoteException {
+    public void AddOrder(Order order) throws RemoteException {
         localModel.AddOrder(order);
+    }
+
+
+    @Override
+    public Company getCompanyname(String name) throws RemoteException {
+        return localModel.getComapnyByName(name);
+    }
+
+    @Override
+    public ArrayList<Order> getAllUserOrers(String user) throws RemoteException {
+        return localModel.getAllUserOrders(user);
+    }
+
+    @Override
+    public void CloseOrder(UUID uuid) throws RemoteException {
+        localModel.closeOrder(uuid);
+    }
+
+    @Override
+    public ArrayList<Stock> getAllUserStock(String name) throws RemoteException {
+        return localModel.LoaduserStocks(name);
+    }
+
+    @Override
+    public User getUser(String name) throws RemoteException {
+        return localModel.getUser(name);
+    }
+
+    @Override
+    public ArrayList<Order> getAllUserOrders(String user) throws RemoteException {
+        return localModel.getPortfolioOrders(getUser(user)).getOrders();
+    }
+
+    @Override
+    public Order getOrderbyId(String uuid) throws RemoteException {
+        return localModel.getOrderByID(uuid);
     }
 
     @Override

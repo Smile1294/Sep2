@@ -7,12 +7,13 @@ import utility.observer.subject.LocalSubject;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Model is a interface for functionality for user
  */
 
-public interface Model extends LocalSubject<String,Order> {
+public interface Model extends LocalSubject<String, Order> {
 
     /**
      * login for user
@@ -34,6 +35,18 @@ public interface Model extends LocalSubject<String,Order> {
      */
 
     boolean registerUser(User user) throws Exception;
+    Order getOrderbyID(String uuid) throws RemoteException;
+
+    /**
+     * getting order by user
+     *
+     * @param user that is getting check it
+     * @return order
+     */
+
+    ArrayList<Order> getAllUserOrders(String user) throws RemoteException;
+
+    void CloseOrder(UUID uuid)throws RemoteException;
 
     /**
      * getting the balance of a user
@@ -41,7 +54,6 @@ public interface Model extends LocalSubject<String,Order> {
      * @param userName username of the user
      * @return userName
      */
-    void CloseOrder(Order order);
     double getBalance(UserName userName) throws RemoteException;
 
     /**
@@ -87,14 +99,6 @@ public interface Model extends LocalSubject<String,Order> {
 
     void AddOrder(Order order);
 
-    /**
-     * getting order by user
-     * @param user that is getting check it
-     * @return order
-     */
-
-//    Orders getPortfolioOrders(User user);
-
 
     /**
      * gets the user by name
@@ -103,7 +107,7 @@ public interface Model extends LocalSubject<String,Order> {
      * @return user
      */
 
-    User getUser(String name);
+    User getUser(String name) throws RemoteException;
 
     /**
      * gets and loads users stocks
@@ -112,7 +116,7 @@ public interface Model extends LocalSubject<String,Order> {
      * @return stock/s
      */
 
-    ArrayList<Stock> LoaduserStocks(String name);
+    ArrayList<Stock> LoaduserStocks(String name) throws RemoteException;
 
 
     /**
@@ -123,6 +127,7 @@ public interface Model extends LocalSubject<String,Order> {
      */
 
     Double getPriceTotal(String name) throws RemoteException;
+
     void receivedRemoteEvent(ObserverEvent<String, Order> event);
 
 

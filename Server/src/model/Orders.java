@@ -1,18 +1,13 @@
 package model;
 
-import com.google.gson.internal.bind.util.ISO8601Utils;
-import utility.observer.event.ObserverEvent;
 import utility.observer.listener.GeneralListener;
-import utility.observer.listener.RemoteListener;
 import utility.observer.subject.LocalSubject;
 import utility.observer.subject.PropertyChangeHandler;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-import java.rmi.RemoteException;
-import java.sql.Struct;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 /**
@@ -20,7 +15,7 @@ import java.util.List;
  */
 
 
-public class Orders implements Runnable, LocalSubject {
+public class Orders implements Runnable, LocalSubject<String, Order>, Serializable {
     private PropertyChangeHandler<String, Order> property;
     private List<Order> orders;
 
@@ -124,6 +119,35 @@ public class Orders implements Runnable, LocalSubject {
         }
         return forSale;
     }
+
+    /**
+     * Checking if order exists in list
+     *
+     * @return boolean
+     */
+    public Boolean getOrderbyId(Order order) {
+        for (Order o : orders) {
+            if (o.getOrderId().equals(order.getOrderId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Finding order by Id
+     *
+     * @return boolean
+     */
+    public Order getOrderbyID(String uuid) {
+        for (Order o : orders) {
+            if (o.getOrderId().equals(uuid)) {
+                return o;
+            }
+        }
+        return null;
+    }
+
 
     /**
      * getting order to buy

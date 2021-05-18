@@ -58,15 +58,15 @@ public class ModelManger implements Model, LocalListener<String, Order> {
     public void UpdateOwnedStock(Order order) throws SQLException {
         for (Stock s : stocks.getAllStocks()) {
             if (s.getSymbol().equals(order.getSymbol()) && order.getUser().equals(s.getUsername())) {
-                if (!order.isSell()){
+                if (!order.isSell()) {
                     if (order.getStatus().equals(Status.COMPLETED)) {
-                            s.setAmount((order.getAmount() + s.getAmount()));
-                            s.setPrice(order.getAskingPrice().intValue() + s.getPrice());
-                        }
-                    if (order.getStatus().equals(Status.CLOSED)) {
-                            getUser(order.getUser()).setBalance(new Balance((int) (getUser(order.getUser()).getBalance() + order.getAskingPrice())));
-                        }
+                        s.setAmount((order.getAmount() + s.getAmount()));
+                        s.setPrice(order.getAskingPrice().intValue() + s.getPrice());
                     }
+                    if (order.getStatus().equals(Status.CLOSED)) {
+                        getUser(order.getUser()).setBalance(new Balance((int) (getUser(order.getUser()).getBalance() + order.getAskingPrice())));
+                    }
+                }
             }
             if (s.getSymbol().equals(order.getSymbol()) && order.getUser().equals(s.getUsername())) {
                 if (order.isSell() && order.getStatus().equals(Status.OPEN)) {
@@ -85,7 +85,9 @@ public class ModelManger implements Model, LocalListener<String, Order> {
             try {
                 stocksPersistence.update(stocks);
                 ordersPersistence.update(orders);
-                ordersPersistence.save(order);
+                if (!orders.getOrderbyId(order)) {
+                    ordersPersistence.save(order);
+                }
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -107,6 +109,9 @@ public class ModelManger implements Model, LocalListener<String, Order> {
         }
     }
 
+    public Order getOrderByID(String uuid) {
+        return orders.getOrderbyID(uuid);
+    }
 
     /**
      * gets the user by name
@@ -314,9 +319,8 @@ public class ModelManger implements Model, LocalListener<String, Order> {
         boolean result = userList.addUser(user);
         if (result) {
             usersPersistence.save(user);
-            for(Company c : companies.getCompanies())
-            {
-                stocks.addStock(new Stock(c.getSymbol(),user.getUserName().getName()));
+            for (Company c : companies.getCompanies()) {
+                stocks.addStock(new Stock(c.getSymbol(), user.getUserName().getName()));
             }
         }
         return result;

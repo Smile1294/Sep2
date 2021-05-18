@@ -1,7 +1,6 @@
 package viewmodel;
 
 import model.Model;
-import view.View;
 
 import java.io.IOException;
 
@@ -28,6 +27,7 @@ public class ViewModelFactory {
         this.companyViewModel = new CompanyViewModel(model,viewState);
         this.ordersListViewModel = new OrdersListViewModel(model,viewState);
     }
+
 
     public PlaceOrderViewModel getPlaceOrderController() {
         return placeOrderController;

@@ -2,12 +2,10 @@ package view;
 
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import utility.NumberStringConverter;
-
 
 public class AccountViewController extends ViewController {
     @FXML
@@ -33,6 +31,11 @@ public class AccountViewController extends ViewController {
 
     public void reset() {
         getViewModelFactory().getAccountViewModel().clear();
+    }
+
+    @FXML
+    public void onorderList() {
+        getViewHandler().openView(View.OrderList);
     }
 
     @FXML
@@ -70,10 +73,5 @@ public class AccountViewController extends ViewController {
     @FXML
     private void onQuit() {
         Platform.exit();
-    }
-
-    @FXML
-    public void onorderList() {
-        getViewHandler().openView(View.OrderList);
     }
 }
