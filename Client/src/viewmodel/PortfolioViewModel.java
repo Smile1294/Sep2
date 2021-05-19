@@ -1,15 +1,13 @@
 package viewmodel;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.Model;
-import model.Stock;
+import model.*;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
+import java.security.KeyStore;
 
 /**
  * PortfolioViewModel is class for functionality of portfolio view
@@ -30,15 +28,13 @@ public class PortfolioViewModel {
      * @throws IOException
      */
 
-    public PortfolioViewModel(Model model, ViewState viewState) throws IOException {
+    public PortfolioViewModel(Model model, ViewState viewState) {
         this.viewState = viewState;
         this.model = model;
         this.investedValue = new SimpleDoubleProperty();
         this.name = new SimpleStringProperty();
         this.total = new SimpleDoubleProperty();
         simpleStockViewModels = FXCollections.observableArrayList();
-        loadUserStock();
-
     }
 
     /**
@@ -47,7 +43,11 @@ public class PortfolioViewModel {
 
     public void clear() {
         this.name.setValue(viewState.getUserName().getName());
-        this.total.setValue(Math.round(model.getUser(viewState.getUserName().getName()).getBalance()));
+        try {
+            this.total.setValue(Math.round(model.getUser(viewState.getUserName().getName()).getBalance()));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         this.investedValue = null;
         simpleStockViewModels.removeAll(getAll());
         getPriceTotal();
@@ -79,15 +79,12 @@ public class PortfolioViewModel {
     private void loadUserStock() {
         try {
             for (Stock s : model.LoaduserStocks(viewState.getUserName().getName())) {
-                simpleStockViewModels.add(new SimpleStockViewModel(s, model.getUser(viewState.getUserName().getName()),
-                        model.getCompanyBySymbol(s.getSymbol())/*,
-                        model.getPortfolioOrders(model.getUser(viewState.getUserName().getName()))*/));
+                simpleStockViewModels.add(new SimpleStockViewModel(s, model.getUser(viewState.getUserName().getName()), model.getCompanyBySymbol(s.getSymbol())));
             }
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
-
 
 
     /**
@@ -95,11 +92,14 @@ public class PortfolioViewModel {
      * @return price
      */
 
-    public DoubleProperty getPriceTotal() {
-//        create a private doubleproperty that will be updated in in clear method
-//        this doubleproperty is then returned in this method
-//        return new SimpleDoubleProperty(model.getPriceTotal(viewState.getUserName().getName()));
 
+    public DoubleProperty getPriceTotal()  {
+        try {
+            return new SimpleDoubleProperty(model.getPriceTotal(viewState.getUserName().getName()));
+
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         return new SimpleDoubleProperty(0.0);
     }
     /**

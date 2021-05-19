@@ -1,9 +1,6 @@
 package mediator;
 
-import model.Company;
-import model.Model;
-import model.User;
-import model.UserName;
+import model.*;
 import utility.observer.event.ObserverEvent;
 import utility.observer.listener.RemoteListener;
 
@@ -12,8 +9,9 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.UUID;
 
-public class TradingClient extends UnicastRemoteObject implements LocalClientModel, RemoteListener<String, String> {
+public class TradingClient extends UnicastRemoteObject implements LocalClientModel, RemoteListener<String, Order> {
     private RemoteModel server;
     private Model localModel;
 
@@ -21,17 +19,53 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
         super();
         this.localModel = localModel;
         try {
-            server = (RemoteModel) Naming.lookup("rmi://"+host+":1099/trading");
-        }catch (Exception e){
-            System.err.println("Client exception: "+e);
+            server = (RemoteModel) Naming.lookup("rmi://" + host + ":1099/trading");
+        } catch (Exception e) {
+            System.err.println("Client exception: " + e);
             e.printStackTrace();
         }
-//        server.addListener(this);
+        server.addListener(this);
+
     }
 
     @Override
-    public void propertyChange(ObserverEvent<String, String> event) throws RemoteException {
+    public User getUser(String name) throws RemoteException {
+        return server.getUser(name);
+    }
 
+    @Override
+    public void CloseOrder(UUID uuid) throws RemoteException {
+        server.CloseOrder(uuid);
+    }
+
+    @Override
+    public Company getCompanyname(String name) {
+        return server.getCompanyname(name);
+    }
+
+    @Override
+    public ArrayList<Stock> getAllUserStock(String name) throws RemoteException {
+        return server.getAllUserStock(name);
+    }
+
+    @Override
+    public void AddOrder(Order order) throws RemoteException {
+        server.AddOrder(order);
+    }
+
+    @Override
+    public ArrayList<Order> getAllUserOrders(String user) throws RemoteException {
+        return server.getAllUserOrders(user);
+    }
+
+    @Override
+    public void propertyChange(ObserverEvent<String, Order> event) throws RemoteException {
+        localModel.receivedRemoteEvent(event);
+    }
+
+    @Override
+    public Order getOrderbyID(String uuid) throws RemoteException {
+        return server.getOrderbyId(uuid);
     }
 
     @Override
@@ -71,6 +105,8 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
 
     @Override
     public void close() throws RemoteException {
-        UnicastRemoteObject.unexportObject(this,true);
+        UnicastRemoteObject.unexportObject(this, true);
     }
+
+
 }

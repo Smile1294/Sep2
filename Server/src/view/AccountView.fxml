@@ -18,6 +18,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#onWithdraw" text="Withdraw money" />
                   <MenuItem mnemonicParsing="false" onAction="#onAdd" text="Add money" />
                   <MenuItem mnemonicParsing="false" onAction="#onLogout" text="Logout" />
+                 <MenuItem mnemonicParsing="false" onAction="#onorderList" text="OrderList" />
                   <MenuItem mnemonicParsing="false" onAction="#onQuit" text="Quit" />
               </items>
             </MenuButton>
