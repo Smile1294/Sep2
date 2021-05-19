@@ -74,25 +74,6 @@ public class Stocks implements Serializable {
     }
 
     /**
-     * gets the stock by symbol
-     *
-     * @param user symbol that is being searched
-     * @return stock
-     */
-    public Stock getStockByUser(String user) {
-        try {
-            for (Stock stock : stocks) {
-                if (user.equals(stock.getUsername())) {
-                    return stock;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
      * adding a stock to the list
      *
      * @param stock that is being added

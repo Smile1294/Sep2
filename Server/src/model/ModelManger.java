@@ -58,6 +58,7 @@ public class ModelManger implements Model, LocalListener<String, Order> {
     /**
      * Checks trought all stocks finds matching stock symbol with order symbol adds amount of stocks in order to stock depending if its buying/selling
      * Updates database with newest information about orders/stocks
+     *
      * @param order
      * @throws SQLException
      */
@@ -103,6 +104,7 @@ public class ModelManger implements Model, LocalListener<String, Order> {
 
     /**
      * Closes order by UUID of order
+     *
      * @param uuid of order that is closed
      */
     public void closeOrder(UUID uuid) {
@@ -121,6 +123,7 @@ public class ModelManger implements Model, LocalListener<String, Order> {
 
     /**
      * gets order by UUID
+     *
      * @param uuid of order
      * @return order with specific uuid
      */
@@ -164,6 +167,7 @@ public class ModelManger implements Model, LocalListener<String, Order> {
 
     /**
      * Gets orders as arraylist
+     *
      * @return ArrayList<Order>
      */
 
@@ -194,7 +198,7 @@ public class ModelManger implements Model, LocalListener<String, Order> {
         double d = 0.0;
         try {
             for (Company s : companies.getCompanies()) {
-                d = d + s.getCurrentPrice() * stocks.getStockByUser(name).getAmount();
+                d = d + s.getCurrentPrice() * stocks.getStocksByUser(name).getStockBySymbol(s.getSymbol()).getAmount();
             }
             return d;
         } catch (Exception e) {
@@ -322,6 +326,7 @@ public class ModelManger implements Model, LocalListener<String, Order> {
 
     /**
      * Gets all user orders
+     *
      * @param user whos orders will be serached
      * @return templist list of all userorders
      */
@@ -374,6 +379,7 @@ public class ModelManger implements Model, LocalListener<String, Order> {
 
     /**
      * Waits for event of order getting completed
+     *
      * @param event
      */
     @Override
