@@ -35,7 +35,7 @@ public class AccountViewController extends ViewController {
 
     @FXML
     public void onorderList() {
-        getViewHandler().openView(View.OrderList);
+        getViewHandler().openView(View.ORDER_LIST);
     }
 
     @FXML
