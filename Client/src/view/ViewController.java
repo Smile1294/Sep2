@@ -3,12 +3,14 @@ package view;
 import javafx.scene.layout.Region;
 import viewmodel.ViewModelFactory;
 
+import java.rmi.RemoteException;
+
 public abstract class ViewController {
     private Region root;
     private ViewHandler viewHandler;
     private ViewModelFactory viewModelFactory;
 
-    protected abstract void init();
+    protected abstract void init() throws RemoteException;
 
     public void init(ViewHandler viewHandler, ViewModelFactory viewModelFactory, Region root){
         this.root = root;

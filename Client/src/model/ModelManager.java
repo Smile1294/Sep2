@@ -2,11 +2,16 @@ package model;
 
 import mediator.LocalClientModel;
 import mediator.TradingClient;
+import utility.observer.event.ObserverEvent;
+import utility.observer.listener.GeneralListener;
+import utility.observer.subject.PropertyChangeHandler;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * ModelManager implements model interface and implements functionality
@@ -14,57 +19,73 @@ import java.util.ArrayList;
 
 public class ModelManager implements Model {
     private LocalClientModel tradingClient;
+    private PropertyChangeHandler<String, Order> property;
 
 
     /**
      * Constructor initialing all the instance variables
+     *
      * @throws IOException
      */
     public ModelManager() throws IOException, SQLException {
-        this.tradingClient = new TradingClient("localhost",this);
+        this.property = new PropertyChangeHandler<>(this, true);
+        this.tradingClient = new TradingClient("localhost", this);
+    }
 
 
+    public void CloseOrder(UUID uuid) throws RemoteException {
+        if (getOrderbyID(uuid.toString()).getStatus().equals(Status.OPEN)) {
+            tradingClient.CloseOrder(uuid);
+            property.firePropertyChange("ClosingOrder", uuid.toString(), getOrderbyID(uuid.toString()));
+        }
 
+    }
 
+    /**
+     * getting order by user
+     *
+     * @param user that is getting check it
+     * @return order
+     */
+
+    public ArrayList<Order> getAllUserOrders(String user) throws RemoteException {
+        return tradingClient.getAllUserOrders(user);
+    }
+
+    public Order getOrderbyID(String uuid) throws RemoteException {
+        return tradingClient.getOrderbyID(uuid);
     }
 
 
     /**
      * gets the user by name
+     *
      * @param name name of the user
      * @return user
      */
-    public User getUser(String name) {
-        return null;
+    public User getUser(String name) throws RemoteException {
+        return tradingClient.getUser(name);
     }
 
     /**
      * gets and loads users stocks
+     *
      * @param name name of the user
      * @return stock/s
      */
 
-    public ArrayList<Stock> LoaduserStocks(String name) {
-        return null;
+    public ArrayList<Stock> LoaduserStocks(String name) throws RemoteException {
+        return tradingClient.getAllUserStock(name);
     }
 
     public ArrayList<Order> getOrders() {
         return null;
     }
 
-    /**
-     * getting order by user
-     * @param user that is getting check it
-     * @return order
-     */
-
-    public ArrayList<Order> getPortfolioOrders(User user) {
-        return null;
-    }
-
 
     /**
      * gets users total stocks amount
+     *
      * @param name name of the user
      * @return stock amount
      */
@@ -73,47 +94,28 @@ public class ModelManager implements Model {
         return tradingClient.getPriceTotal(name);
     }
 
+    @Override
+    public void receivedRemoteEvent(ObserverEvent<String, Order> event) {
+        property.firePropertyChange(event.getPropertyName(), event.getValue1(), event.getValue2());
+    }
+
     /**
      * adds an order
+     *
      * @param order order that is getting added
      */
 
-//    public void AddOrder(Order order) {
-//
-//        if (order.isSell()) {
-//            if (getUser(order.getUser()).getStocks().getStockBySymbol(order.getSymbol()).getAmount() > order.getAmount()) {
-//                orders.AddOrder(order);
-//                try {
-//                    new Thread(orders).start();
-//                    ordersPersistence.save(order);
-//                    ordersPersistence.update(orders);
-//                } catch (SQLException throwables) {
-//                    throwables.printStackTrace();
-//                }
-//                System.out.println("Added order for sale");
-//            } else {
-//                System.out.println("Insufficient resources");
-//            }
-//        } else {
-//            if (getUser(order.getUser()).getBalance() > order.getAskingPrice()) {
-//                orders.AddOrder(order);
-//                try {
-//                    new Thread(orders).start();
-//                    ordersPersistence.save(order);
-//                    ordersPersistence.update(orders);
-//                } catch (SQLException throwables) {
-//                    throwables.printStackTrace();
-//                }
-//                System.out.println("Added order to buy");
-//            } else {
-//                System.out.println("Not enough money to place order to buy");
-//            }
-//        }
-//
-//    }
+    public void AddOrder(Order order) {
+        try {
+            tradingClient.AddOrder(order);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * gets the balance of the user
+     *
      * @param userName username of the user
      * @return balance
      */
@@ -123,10 +125,12 @@ public class ModelManager implements Model {
         return tradingClient.getBalance(userName);
     }
 
+
     /**
      * Withdrawing or depositing money
-     * @param userName Username of the user that is transferring money
-     * @param amount amount that is getting transferred
+     *
+     * @param userName   Username of the user that is transferring money
+     * @param amount     amount that is getting transferred
      * @param isWithdraw if its withdrawing or depositing
      */
 
@@ -137,6 +141,7 @@ public class ModelManager implements Model {
 
     /**
      * gets all the companies
+     *
      * @return companies
      */
 
@@ -147,6 +152,7 @@ public class ModelManager implements Model {
 
     /**
      * gets the company by symbol
+     *
      * @param symbol symbol that is being compared to
      * @return company
      */
@@ -156,7 +162,7 @@ public class ModelManager implements Model {
         Company company = null;
         try {
             company = tradingClient.getCompanyBySymbol(symbol);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return company;
@@ -164,16 +170,18 @@ public class ModelManager implements Model {
 
     /**
      * gets the company by name
+     *
      * @param name name that is being compared to
      * @return company
      */
 
     public Company getComapnyByName(String name) {
-        return null;
+        return tradingClient.getCompanyname(name);
     }
 
     /**
      * login for user
+     *
      * @param user user that wants login
      * @return logged in user
      * @throws Exception
@@ -187,6 +195,7 @@ public class ModelManager implements Model {
 
     /**
      * adding registered user to the list
+     *
      * @param user user that is being added
      * @return user that is registered
      * @throws Exception
@@ -201,6 +210,20 @@ public class ModelManager implements Model {
     @Override
     public void close() throws RemoteException {
         tradingClient.close();
+    }
+
+
+
+    @Override
+    public boolean addListener(GeneralListener<String, Order> listener, String... propertyNames) {
+        return property.addListener(listener, propertyNames);
+
+    }
+
+    @Override
+    public boolean removeListener(GeneralListener<String, Order> listener, String... propertyNames) {
+        return property.removeListener(listener, propertyNames);
+
     }
 
 }

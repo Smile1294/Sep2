@@ -4,6 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+
+/**
+ * Class GetConnection connects to database with
+ * URL,USER,PASSWORD
+ * that are needed to access the database
+ */
 public class GetConnection {
     private static final String URL = "jdbc:postgresql://tai.db.elephantsql.com:5432/swjaurgb?currentSchema=sep2";
     private static final String USER = "swjaurgb";

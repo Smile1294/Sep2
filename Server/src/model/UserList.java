@@ -91,19 +91,7 @@ public class UserList {
     }
     return 0.0;
   }
-  /**
-   * Getting the user stocks
-   * @param userName Username of the user
-   * @return users stocks
-   */
-  public Stocks getStocks(UserName userName){
-    for (User u : users){
-      if (u.getUserName().equals(userName)){
-        return u.getStocks();
-      }
-    }
-    return null;
-  }
+
   /**
    * Withdrawing or depositing money
    * @param userName Username of the user that is transferring money

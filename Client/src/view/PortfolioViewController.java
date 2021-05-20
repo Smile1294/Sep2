@@ -9,6 +9,8 @@ import javafx.scene.control.TableView;
 import utility.NumberStringConverter;
 import viewmodel.SimpleStockViewModel;
 
+import java.rmi.RemoteException;
+
 public class PortfolioViewController extends ViewController {
     public TableView<SimpleStockViewModel> TableList;
     public TableColumn<SimpleStockViewModel, String> StockColumn;
@@ -22,7 +24,7 @@ public class PortfolioViewController extends ViewController {
     private Label UserName;
 
     @Override
-    protected void init() {
+    protected void init() throws RemoteException {
         UserName.textProperty().bind(getViewModelFactory().getPortfolioViewModel().getName());
         Bindings.bindBidirectional(TotalAmount.textProperty(),
                 getViewModelFactory().getPortfolioViewModel().getPriceTotal(),
