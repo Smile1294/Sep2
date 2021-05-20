@@ -354,7 +354,9 @@ public class ModelManger implements Model, LocalListener<String, Order> {
         if (result) {
             usersPersistence.save(user);
             for (Company c : companies.getCompanies()) {
-                stocks.addStock(new Stock(c.getSymbol(), user.getUserName().getName()));
+                Stock s = new Stock(c.getSymbol(), user.getUserName().getName());
+                stocks.addStock(s);
+                stocksPersistence.save(s, user);
             }
         }
         return result;
