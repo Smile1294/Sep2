@@ -1,7 +1,8 @@
 package persistence;
 
 
-import model.Company;
+
+import model.Price;
 import stockAPI.TradingData;
 
 import java.sql.*;
@@ -10,7 +11,6 @@ import java.util.ArrayList;
 public class PriceHistoryDatabase implements PriceHistoryPersistence
 {
   private static PriceHistoryDatabase instance;
-  private ArrayList<Company> asd;
 
   private PriceHistoryDatabase() {
 
@@ -24,9 +24,8 @@ public class PriceHistoryDatabase implements PriceHistoryPersistence
   }
 
 
-  @Override public void save(TradingData tradingData) throws SQLException
+  @Override public void save(String symbol, TradingData tradingData, Timestamp timestamp) throws SQLException
   {
-    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     try (Connection connection = GetConnection.get()) {
       PreparedStatement statement = connection.prepareStatement(
           "INSERT INTO stockpricehistory(date_time, open, low, high, close, volume, symbol) VALUES (?,?,?,?,?,?,?)");
@@ -36,47 +35,33 @@ public class PriceHistoryDatabase implements PriceHistoryPersistence
       statement.setDouble(4, tradingData.getHigh());
       statement.setDouble(5, tradingData.getClose());
       statement.setLong(6, tradingData.getVolume());
-      statement.setString(7, "FB");
+      statement.setString(7, symbol);
       statement.executeUpdate();
     }
   }
 
-  @Override public Company loadNewestOf(String symbol) throws SQLException
+
+  @Override public ArrayList<Price> load() throws SQLException
   {
     try (Connection connection = GetConnection.get()) {
-      PreparedStatement statement = connection.prepareStatement("select * from stockpricehistory WHERE symbol = ?");
-      statement.setString(1,symbol);
+      PreparedStatement statement = connection.prepareStatement("select * from stockpricehistory");
       ResultSet resultSet = statement.executeQuery();
-      String name = null;
-      double close = 0;
+      ArrayList<Price> d = new ArrayList<>();
 
       while (resultSet.next()) {
-        name = resultSet.getString("symbol");
-        close = resultSet.getDouble("close");
-      }
-      Company company = new Company(name, name);
-      company.setCurrentPrice(close);
-      return company;
-    }
-  }
-
-  @Override public ArrayList<Company> loadAllOf(String symbol)
-      throws SQLException
-  {
-    try (Connection connection = GetConnection.get()) {
-      PreparedStatement statement = connection.prepareStatement("select * from stockpricehistory WHERE symbol = ?");
-      statement.setString(1,symbol);
-      ResultSet resultSet = statement.executeQuery();
-      asd = new ArrayList<>();
-
-      while (resultSet.next()) {
+        Timestamp timestamp = resultSet.getTimestamp("date_time");
         String name = resultSet.getString("symbol");
+        double open = resultSet.getDouble("open");
+        double low = resultSet.getDouble("low");
+        double high = resultSet.getDouble("high");
         double close = resultSet.getDouble("close");
-        Company company = new Company(name, name);
-        company.setCurrentPrice(close);
-        asd.add(company);
+        long volume = resultSet.getLong("volume");
+        Price price = new Price(timestamp,name,close);
+        d.add(price);
       }
-      return asd;
+
+      return d;
     }
+
   }
 }

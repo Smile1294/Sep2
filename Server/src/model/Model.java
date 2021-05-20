@@ -1,6 +1,8 @@
 package model;
 
 
+import utility.PropertyChangeSubject;
+
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,7 +11,8 @@ import java.util.ArrayList;
  * Model is a interface for functionality for user
  */
 
-public interface Model {
+public interface Model extends PropertyChangeSubject
+{
 
     /**
      * login for user

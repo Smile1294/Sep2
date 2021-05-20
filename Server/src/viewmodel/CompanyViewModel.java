@@ -1,13 +1,18 @@
 package viewmodel;
 
+import javafx.application.Platform;
 import javafx.beans.property.*;
 import model.Model;
+import model.Price;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * CompanyViewModel is class for functionality of company view
  */
 
-public class CompanyViewModel
+public class CompanyViewModel implements PropertyChangeListener
 {
   private StringProperty name;
   private StringProperty symbol;
@@ -74,5 +79,21 @@ public class CompanyViewModel
   public DoubleProperty getPriceProperty()
   {
     return price;
+  }
+
+  @Override public void propertyChange(PropertyChangeEvent evt)
+  {
+    try
+    {
+      if (symbol.get().equals(evt.getPropertyName()))
+      {
+        Platform.runLater(() -> {
+          price.setValue(((Price) evt.getNewValue()).getPrice());
+        });
+      }
+    }
+    catch(NullPointerException e){
+
+    }
   }
 }

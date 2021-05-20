@@ -3,6 +3,7 @@ package model;
 import mediator.TradingServer;
 import persistence.*;
 
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
@@ -17,6 +18,7 @@ public class ModelManger implements Model {
     private Companies companies;
     private UserList userList;
     private Stocks stocks;
+    private Prices prices;
     private TradingServer tradingServer;
     private UsersPersistence usersPersistence;
     private CompaniesPersistence companiesPersistence;
@@ -31,6 +33,7 @@ public class ModelManger implements Model {
 
     public ModelManger() throws IOException, SQLException {
 
+        prices = new Prices();
         usersPersistence = UsersDatabase.getInstance();
         companiesPersistence = CompaniesDatabase.getInstance();
         ordersPersistence = OrdersDatabase.getInstance();
@@ -40,6 +43,9 @@ public class ModelManger implements Model {
         orders = ordersPersistence.load();
 
         tradingServer = new TradingServer(this);
+
+        Thread thread = new Thread(prices);
+        thread.start();
 
 //        new Thread(()->{
 //            for (User u : userList.getUsers()) {
@@ -260,4 +266,13 @@ public class ModelManger implements Model {
         tradingServer.close();
     }
 
+    @Override public void addListener(PropertyChangeListener listener)
+    {
+        prices.addListener(listener);
+    }
+
+    @Override public void removeListener(PropertyChangeListener listener)
+    {
+        prices.removeListener(listener);
+    }
 }

@@ -1,5 +1,6 @@
 package viewmodel;
 
+import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -8,12 +9,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Company;
 import model.Model;
+import model.Price;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * CompanyListViewModel is class for functionality of CompanyList view
  */
 
-public class CompanyListViewModel
+public class CompanyListViewModel implements PropertyChangeListener
 {
   private Model model;
   private ObservableList<SimpleCompanyViewModel> list;
@@ -102,5 +107,18 @@ public class CompanyListViewModel
 
   public void setSelected(SimpleCompanyViewModel companyVM){
     selectedSimpleCompany = new SimpleObjectProperty<>(companyVM);
+  }
+  @Override public void propertyChange(PropertyChangeEvent evt)
+  {
+    for(SimpleCompanyViewModel s: list){
+      if(s.getSymbol().get().equals(evt.getPropertyName()))
+      {
+        model.getCompanyBySymbol(evt.getPropertyName()).setCurrentPrice(((Price) evt.getNewValue()).getPrice());
+        Platform.runLater(() -> {
+          s.getPrice().setValue(((Price) evt.getNewValue()).getPrice());
+        });
+      }
+
+    }
   }
 }
