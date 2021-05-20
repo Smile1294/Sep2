@@ -63,7 +63,7 @@ public class Stocks implements Serializable {
         try {
             for (Stock stock : stocks) {
                 if (user.equals(stock.getUsername())) {
-                    stocks.add(stock);
+                    list.addStock(stock);
                 }
             }
         } catch (Exception e) {

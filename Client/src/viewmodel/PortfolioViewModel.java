@@ -73,7 +73,7 @@ public class PortfolioViewModel {
     }
 
     /**
-     * loads from user account
+     * loads from user account stocks
      */
 
     private void loadUserStock() {
