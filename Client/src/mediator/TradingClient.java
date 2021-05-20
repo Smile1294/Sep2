@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class TradingClient extends UnicastRemoteObject implements LocalClientModel, RemoteListener<String, Order> {
+public class TradingClient extends UnicastRemoteObject implements LocalClientModel, RemoteListener<String, Message> {
     private RemoteModel server;
     private Model localModel;
 
@@ -97,7 +97,7 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
     }
 
     @Override
-    public void propertyChange(ObserverEvent<String, Order> event) throws RemoteException {
+    public void propertyChange(ObserverEvent<String, Message> event) throws RemoteException {
         localModel.receivedRemoteEvent(event);
     }
 
@@ -209,6 +209,4 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
     public void close() throws RemoteException {
         UnicastRemoteObject.unexportObject(this, true);
     }
-
-
 }

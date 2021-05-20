@@ -8,17 +8,16 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Company;
+import model.Message;
 import model.Model;
-import model.Price;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import utility.observer.event.ObserverEvent;
+import utility.observer.listener.LocalListener;
 
 /**
  * CompanyListViewModel is class for functionality of CompanyList view
  */
 
-public class CompanyListViewModel implements PropertyChangeListener
+public class CompanyListViewModel implements LocalListener<String, Message>
 {
   private Model model;
   private ObservableList<SimpleCompanyViewModel> list;
@@ -39,6 +38,7 @@ public class CompanyListViewModel implements PropertyChangeListener
     errorProperty = new SimpleStringProperty("");
     selectedSimpleCompany = new SimpleObjectProperty<>();
     this.viewState = viewState;
+    model.addListener(this);
     loadFromModel();
   }
 
@@ -108,18 +108,23 @@ public class CompanyListViewModel implements PropertyChangeListener
   public void setSelected(SimpleCompanyViewModel companyVM){
     selectedSimpleCompany = new SimpleObjectProperty<>(companyVM);
   }
-  @Override public void propertyChange(PropertyChangeEvent evt)
-  {
-    for(SimpleCompanyViewModel s: list){
-      if(s.getSymbol().get().equals(evt.getPropertyName()))
-      {
-        model.getCompanyBySymbol(evt.getPropertyName()).setCurrentPrice(((Price) evt.getNewValue()).getPrice());
-        System.out.println("change added to list and model");
-        Platform.runLater(() -> {
-          s.getPrice().setValue(((Price) evt.getNewValue()).getPrice());
-        });
-      }
 
+  @Override public void propertyChange(ObserverEvent<String, Message> event)
+  {
+    if(event.getPropertyName().equals("Price"))
+    {
+      for (SimpleCompanyViewModel s : list)
+      {
+        if (s.getSymbol().get().equals(event.getValue1()))
+        {
+          model.getCompanyBySymbol(event.getPropertyName())
+              .setCurrentPrice(event.getValue2().getPriceObject().getPrice());
+          System.out.println("change added to list and model");
+          Platform.runLater(() -> {
+            s.getPrice().setValue(event.getValue2().getPriceObject().getPrice());
+          });
+        }
+      }
     }
   }
 }

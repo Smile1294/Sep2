@@ -13,5 +13,6 @@
     <orderEntry type="library" name="javafx" level="application" />
     <orderEntry type="library" name="javafx-swt" level="application" />
     <orderEntry type="library" name="gson-2.8.6" level="project" />
+    <orderEntry type="module" module-name="Server" />
   </component>
 </module>

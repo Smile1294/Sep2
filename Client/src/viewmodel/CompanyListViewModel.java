@@ -1,5 +1,6 @@
 package viewmodel;
 
+import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -7,13 +8,16 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Company;
+import model.Message;
 import model.Model;
+import utility.observer.event.ObserverEvent;
+import utility.observer.listener.LocalListener;
 
 /**
  * CompanyListViewModel is class for functionality of CompanyList view
  */
 
-public class CompanyListViewModel
+public class CompanyListViewModel implements LocalListener<String, Message>
 {
   private Model model;
   private ObservableList<SimpleCompanyViewModel> list;
@@ -34,6 +38,7 @@ public class CompanyListViewModel
     errorProperty = new SimpleStringProperty("");
     selectedSimpleCompany = new SimpleObjectProperty<>();
     this.viewState = viewState;
+    model.addListener(this);
     loadFromModel();
   }
 
@@ -105,5 +110,24 @@ public class CompanyListViewModel
 
   public void setSelected(SimpleCompanyViewModel companyVM){
     selectedSimpleCompany = new SimpleObjectProperty<>(companyVM);
+  }
+
+  @Override public void propertyChange(ObserverEvent<String, Message> event)
+  {
+    if(event.getPropertyName().equals("Price"))
+    {
+      for (SimpleCompanyViewModel s : list)
+      {
+        if (s.getSymbol().get().equals(event.getValue1()))
+        {
+          model.getCompanyBySymbol(event.getPropertyName())
+              .setCurrentPrice(event.getValue2().getPriceObject().getPrice());
+          System.out.println("change added to list and model");
+          Platform.runLater(() -> {
+            s.getPrice().setValue(event.getValue2().getPriceObject().getPrice());
+          });
+        }
+      }
+    }
   }
 }

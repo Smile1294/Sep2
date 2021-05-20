@@ -14,7 +14,7 @@ import java.util.UUID;
  * Model is a interface for functionality for user
  */
 
-public interface Model extends PropertyChangeSubject,LocalSubject<String, Order>
+public interface Model extends LocalSubject<String, Message>
 {
     void closeOrder(UUID uuid);
 

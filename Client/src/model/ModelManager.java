@@ -19,7 +19,7 @@ import java.util.UUID;
 
 public class ModelManager implements Model {
     private LocalClientModel tradingClient;
-    private PropertyChangeHandler<String, Order> property;
+    private PropertyChangeHandler<String, Message> property;
 
 
     /**
@@ -36,7 +36,7 @@ public class ModelManager implements Model {
     public void CloseOrder(UUID uuid) throws RemoteException {
         if (getOrderbyID(uuid.toString()).getStatus().equals(Status.OPEN)) {
             tradingClient.CloseOrder(uuid);
-            property.firePropertyChange("ClosingOrder", uuid.toString(), getOrderbyID(uuid.toString()));
+            property.firePropertyChange("ClosingOrder", uuid.toString(), new Message(getOrderbyID(uuid.toString()), null));
         }
 
     }
@@ -95,7 +95,7 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void receivedRemoteEvent(ObserverEvent<String, Order> event) {
+    public void receivedRemoteEvent(ObserverEvent<String, Message> event) {
         property.firePropertyChange(event.getPropertyName(), event.getValue1(), event.getValue2());
     }
 
@@ -215,13 +215,13 @@ public class ModelManager implements Model {
 
 
     @Override
-    public boolean addListener(GeneralListener<String, Order> listener, String... propertyNames) {
+    public boolean addListener(GeneralListener<String, Message> listener, String... propertyNames) {
         return property.addListener(listener, propertyNames);
 
     }
 
     @Override
-    public boolean removeListener(GeneralListener<String, Order> listener, String... propertyNames) {
+    public boolean removeListener(GeneralListener<String, Message> listener, String... propertyNames) {
         return property.removeListener(listener, propertyNames);
 
     }

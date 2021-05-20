@@ -48,7 +48,7 @@ public class Stock implements Serializable {
     }
     /**
      * getting price of stock
-     * @return getPrice
+     * @return getPriceObject
      */
     public int getPrice() {
         return price;

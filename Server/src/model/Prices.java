@@ -11,6 +11,9 @@ import stockAPI.StockAPI;
 import stockAPI.StockInfo;
 import stockAPI.TradingData;
 import utility.PropertyChangeSubject;
+import utility.observer.listener.GeneralListener;
+import utility.observer.subject.LocalSubject;
+import utility.observer.subject.PropertyChangeHandler;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -20,7 +23,7 @@ import java.sql.Timestamp;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
-public class Prices implements Runnable, PropertyChangeSubject
+public class Prices implements Runnable, LocalSubject<String, Message>
 {
   ArrayList<Price> newPrices;
   PriceHistoryPersistence priceHistoryPersistence;
@@ -29,12 +32,12 @@ public class Prices implements Runnable, PropertyChangeSubject
   private Gson gson;
   private Timestamp now;
   private Timestamp timestampOfCompany;
-  private PropertyChangeSupport property;
+  private PropertyChangeHandler<String, Message> property;
 
   private boolean running;
 
   public Prices() {
-    property = new PropertyChangeSupport(this);
+    property = new PropertyChangeHandler<String, Message>(this);
     now = new Timestamp(System.currentTimeMillis());
     timestampOfCompany = new Timestamp(System.currentTimeMillis());
     priceHistoryPersistence = PriceHistoryDatabase.getInstance();
@@ -143,7 +146,7 @@ public class Prices implements Runnable, PropertyChangeSubject
             company.setCurrentPrice(p.getPrice());
             priceHistoryPersistence.save(p.getSymbol(), tradingData, timestampOfCompany);
             companiesPersistence.update(company);
-            property.firePropertyChange(p.getSymbol(),null,p);
+            property.firePropertyChange("Price",p.getSymbol(),new Message(null,p));
             System.out.println("Updating company " + p.getSymbol() + " with price " + tradingData.getClose());
           }
           catch (Exception e) {
@@ -160,13 +163,17 @@ public class Prices implements Runnable, PropertyChangeSubject
     }
   }
 
-  @Override public void addListener(PropertyChangeListener listener)
+
+
+  @Override public boolean addListener(
+      GeneralListener<String, Message> listener, String... propertyNames)
   {
-    property.addPropertyChangeListener(listener);
+    return property.addListener(listener,propertyNames);
   }
 
-  @Override public void removeListener(PropertyChangeListener listener)
+  @Override public boolean removeListener(
+      GeneralListener<String, Message> listener, String... propertyNames)
   {
-    property.removePropertyChangeListener(listener);
+    return property.removeListener(listener,propertyNames);
   }
 }

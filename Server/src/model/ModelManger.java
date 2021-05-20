@@ -23,7 +23,7 @@ import java.util.UUID;
  * ModelManager implements model interface and implements functionality
  */
 
-public class ModelManger implements Model, LocalListener<String, Order> {
+public class ModelManger implements Model, LocalListener<String, Message> {
     private Orders orders;
     private Companies companies;
     private UserList userList;
@@ -34,7 +34,7 @@ public class ModelManger implements Model, LocalListener<String, Order> {
     private CompaniesPersistence companiesPersistence;
     private OrdersPersistence ordersPersistence;
     private StocksPersistence stocksPersistence;
-    private PropertyChangeHandler<String, Order> property;
+    private PropertyChangeHandler<String, Message> property;
 
 
     /**
@@ -119,7 +119,7 @@ public class ModelManger implements Model, LocalListener<String, Order> {
                 if (o.getOrderId().equals(uuid.toString()) && o.getStatus().equals(Status.OPEN)) {
                     o.setStatus(Status.CLOSED);
                     UpdateOwnedStock(o);
-                    property.firePropertyChange("ClosingOrder", uuid.toString(), o);
+                    property.firePropertyChange("ClosingOrder", uuid.toString(), new Message(o, null));
                 }
             }
         } catch (Exception e) {
@@ -368,26 +368,16 @@ public class ModelManger implements Model, LocalListener<String, Order> {
     }
 
 
-    @Override public void addListener(PropertyChangeListener listener)
-    {
-        prices.addListener(listener);
-    }
-
-    @Override public void removeListener(PropertyChangeListener listener)
-    {
-        prices.removeListener(listener);
-    }
 
     @Override
-    public boolean addListener(GeneralListener<String, Order> listener, String... propertyNames) {
+    public boolean addListener(GeneralListener<String, Message> listener, String... propertyNames) {
         return property.addListener(listener, propertyNames);
 
     }
 
     @Override
-    public boolean removeListener(GeneralListener<String, Order> listener, String... propertyNames) {
+    public boolean removeListener(GeneralListener<String, Message> listener, String... propertyNames) {
         return property.removeListener(listener, propertyNames);
-
     }
 
     /**
@@ -395,19 +385,19 @@ public class ModelManger implements Model, LocalListener<String, Order> {
      *
      * @param event
      */
-    @Override
-    public void propertyChange(ObserverEvent<String, Order> event) {
+
+    @Override public void propertyChange(ObserverEvent<String, Message> event)
+    {
         Platform.runLater(() ->
         {
             try {
                 if (event.getPropertyName().toString().equals("OrderCompleted")) {
-                    UpdateOwnedStock(event.getValue2());
+                    UpdateOwnedStock(event.getValue2().getOrder());
                     System.out.println(event.getValue2());
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         });
-
     }
 }

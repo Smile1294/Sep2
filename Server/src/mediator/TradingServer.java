@@ -20,9 +20,9 @@ import java.util.UUID;
  * Class TradingServer is used to communicate with client
  */
 
-public class TradingServer extends UnicastRemoteObject implements RemoteModel, LocalListener<String, Order> {
+public class TradingServer extends UnicastRemoteObject implements RemoteModel, LocalListener<String, Message> {
     private Model localModel;
-    private PropertyChangeHandler<String, Order> property;
+    private PropertyChangeHandler<String, Message> property;
 
     /**
      * Constructor TradingServer initalizes variables
@@ -263,7 +263,7 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
      * @throws RemoteException
      */
     @Override
-    public boolean addListener(GeneralListener<String, Order> listener, String... propertyNames) throws RemoteException {
+    public boolean addListener(GeneralListener<String, Message> listener, String... propertyNames) throws RemoteException {
         return property.addListener(listener, propertyNames);
     }
 
@@ -274,15 +274,16 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
      * @throws RemoteException
      */
     @Override
-    public boolean removeListener(GeneralListener<String, Order> listener, String... propertyNames) throws RemoteException {
+    public boolean removeListener(GeneralListener<String, Message> listener, String... propertyNames) throws RemoteException {
         return property.removeListener(listener, propertyNames);
     }
 
     /**
      * @param event
      */
-    @Override
-    public void propertyChange(ObserverEvent<String, Order> event) {
+
+    @Override public void propertyChange(ObserverEvent<String, Message> event)
+    {
         property.firePropertyChange(event.getPropertyName(), event.getValue1(), event.getValue2());
     }
 }

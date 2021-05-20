@@ -2,17 +2,16 @@ package viewmodel;
 
 import javafx.application.Platform;
 import javafx.beans.property.*;
+import model.Message;
 import model.Model;
-import model.Price;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import utility.observer.event.ObserverEvent;
+import utility.observer.listener.LocalListener;
 
 /**
  * CompanyViewModel is class for functionality of company view
  */
 
-public class CompanyViewModel implements PropertyChangeListener
+public class CompanyViewModel implements LocalListener<String, Message>
 {
   private StringProperty name;
   private StringProperty symbol;
@@ -32,6 +31,7 @@ public class CompanyViewModel implements PropertyChangeListener
     name = new SimpleStringProperty();
     symbol = new SimpleStringProperty();
     price = new SimpleDoubleProperty();
+    model.addListener(this);
   }
 
   /**
@@ -81,19 +81,25 @@ public class CompanyViewModel implements PropertyChangeListener
     return price;
   }
 
-  @Override public void propertyChange(PropertyChangeEvent evt)
-  {
-    try
-    {
-      if (symbol.get().equals(evt.getPropertyName()))
-      {
-        Platform.runLater(() -> {
-          price.setValue(((Price) evt.getNewValue()).getPrice());
-        });
-      }
-    }
-    catch(NullPointerException e){
 
+
+  @Override public void propertyChange(ObserverEvent<String, Message> event)
+  {
+    if (event.getPropertyName().equals("Price"))
+    {
+      try
+      {
+        if (symbol.get().equals(event.getValue1()))
+        {
+          Platform.runLater(() -> {
+            price.setValue(event.getValue2().getPriceObject().getPrice());
+          });
+        }
+      }
+      catch (NullPointerException e)
+      {
+
+      }
     }
   }
 }
