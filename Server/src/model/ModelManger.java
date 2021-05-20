@@ -56,6 +56,7 @@ public class ModelManger implements Model, LocalListener<String, Order> {
         stocks = stocksPersistence.loadAll();
         tradingServer = new TradingServer(this);
         orders.addListener(this);
+        prices = new Prices();
 
         Thread thread = new Thread(prices);
         thread.start();
