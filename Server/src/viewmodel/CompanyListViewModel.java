@@ -114,6 +114,7 @@ public class CompanyListViewModel implements PropertyChangeListener
       if(s.getSymbol().get().equals(evt.getPropertyName()))
       {
         model.getCompanyBySymbol(evt.getPropertyName()).setCurrentPrice(((Price) evt.getNewValue()).getPrice());
+        System.out.println("change added to list and model");
         Platform.runLater(() -> {
           s.getPrice().setValue(((Price) evt.getNewValue()).getPrice());
         });

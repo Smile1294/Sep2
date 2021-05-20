@@ -116,6 +116,7 @@ public class Prices implements Runnable, PropertyChangeSubject
   @Override public void run()
   {
     while(true){
+      System.out.println("Prices thread started");
       StockInfo stockInfo = null;
 
       newPrices();
@@ -127,6 +128,7 @@ public class Prices implements Runnable, PropertyChangeSubject
           e.printStackTrace();
         }
         TradingData tradingData = newestStock(stockInfo);
+        System.out.println("Checking company " + p.getSymbol());
         if(now.getTime() - p.getTimestamp().getTime() > 1 && p.getTimestamp().getTime() != timestampOfCompany.getTime()){
           try {
             p.setPrice(tradingData.getClose());
@@ -135,6 +137,7 @@ public class Prices implements Runnable, PropertyChangeSubject
             priceHistoryPersistence.save(p.getSymbol(), tradingData, timestampOfCompany);
             companiesPersistence.update(company);
             property.firePropertyChange(p.getSymbol(),null,p);
+            System.out.println("Updating company " + p.getSymbol() + " with price " + tradingData.getClose());
           }
           catch (Exception e) {
             e.printStackTrace();
