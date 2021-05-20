@@ -322,11 +322,6 @@ public class ModelManger implements Model, LocalListener<String, Order> {
         }
 
 
-        for (int i = 0; i < companies.getCompanies().size(); i++) {
-            user.addStock(stocksPersistence.load(user, companies.getCompanies().get(i)));
-            System.out.println(stocksPersistence.load(user, companies.getCompanies().get(i)));
-        }
-
         return true;
     }
 
