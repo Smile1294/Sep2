@@ -364,6 +364,7 @@ public class ModelManger implements Model, LocalListener<String, Order> {
     @Override
     public void close() throws RemoteException {
         tradingServer.close();
+        prices.close();
     }
 
 

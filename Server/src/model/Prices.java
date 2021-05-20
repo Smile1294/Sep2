@@ -31,6 +31,8 @@ public class Prices implements Runnable, PropertyChangeSubject
   private Timestamp timestampOfCompany;
   private PropertyChangeSupport property;
 
+  private boolean running;
+
   public Prices() {
     property = new PropertyChangeSupport(this);
     now = new Timestamp(System.currentTimeMillis());
@@ -40,10 +42,15 @@ public class Prices implements Runnable, PropertyChangeSubject
     newPrices = new ArrayList<>();
     stockAPI = new StockAPI();
     gson = new Gson();
+    running = true;
   }
 
   public ArrayList<Price> getNewPrices() {
     return newPrices;
+  }
+
+  public void close(){
+    running = false;
   }
 
 
@@ -115,7 +122,7 @@ public class Prices implements Runnable, PropertyChangeSubject
 
   @Override public void run()
   {
-    while(true){
+    while(running){
       System.out.println("Prices thread started");
       StockInfo stockInfo = null;
 
