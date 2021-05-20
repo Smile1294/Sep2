@@ -109,7 +109,7 @@ public class Prices implements Runnable, PropertyChangeSubject
   public StockInfo APIRequest(String symbol, RequestType requestType)
       throws InterruptedException, IOException {
     String json = stockAPI.getStockInfo(symbol, requestType);
-    Thread.sleep(15000);
+    Thread.sleep(12000);
     return gson.fromJson(json, StockInfo.class).convert();
   }
 
