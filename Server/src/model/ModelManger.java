@@ -57,6 +57,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
         tradingServer = new TradingServer(this);
         orders.addListener(this);
         prices = new Prices();
+        prices.addListener(this);
 
         Thread thread = new Thread(prices);
         thread.start();
@@ -388,6 +389,9 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     @Override public void propertyChange(ObserverEvent<String, Message> event)
     {
+        if (event.getPropertyName().equals("Price")){
+            property.firePropertyChange(event);
+        }
         Platform.runLater(() ->
         {
             try {
