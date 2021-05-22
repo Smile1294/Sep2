@@ -96,11 +96,6 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
         return server.getAllUserOrders(user);
     }
 
-    @Override
-    public void propertyChange(ObserverEvent<String, Message> event) throws RemoteException {
-        localModel.receivedRemoteEvent(event);
-    }
-
     /**
      * gets order by UUID
      *
@@ -208,5 +203,10 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
     @Override
     public void close() throws RemoteException {
         UnicastRemoteObject.unexportObject(this, true);
+    }
+
+    @Override
+    public void propertyChange(ObserverEvent<String, Message> event) throws RemoteException {
+        localModel.receivedRemoteEvent(event);
     }
 }

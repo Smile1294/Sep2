@@ -284,6 +284,6 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
 
     @Override public void propertyChange(ObserverEvent<String, Message> event)
     {
-        property.firePropertyChange(event.getPropertyName(), event.getValue1(), event.getValue2());
+        property.firePropertyChange(event);
     }
 }

@@ -126,7 +126,6 @@ public class Prices implements Runnable, LocalSubject<String, Message>
   @Override public void run()
   {
     while(running){
-      System.out.println("Prices thread started");
       StockInfo stockInfo = null;
 
       newPrices();
@@ -141,13 +140,13 @@ public class Prices implements Runnable, LocalSubject<String, Message>
         System.out.println("Checking company " + p.getSymbol());
         if(now.getTime() - p.getTimestamp().getTime() > 1 && p.getTimestamp().getTime() != timestampOfCompany.getTime()){
           try {
+            System.out.println("Updating company " + p.getSymbol() + " with price " + tradingData.getClose());
             p.setPrice(tradingData.getClose());
             Company company = new Company(p.getSymbol(),p.getSymbol());
             company.setCurrentPrice(p.getPrice());
             priceHistoryPersistence.save(p.getSymbol(), tradingData, timestampOfCompany);
             companiesPersistence.update(company);
             property.firePropertyChange("Price",p.getSymbol(),new Message(null,p));
-            System.out.println("Updating company " + p.getSymbol() + " with price " + tradingData.getClose());
           }
           catch (Exception e) {
             e.printStackTrace();

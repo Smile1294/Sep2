@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Price
+public class Price implements Serializable
 {
   private Timestamp timestamp;
   private String symbol;
