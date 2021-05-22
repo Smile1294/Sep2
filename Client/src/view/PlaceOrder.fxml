@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import javafx.scene.chart.BarChart?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.*?>
+
 <VBox prefHeight="500.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.PlaceOrderController">
    <children>
       <VBox prefHeight="52.0" prefWidth="650.0">
@@ -32,12 +31,12 @@
                </padding>
             </HBox>
             <BarChart fx:id="ordersChart" prefHeight="236.0" prefWidth="640.0" title="Current orders">
-              <xAxis>
-                <CategoryAxis side="BOTTOM" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis side="LEFT" />
-              </yAxis>
+               <xAxis>
+                  <CategoryAxis side="BOTTOM" />
+               </xAxis>
+               <yAxis>
+                  <NumberAxis side="LEFT" />
+               </yAxis>
             </BarChart>
          </children>
          <padding>
@@ -46,7 +45,7 @@
       </VBox>
       <VBox prefWidth="100.0">
          <children>
-            <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="5.0">
+            <HBox fx:id="Erro" alignment="CENTER_LEFT" prefWidth="200.0" spacing="5.0">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
@@ -56,8 +55,8 @@
                         <Insets right="150.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="priceField" prefWidth="171.0" />
-                  <Label text="Valuta $£€?" />
+                  <TextField fx:id="priceField" onKeyReleased="#PriceonKeyTyped" prefWidth="171.0" />
+                  <Label text="\$" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="5.0">
@@ -70,8 +69,8 @@
                         <Insets right="150.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="amountField" prefWidth="171.0" />
-                  <Label text="Valuta user specified?" />
+                  <TextField fx:id="amountField" onKeyReleased="#AmountOnKeyTyped" prefWidth="171.0" />
+                  <Label />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="36.0" prefWidth="200.0" spacing="5.0">
@@ -81,8 +80,9 @@
                         <Insets right="150.0" />
                      </HBox.margin>
                   </Label>
-                  <Label fx:id="totalLabel" alignment="CENTER_RIGHT" prefWidth="171.0" text="9001" />
-                  <Label text="Valuta not a user story so no" />
+                  <Label fx:id="totalLabel" alignment="CENTER_RIGHT" prefWidth="171.0" text="0" />
+                  <Label text="\$" />
+                  <Label fx:id="ErrorLable" prefHeight="26.0" prefWidth="234.0" textFill="#e10606" />
                </children>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -95,8 +95,8 @@
                         <Insets right="150.0" />
                      </HBox.margin>
                   </Label>
-                  <Label fx:id="ballanceLabel" alignment="CENTER_RIGHT" prefWidth="171.0" text="923498687" />
-                  <Label text="€" />
+                  <Label fx:id="ballanceLabel" alignment="CENTER_RIGHT" prefWidth="171.0" />
+                  <Label text="\$" />
                </children>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

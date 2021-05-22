@@ -1,12 +1,10 @@
 package viewmodel;
 
 import model.Model;
-import view.View;
-
 import java.io.IOException;
 
 public class ViewModelFactory {
-    private PlaceOrderViewModel placeOrderController;
+    private PlaceOrderViewModel placeOrderViewModel;
     private CompanyListViewModel companyListViewModel;
     private CompanyViewModel companyViewModel;
     private LoginViewModel loginViewModel;
@@ -18,7 +16,7 @@ public class ViewModelFactory {
 
     public ViewModelFactory(Model model) throws IOException {
         ViewState viewState = new ViewState();
-        this.placeOrderController = new PlaceOrderViewModel(model,viewState);
+        this.placeOrderViewModel = new PlaceOrderViewModel(model,viewState);
         this.loginViewModel = new LoginViewModel(model,viewState);
         this.registerViewModel = new RegisterViewModel(model);
         this.accountViewModel = new AccountViewModel(model,viewState);
@@ -29,8 +27,8 @@ public class ViewModelFactory {
         this.ordersListViewModel = new OrdersListViewModel(model,viewState);
     }
 
-    public PlaceOrderViewModel getPlaceOrderController() {
-        return placeOrderController;
+    public PlaceOrderViewModel getPlaceOrderViewModel() {
+        return placeOrderViewModel;
     }
 
     public LoginViewModel getLoginViewModel() {

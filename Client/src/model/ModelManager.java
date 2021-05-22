@@ -108,6 +108,7 @@ public class ModelManager implements Model {
     public void AddOrder(Order order) {
         try {
             tradingClient.AddOrder(order);
+            property.firePropertyChange("balanceUpdate", (getUser((order.getUser()))).getBalance().toString(), order);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -211,7 +212,6 @@ public class ModelManager implements Model {
     public void close() throws RemoteException {
         tradingClient.close();
     }
-
 
 
     @Override

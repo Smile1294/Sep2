@@ -53,6 +53,7 @@ public class ModelManger implements Model, LocalListener<String, Order> {
         stocks = stocksPersistence.loadAll();
         tradingServer = new TradingServer(this);
         orders.addListener(this);
+
     }
 
     /**
@@ -90,6 +91,7 @@ public class ModelManger implements Model, LocalListener<String, Order> {
         }
         new Thread(() -> {
             try {
+                usersPersistence.update(userList.getUser(new UserName(order.getUser())));
                 stocksPersistence.update(stocks);
                 ordersPersistence.update(orders);
                 if (!orders.getOrderbyId(order)) {
@@ -223,6 +225,8 @@ public class ModelManger implements Model, LocalListener<String, Order> {
                     try {
                         new Thread(orders).start();
                         UpdateOwnedStock(order);
+                        usersPersistence.update(userList.getUser(new UserName(order.getUser())));
+                        property.firePropertyChange("balanceUpdate", (userList.getUser(new UserName(order.getUser()))).getBalance().toString(), order);
                     } catch (Exception e) {
                         System.out.println(e);
                     }
@@ -232,11 +236,13 @@ public class ModelManger implements Model, LocalListener<String, Order> {
                 }
             }
         } else {
-            if (getUser(order.getUser()).getBalance() > order.getAskingPrice() && order.getAmount() >= 1) {
+            if (getUser(order.getUser()).getBalance() >= order.getAskingPrice() && order.getAmount() >= 1) {
                 orders.AddOrder(order);
                 try {
                     userList.getUser(new UserName(order.getUser())).setBalance(new Balance((int) getBalance(new UserName(order.getUser())) - order.getAskingPrice().intValue()));
                     new Thread(orders).start();
+                    usersPersistence.update(userList.getUser(new UserName(order.getUser())));
+                    property.firePropertyChange("balanceUpdate", (userList.getUser(new UserName(order.getUser()))).getBalance().toString(), order);
                 } catch (Exception e) {
                     System.out.println(e);
                 }

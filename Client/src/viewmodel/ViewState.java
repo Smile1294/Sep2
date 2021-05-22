@@ -6,8 +6,17 @@ public class ViewState {
     private UserName userName;
     private boolean withdraw;
     private String selectedSymbol;
+    private boolean FromAccountView;
 
-    public ViewState(){
+    public ViewState() {
+    }
+
+    public boolean isFromAccountView() {
+        return FromAccountView;
+    }
+
+    public void setFromAccountView(boolean fromAccountView) {
+        FromAccountView = fromAccountView;
     }
 
     public void setSelectedSymbol(String selectedSymbol) {
@@ -30,7 +39,7 @@ public class ViewState {
         return withdraw;
     }
 
-    public void setWithdraw(boolean withdraw){
+    public void setWithdraw(boolean withdraw) {
         this.withdraw = withdraw;
     }
 }
