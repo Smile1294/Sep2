@@ -25,7 +25,6 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
             e.printStackTrace();
         }
         server.addListener(this);
-
     }
     /**
      * gets the user by name
@@ -206,7 +205,7 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
     }
 
     @Override
-    public void propertyChange(ObserverEvent<String, Message> event) throws RemoteException {
+    public void propertyChange(ObserverEvent<String, Message> event) {
         localModel.receivedRemoteEvent(event);
     }
 }

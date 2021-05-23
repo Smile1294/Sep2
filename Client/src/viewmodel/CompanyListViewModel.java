@@ -118,7 +118,7 @@ public class CompanyListViewModel implements LocalListener<String, Message>
     {
       for (SimpleCompanyViewModel s : list)
       {
-        if (s.getSymbol().get().equals(event.getValue1()))
+        if (s.getSymbol().get().equals(event.getValue2().getPriceObject().getSymbol()))
         {
           Platform.runLater(() -> {
             s.getPrice().setValue(event.getValue2().getPriceObject().getPrice());

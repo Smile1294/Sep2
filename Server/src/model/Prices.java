@@ -240,12 +240,7 @@ public class Prices implements Runnable, LocalSubject<String, Message>
     }
   }
 
-  /**
-   *
-   * @param listener
-   * @param propertyNames
-   * @return
-   */
+
   @Override public boolean addListener(
       GeneralListener<String, Message> listener, String... propertyNames)
   {
