@@ -22,10 +22,11 @@ public class SimpleStockViewModel {
 
     /**
      * Constructor that is initialising all the instance variables
-     * @param stock user stock
-     * @param user which user
+     *
+     * @param stock   user stock
+     * @param user    which user
      * @param company which company
-     * @param orders list of orders
+     * @param orders  list of orders
      */
 
     public SimpleStockViewModel(Stock stock, User user, Company company, Orders orders) {
@@ -39,7 +40,7 @@ public class SimpleStockViewModel {
         symbol = new SimpleStringProperty(company.getSymbol());
 
         if (((((company.getCurrentPrice() * stock.getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100) > 0) {
-            percentage = new SimpleStringProperty("+" + Double.toString(((((company.getCurrentPrice() * stock.getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100)));
+            percentage = new SimpleStringProperty("+" + (((((company.getCurrentPrice() * stock.getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100)));
         } else {
             percentage = new SimpleStringProperty(Double.toString(((((company.getCurrentPrice() * stock.getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100)));
         }
@@ -48,8 +49,10 @@ public class SimpleStockViewModel {
         }
     }
 
+
     /**
      * gets the username
+     *
      * @return username
      */
 
@@ -59,6 +62,7 @@ public class SimpleStockViewModel {
 
     /**
      * gets number owned
+     *
      * @return number owned
      */
 
@@ -68,15 +72,16 @@ public class SimpleStockViewModel {
 
     /**
      * get symbol of company
+     *
      * @return symbol
      */
-    public StringProperty getSymbol()
-    {
+    public StringProperty getSymbol() {
         return symbol;
     }
 
     /**
      * gets percentage
+     *
      * @return percentage
      */
 
@@ -86,6 +91,7 @@ public class SimpleStockViewModel {
 
     /**
      * gets current value
+     *
      * @return current value
      */
 
@@ -95,6 +101,7 @@ public class SimpleStockViewModel {
 
     /**
      * gets invested
+     *
      * @return invested
      */
 
@@ -104,6 +111,7 @@ public class SimpleStockViewModel {
 
     /**
      * gets name
+     *
      * @return name
      */
 
@@ -113,6 +121,7 @@ public class SimpleStockViewModel {
 
     /**
      * gets value
+     *
      * @return value
      */
 

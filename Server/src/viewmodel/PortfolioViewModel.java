@@ -15,8 +15,7 @@ import java.security.KeyStore;
  * PortfolioViewModel is class for functionality of portfolio view
  */
 
-public class PortfolioViewModel implements LocalListener<String, Message>
-{
+public class PortfolioViewModel implements LocalListener<String, Message> {
     private Model model;
     private StringProperty name;
     private DoubleProperty total;
@@ -26,7 +25,8 @@ public class PortfolioViewModel implements LocalListener<String, Message>
 
     /**
      * Constructor that is initialising all the instance variables
-     * @param model model for functionality
+     *
+     * @param model     model for functionality
      * @param viewState viewState state of the account
      * @throws IOException
      */
@@ -56,6 +56,7 @@ public class PortfolioViewModel implements LocalListener<String, Message>
 
     /**
      * gets the stock model view
+     *
      * @return stock model view
      */
 
@@ -65,6 +66,7 @@ public class PortfolioViewModel implements LocalListener<String, Message>
 
     /**
      * gets invested
+     *
      * @return invested
      */
 
@@ -87,17 +89,19 @@ public class PortfolioViewModel implements LocalListener<String, Message>
     }
 
 
-
     /**
      * gets total price
+     *
      * @return price
      */
 
     public DoubleProperty getPriceTotal() {
         return new SimpleDoubleProperty(model.getPriceTotal(viewState.getUserName().getName()));
     }
+
     /**
      * gets name
+     *
      * @return name
      */
 
@@ -107,6 +111,7 @@ public class PortfolioViewModel implements LocalListener<String, Message>
 
     /**
      * gets total
+     *
      * @return total
      */
 
@@ -114,16 +119,19 @@ public class PortfolioViewModel implements LocalListener<String, Message>
         return total;
     }
 
-    @Override public void propertyChange(ObserverEvent<String, Message> event)
-    {
-        if(event.getPropertyName().equals("Price"))
-        {
-            for (SimpleStockViewModel s : simpleStockViewModels)
-            {
-                if (s.getSymbol().get().equals(event.getValue1()))
-                {
+    /**
+     * Updates values in portofilio, if company price changes
+     *
+     * @param event
+     */
+    @Override
+    public void propertyChange(ObserverEvent<String, Message> event) {
+        if (event.getPropertyName().equals("Price")) {
+            for (SimpleStockViewModel s : simpleStockViewModels) {
+                if (s.getSymbol().get().equals(event.getValue1())) {
                     Platform.runLater(() -> {
-                        s.getCurrentValue().setValue(String.valueOf(event.getValue2().getPriceObject().getPrice()* Double.parseDouble(s.getNumberowned().get())));
+                        simpleStockViewModels.removeAll(getAll());
+                        loadUserStock();
                     });
                 }
             }

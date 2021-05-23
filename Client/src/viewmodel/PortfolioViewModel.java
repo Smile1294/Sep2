@@ -132,12 +132,17 @@ public class PortfolioViewModel implements LocalListener<String, Message> {
         return total;
     }
 
+    /**
+     * Updates values in portofilio, if company price changes
+     * @param event
+     */
     public void propertyChange(ObserverEvent<String, Message> event) {
         if (event.getPropertyName().equals("Price")) {
             for (SimpleStockViewModel s : simpleStockViewModels) {
                 if (s.getSymbol().get().equals(event.getValue1())) {
                     Platform.runLater(() -> {
-                        s.getCurrentValue().setValue(String.valueOf(event.getValue2().getPriceObject().getPrice() * Double.parseDouble(s.getNumberowned().get())));
+                        simpleStockViewModels.removeAll(getAll());
+                        loadUserStock();
                     });
                 }
             }
