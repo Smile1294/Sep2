@@ -24,7 +24,7 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
             System.err.println("Client exception: " + e);
             e.printStackTrace();
         }
-        server.addListener(this);
+        server.addListener(this );
     }
     /**
      * gets the user by name

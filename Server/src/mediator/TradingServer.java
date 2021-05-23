@@ -36,7 +36,7 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
         super();
         startRegistry();
         this.localModel = model;
-        localModel.addListener(this, "Order", "Login", "Register");
+        localModel.addListener(this, "Order", "Login", "Register","Price");
         startServer();
         property = new PropertyChangeHandler<>(this, true);
 
