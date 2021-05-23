@@ -1,9 +1,12 @@
 package viewmodel;
 
+import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.*;
+import utility.observer.event.ObserverEvent;
+import utility.observer.listener.LocalListener;
 
 import java.io.IOException;
 import java.security.KeyStore;
@@ -12,7 +15,8 @@ import java.security.KeyStore;
  * PortfolioViewModel is class for functionality of portfolio view
  */
 
-public class PortfolioViewModel {
+public class PortfolioViewModel implements LocalListener<String, Message>
+{
     private Model model;
     private StringProperty name;
     private DoubleProperty total;
@@ -34,6 +38,7 @@ public class PortfolioViewModel {
         this.name = new SimpleStringProperty();
         this.total = new SimpleDoubleProperty();
         simpleStockViewModels = FXCollections.observableArrayList();
+        model.addListener(this);
     }
 
     /**
@@ -107,6 +112,24 @@ public class PortfolioViewModel {
 
     public DoubleProperty getTotal() {
         return total;
+    }
+
+    @Override public void propertyChange(ObserverEvent<String, Message> event)
+    {
+        if(event.getPropertyName().equals("Price"))
+        {
+            for (SimpleStockViewModel s : simpleStockViewModels)
+            {
+                if (s.getSymbol().get().equals(event.getValue1()))
+                {
+                    System.out.println("nejdzem");
+                    Platform.runLater(() -> {
+                        s.getCurrentValue().setValue(String.valueOf(event.getValue2().getPriceObject().getPrice()* Double.parseDouble(s.getNumberowned().get())));
+                    });
+                    System.out.println("idzem");
+                }
+            }
+        }
     }
 }
 
