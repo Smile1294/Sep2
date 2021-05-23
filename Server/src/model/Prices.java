@@ -13,9 +13,6 @@ import utility.PropertyChangeSubject;
 import utility.observer.listener.GeneralListener;
 import utility.observer.subject.LocalSubject;
 import utility.observer.subject.PropertyChangeHandler;
-
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;

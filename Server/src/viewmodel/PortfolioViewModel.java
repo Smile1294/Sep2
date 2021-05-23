@@ -122,11 +122,9 @@ public class PortfolioViewModel implements LocalListener<String, Message>
             {
                 if (s.getSymbol().get().equals(event.getValue1()))
                 {
-                    System.out.println("nejdzem");
                     Platform.runLater(() -> {
                         s.getCurrentValue().setValue(String.valueOf(event.getValue2().getPriceObject().getPrice()* Double.parseDouble(s.getNumberowned().get())));
                     });
-                    System.out.println("idzem");
                 }
             }
         }
