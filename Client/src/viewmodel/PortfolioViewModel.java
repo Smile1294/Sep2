@@ -39,7 +39,7 @@ public class PortfolioViewModel implements LocalListener<String, Message> {
         this.name = new SimpleStringProperty();
         this.total = new SimpleDoubleProperty();
         simpleStockViewModels = FXCollections.observableArrayList();
-        model.addListener(this);
+        model.addListener(this, "Price");
 
     }
 
@@ -137,7 +137,6 @@ public class PortfolioViewModel implements LocalListener<String, Message> {
      * @param event
      */
     public void propertyChange(ObserverEvent<String, Message> event) {
-        if (event.getPropertyName().equals("Price")) {
             for (SimpleStockViewModel s : simpleStockViewModels) {
                 if (s.getSymbol().get().equals(event.getValue1())) {
                     Platform.runLater(() -> {
@@ -146,7 +145,6 @@ public class PortfolioViewModel implements LocalListener<String, Message> {
                     });
                 }
             }
-        }
     }
 }
 

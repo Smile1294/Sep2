@@ -23,9 +23,9 @@ import java.util.ArrayList;
  */
 public class Prices implements Runnable, LocalSubject<String, Message>
 {
-  ArrayList<Price> newPrices;
-  PriceHistoryPersistence priceHistoryPersistence;
-  CompaniesPersistence companiesPersistence;
+  private ArrayList<Price> newPrices;
+  private PriceHistoryPersistence priceHistoryPersistence;
+  private CompaniesPersistence companiesPersistence;
   private StockAPI stockAPI;
   private Gson gson;
   private Timestamp now;
