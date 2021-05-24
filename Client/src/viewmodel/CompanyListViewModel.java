@@ -1,6 +1,5 @@
 package viewmodel;
 
-import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -8,17 +7,13 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Company;
-import model.Message;
 import model.Model;
-import utility.observer.event.ObserverEvent;
-import utility.observer.listener.LocalListener;
 
 /**
  * CompanyListViewModel is class for functionality of CompanyList view
  */
 
-public class CompanyListViewModel implements LocalListener<String, Message>
-{
+public class CompanyListViewModel {
   private Model model;
   private ObservableList<SimpleCompanyViewModel> list;
   private ObjectProperty<SimpleCompanyViewModel> selectedSimpleCompany;
@@ -27,18 +22,17 @@ public class CompanyListViewModel implements LocalListener<String, Message>
 
   /**
    * Constructor that is initialising all the instance variables
-   * @param model model for functionality
+   *
+   * @param model     model for functionality
    * @param viewState viewState state of the account
    */
 
-  public CompanyListViewModel(Model model, ViewState viewState)
-  {
+  public CompanyListViewModel(Model model, ViewState viewState) {
     this.model = model;
     list = FXCollections.observableArrayList();
     errorProperty = new SimpleStringProperty("");
     selectedSimpleCompany = new SimpleObjectProperty<>();
     this.viewState = viewState;
-    model.addListener(this);
     loadFromModel();
   }
 
@@ -46,8 +40,7 @@ public class CompanyListViewModel implements LocalListener<String, Message>
    * clears the information and sets it to default
    */
 
-  public void clear()
-  {
+  public void clear() {
     list.clear();
     errorProperty.setValue("");
     loadFromModel();
@@ -57,8 +50,7 @@ public class CompanyListViewModel implements LocalListener<String, Message>
    * loads companies from model
    */
 
-  public void loadFromModel()
-  {
+  public void loadFromModel() {
     // load all companies
     try {
       for (Company c : model.getAllCompanies()) {
@@ -69,33 +61,38 @@ public class CompanyListViewModel implements LocalListener<String, Message>
     }
   }
 
+  public void setViewStateBoolean() {
+    viewState.setFromAccountView(true);
+  }
+
   /**
    * gets error property
+   *
    * @return property
    */
 
-  public StringProperty getErrorProperty()
-  {
+  public StringProperty getErrorProperty() {
     return errorProperty;
   }
 
   /**
    * gets the list in the view
+   *
    * @return list
    */
 
-  public ObservableList<SimpleCompanyViewModel> getList()
-  {
+  public ObservableList<SimpleCompanyViewModel> getList() {
     return list;
   }
 
   /**
    * gets company if its selected
+   *
    * @return true if selected
    */
 
-  public boolean chose(){
-    if (selectedSimpleCompany.get() != null){
+  public boolean chose() {
+    if (selectedSimpleCompany.get() != null) {
       viewState.setSelectedSymbol(selectedSimpleCompany.get().getSymbol().get());
       return true;
     }
@@ -105,25 +102,28 @@ public class CompanyListViewModel implements LocalListener<String, Message>
 
   /**
    * sets selected company
+   *
    * @param companyVM company that is selected
    */
 
-  public void setSelected(SimpleCompanyViewModel companyVM){
+  public void setSelected(SimpleCompanyViewModel companyVM) {
+    selectedSimpleCompany = new SimpleObjectProperty<>(companyVM);
+  }
+
+  public void setSelected(SimpleCompanyViewModel companyVM) {
     selectedSimpleCompany = new SimpleObjectProperty<>(companyVM);
   }
 
   /**
    * if there is updated new Price the propertyChange will update view and model
+   *
    * @param event
    */
-  @Override public void propertyChange(ObserverEvent<String, Message> event)
-  {
-    if(event.getPropertyName().equals("Price"))
-    {
-      for (SimpleCompanyViewModel s : list)
-      {
-        if (s.getSymbol().get().equals(event.getValue2().getPriceObject().getSymbol()))
-        {
+  @Override
+  public void propertyChange(ObserverEvent<String, Message> event) {
+    if (event.getPropertyName().equals("Price")) {
+      for (SimpleCompanyViewModel s : list) {
+        if (s.getSymbol().get().equals(event.getValue2().getPriceObject().getSymbol())) {
           Platform.runLater(() -> {
             s.getPrice().setValue(event.getValue2().getPriceObject().getPrice());
           });

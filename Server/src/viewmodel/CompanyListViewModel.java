@@ -66,6 +66,11 @@ public class CompanyListViewModel implements LocalListener<String, Message>
     }
   }
 
+  public void setViewStateBoolean()
+  {
+    viewState.setFromAccountView(true);
+  }
+
   /**
    * gets error property
    * @return property

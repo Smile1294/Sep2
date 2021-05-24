@@ -45,7 +45,7 @@
       </VBox>
       <VBox prefWidth="100.0">
          <children>
-            <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="5.0">
+            <HBox fx:id="Erro" alignment="CENTER_LEFT" prefWidth="200.0" spacing="5.0">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
@@ -55,8 +55,8 @@
                         <Insets right="150.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="priceField" prefWidth="171.0" />
-                  <Label text="Valuta $£€?" />
+                  <TextField fx:id="priceField" onKeyReleased="#PriceonKeyTyped" prefWidth="171.0" />
+                  <Label text="\$" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="5.0">
@@ -69,8 +69,8 @@
                         <Insets right="150.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="amountField" prefWidth="171.0" />
-                  <Label text="Valuta user specified?" />
+                  <TextField fx:id="amountField" onKeyReleased="#AmountOnKeyTyped" prefWidth="171.0" />
+                  <Label />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="36.0" prefWidth="200.0" spacing="5.0">
@@ -80,8 +80,9 @@
                         <Insets right="150.0" />
                      </HBox.margin>
                   </Label>
-                  <Label fx:id="totalLabel" alignment="CENTER_RIGHT" prefWidth="171.0" text="9001" />
-                  <Label text="Valuta not a user story so no" />
+                  <Label fx:id="totalLabel" alignment="CENTER_RIGHT" prefWidth="171.0" text="0" />
+                  <Label text="\$" />
+                  <Label fx:id="ErrorLable" prefHeight="26.0" prefWidth="234.0" textFill="#e10606" />
                </children>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -94,8 +95,8 @@
                         <Insets right="150.0" />
                      </HBox.margin>
                   </Label>
-                  <Label fx:id="ballanceLabel" alignment="CENTER_RIGHT" prefWidth="171.0" text="923498687" />
-                  <Label text="€" />
+                  <Label fx:id="ballanceLabel" alignment="CENTER_RIGHT" prefWidth="171.0" />
+                  <Label text="\$" />
                </children>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

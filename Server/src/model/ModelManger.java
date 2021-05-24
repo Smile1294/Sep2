@@ -9,7 +9,6 @@ import utility.observer.listener.GeneralListener;
 import utility.observer.listener.LocalListener;
 import utility.observer.subject.PropertyChangeHandler;
 
-import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
@@ -185,6 +184,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * getting order by user
+     *
      * @param user that is getting check it
      * @return order
      */
@@ -239,7 +239,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
                 }
             }
         } else {
-            if (getUser(order.getUser()).getBalance() > order.getAskingPrice() && order.getAmount() >= 1) {
+            if (getUser(order.getUser()).getBalance() >= order.getAskingPrice() && order.getAmount() >= 1) {
                 orders.AddOrder(order);
                 try {
                     userList.getUser(new UserName(order.getUser())).setBalance(new Balance((int) getBalance(new UserName(order.getUser())) - order.getAskingPrice().intValue()));
@@ -257,6 +257,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * gets the balance of the user
+     *
      * @param userName username of the user
      * @return balance
      */
@@ -282,6 +283,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * gets all the companies
+     *
      * @return companies
      */
 
@@ -292,6 +294,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * gets the company by symbol
+     *
      * @param symbol symbol that is being compared to
      * @return company
      */
@@ -303,6 +306,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * gets the company by name
+     *
      * @param name name that is being compared to
      * @return company
      */
@@ -313,6 +317,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * login for user
+     *
      * @param user user that wants login
      * @return logged in user
      * @throws Exception
@@ -323,8 +328,6 @@ public class ModelManger implements Model, LocalListener<String, Message> {
         if (!userList.userExist(user)) {
             throw new Exception("Wrong username or password");
         }
-
-
         return true;
     }
 
@@ -346,6 +349,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * adding registered user to the list
+     *
      * @param user user that is being added
      * @return user that is registered
      * @throws Exception
@@ -357,7 +361,9 @@ public class ModelManger implements Model, LocalListener<String, Message> {
         if (result) {
             usersPersistence.save(user);
             for (Company c : companies.getCompanies()) {
-                stocks.addStock(new Stock(c.getSymbol(), user.getUserName().getName()));
+                Stock s = new Stock(c.getSymbol(), user.getUserName().getName());
+                stocks.addStock(s);
+                stocksPersistence.save(s, user);
             }
         }
         return result;
@@ -366,11 +372,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
     @Override
     public void close() throws RemoteException {
         tradingServer.close();
-        prices.close();
-        threadPrices.interrupt();
     }
-
-
 
     @Override
     public boolean addListener(GeneralListener<String, Message> listener, String... propertyNames) {
@@ -381,6 +383,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
     @Override
     public boolean removeListener(GeneralListener<String, Message> listener, String... propertyNames) {
         return property.removeListener(listener, propertyNames);
+
     }
 
     /**
@@ -405,5 +408,6 @@ public class ModelManger implements Model, LocalListener<String, Message> {
                 throwables.printStackTrace();
             }
         });
+
     }
 }

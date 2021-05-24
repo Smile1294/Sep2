@@ -13,16 +13,17 @@ import model.Model;
 public class AccountViewModel {
     private Model model;
     private StringProperty user;
-    private DoubleProperty total,value,balance;
+    private DoubleProperty total, value, balance;
     private ViewState viewState;
 
     /**
      * Constructor that is initialising all the instance variables
-     * @param model model for functionality
+     *
+     * @param model     model for functionality
      * @param viewState state of the account
      */
 
-    public AccountViewModel(Model model, ViewState viewState){
+    public AccountViewModel(Model model, ViewState viewState) {
         this.model = model;
         this.viewState = viewState;
         value = new SimpleDoubleProperty();
@@ -35,21 +36,21 @@ public class AccountViewModel {
      * clears the information and sets it to default
      */
 
-    public void clear(){
+    public void clear() {
         double invested = 0.0;
         try {
-            invested = Math.round(model.getPriceTotal(viewState.getUserName().getName())*100.0)/100.0;
-        } catch (Exception e){
+            invested = Math.round(model.getPriceTotal(viewState.getUserName().getName()) * 100.0) / 100.0;
+        } catch (Exception e) {
             e.printStackTrace();
         }
         double moneyBalance = 0.0;
         try {
-            moneyBalance = Math.round(model.getBalance(viewState.getUserName())*100.0)/100.0;
-        } catch (Exception e){
+            moneyBalance = Math.round(model.getBalance(viewState.getUserName()) * 100.0) / 100.0;
+        } catch (Exception e) {
             e.printStackTrace();
         }
         value.setValue(invested);
-        total.setValue(Math.round((invested+moneyBalance)*100.0)/100.0);
+        total.setValue(Math.round((invested + moneyBalance) * 100.0) / 100.0);
         balance.setValue(moneyBalance);
         user.setValue(viewState.getUserName().toString());
     }
@@ -58,7 +59,7 @@ public class AccountViewModel {
      * sets the state to withdraw
      */
 
-    public void setWithdraw(){
+    public void setWithdraw() {
         viewState.setWithdraw(true);
     }
 
@@ -66,12 +67,17 @@ public class AccountViewModel {
      * sets the deposit by putting withdraw to false
      */
 
-    public void setAdd(){
+    public void setAdd() {
         viewState.setWithdraw(false);
+    }
+
+    public void setViewStateBoolean() {
+        viewState.setFromAccountView(false);
     }
 
     /**
      * getting total invested
+     *
      * @return total invested
      */
 
@@ -81,6 +87,7 @@ public class AccountViewModel {
 
     /**
      * getting value of investments
+     *
      * @return value of investments
      */
 
@@ -90,6 +97,7 @@ public class AccountViewModel {
 
     /**
      * getting the balance of account
+     *
      * @return balance of account
      */
 
@@ -99,6 +107,7 @@ public class AccountViewModel {
 
     /**
      * getting user of the account
+     *
      * @return user
      */
 
