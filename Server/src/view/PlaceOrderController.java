@@ -76,7 +76,7 @@ public class PlaceOrderController extends ViewController {
             }
         } catch (NumberFormatException e) {
             totalLabel.setText("0");
-            ErrorLable.setText("Input string cannot be parsed to integer");
+            ErrorLable.setText("Invalid input string");
         }
 
     }

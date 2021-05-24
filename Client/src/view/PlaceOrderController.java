@@ -1,6 +1,8 @@
 package view;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.ChoiceBox;
@@ -19,13 +21,17 @@ public class PlaceOrderController extends ViewController {
     public Label totalLabel;
     public Label ballanceLabel;
     public Label ErrorLable;
+    public Label CurrentPrice;
 
     @Override
     protected void init() throws RemoteException {
+
         stockChoice.setItems(getViewModelFactory().getPlaceOrderViewModel().getStockChoice());
         Bindings.bindBidirectional(priceField.textProperty(),
                 getViewModelFactory().getPlaceOrderViewModel().getPrice(),
                 new NumberStringConverter());
+        stockChoice.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+                Bindings.bindBidirectional(CurrentPrice.textProperty(), getViewModelFactory().getPlaceOrderViewModel().getCurrentPrice(stockChoice.getSelectionModel().getSelectedItem())));
         Bindings.bindBidirectional(amountField.textProperty(),
                 getViewModelFactory().getPlaceOrderViewModel().getAmount(),
                 new NumberStringConverter());
@@ -37,8 +43,8 @@ public class PlaceOrderController extends ViewController {
 
     @Override
     public void reset() {
-        stockChoice.setValue(getViewModelFactory().getPlaceOrderViewModel().getSelectedCompany());
         getViewModelFactory().getPlaceOrderViewModel().reset();
+        stockChoice.setValue(getViewModelFactory().getPlaceOrderViewModel().getSelectedCompany());
     }
 
     public void onBuy(ActionEvent actionEvent) throws Exception {
@@ -72,7 +78,7 @@ public class PlaceOrderController extends ViewController {
             }
         } catch (NumberFormatException e) {
             totalLabel.setText("0");
-            ErrorLable.setText("Input string cannot be parsed to integer");
+            ErrorLable.setText("Invalid input string");
         }
 
     }
@@ -88,7 +94,7 @@ public class PlaceOrderController extends ViewController {
             }
         } catch (NumberFormatException e) {
             totalLabel.setText("0");
-            ErrorLable.setText("Input string cannot be parsed to integer");
+            ErrorLable.setText("Invalid input string");
         }
     }
 }
