@@ -1,8 +1,6 @@
 package model;
 
 
-import utility.PropertyChangeSubject;
-
 import utility.observer.subject.LocalSubject;
 
 import java.rmi.RemoteException;

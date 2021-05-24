@@ -9,7 +9,6 @@ import stockAPI.RequestType;
 import stockAPI.StockAPI;
 import stockAPI.StockInfo;
 import stockAPI.TradingData;
-import utility.PropertyChangeSubject;
 import utility.observer.listener.GeneralListener;
 import utility.observer.subject.LocalSubject;
 import utility.observer.subject.PropertyChangeHandler;
@@ -24,9 +23,9 @@ import java.util.ArrayList;
  */
 public class Prices implements Runnable, LocalSubject<String, Message>
 {
-  ArrayList<Price> newPrices;
-  PriceHistoryPersistence priceHistoryPersistence;
-  CompaniesPersistence companiesPersistence;
+  private ArrayList<Price> newPrices;
+  private PriceHistoryPersistence priceHistoryPersistence;
+  private CompaniesPersistence companiesPersistence;
   private StockAPI stockAPI;
   private Gson gson;
   private Timestamp now;
@@ -248,7 +247,7 @@ public class Prices implements Runnable, LocalSubject<String, Message>
       }
       catch (InterruptedException e)
       {
-        e.printStackTrace();
+
       }
     }
   }

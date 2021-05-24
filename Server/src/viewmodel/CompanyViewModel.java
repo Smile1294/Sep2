@@ -31,7 +31,7 @@ public class CompanyViewModel implements LocalListener<String, Message>
     name = new SimpleStringProperty();
     symbol = new SimpleStringProperty();
     price = new SimpleDoubleProperty();
-    model.addListener(this);
+    model.addListener(this, "Price");
   }
 
   /**
@@ -85,8 +85,7 @@ public class CompanyViewModel implements LocalListener<String, Message>
 
   @Override public void propertyChange(ObserverEvent<String, Message> event)
   {
-    if (event.getPropertyName().equals("Price"))
-    {
+
       try
       {
         if (symbol.get().equals(event.getValue1()))
@@ -100,6 +99,6 @@ public class CompanyViewModel implements LocalListener<String, Message>
       {
 
       }
-    }
+
   }
 }

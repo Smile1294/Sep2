@@ -33,7 +33,7 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
      */
 
     public PlaceOrderViewModel(Model model, ViewState viewState) {
-        model.addListener(this);
+        model.addListener(this, "balanceUpdate");
         this.balance = new SimpleStringProperty();
         this.companyName = new SimpleStringProperty();
         this.amount = new SimpleIntegerProperty();
@@ -139,9 +139,7 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
         Platform.runLater(() ->
         {
             try {
-                if (event.getPropertyName().equals("balanceUpdate")) {
                     balance.setValue(event.getValue1());
-                }
             } catch (Exception e) {
                 System.out.println(e);
             }

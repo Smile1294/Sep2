@@ -107,7 +107,7 @@ public class ModelManager implements Model {
     public void AddOrder(Order order) {
         try {
             tradingClient.AddOrder(order);
-            property.firePropertyChange("balanceUpdate", (getUser((order.getUser()))).getBalance().toString(), order);
+            property.firePropertyChange("balanceUpdate", (getUser((order.getUser()))).getBalance().toString(), new Message(order,null));
         } catch (Exception e) {
             e.printStackTrace();
         }

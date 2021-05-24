@@ -39,7 +39,7 @@ public class OrdersListViewModel implements LocalListener<String, Message> {
 
         this.model = model;
         this.viewState = viewState;
-        model.addListener(this);
+        model.addListener(this,"ClosingOrder");
         Company = new SimpleStringProperty();
         amount = new SimpleDoubleProperty();
         initAmount = new SimpleDoubleProperty();
@@ -160,10 +160,8 @@ public class OrdersListViewModel implements LocalListener<String, Message> {
         Platform.runLater(() ->
         {
             try {
-                if (event.getPropertyName().equals("ClosingOrder")) {
                     RemoveOrder(UUID.fromString(event.getValue2().getOrder().getOrderId()));
                     addOrder(event.getValue2().getOrder());
-                }
             } catch (Exception e) {
                 System.out.println(e);
             }
