@@ -44,6 +44,7 @@ public class CompanyListViewController extends ViewController
   {
       if(getViewModelFactory().getCompanyListViewModel().chose())
       {
+        getViewModelFactory().getCompanyListViewModel().setViewStateBoolean();
         getViewHandler().openView(View.COMPANY_VIEW);
       }
   }

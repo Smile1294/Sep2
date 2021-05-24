@@ -59,11 +59,15 @@ public class AccountViewModel {
         viewState.setWithdraw(false);
     }
 
+
+    public void setViewStateBoolean()
+    {
+        viewState.setFromAccountView(false);
+    }
     /**
      * getting total invested
      * @return total invested
      */
-
     public DoubleProperty totalProperty() {
         return total;
     }

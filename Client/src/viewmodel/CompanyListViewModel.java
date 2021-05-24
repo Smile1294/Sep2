@@ -42,75 +42,79 @@ public class CompanyListViewModel implements LocalListener<String, Message>
     loadFromModel();
   }
 
-  /**
-   * clears the information and sets it to default
-   */
+    /**
+     * clears the information and sets it to default
+     */
 
-  public void clear()
-  {
-    list.clear();
-    errorProperty.setValue("");
-    loadFromModel();
-  }
-
-  /**
-   * loads companies from model
-   */
-
-  public void loadFromModel()
-  {
-    // load all companies
-    try {
-      for (Company c : model.getAllCompanies()) {
-        list.add(new SimpleCompanyViewModel(c));
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
+    public void clear() {
+        list.clear();
+        errorProperty.setValue("");
+        loadFromModel();
     }
-  }
 
-  /**
-   * gets error property
-   * @return property
-   */
+    /**
+     * loads companies from model
+     */
 
-  public StringProperty getErrorProperty()
-  {
-    return errorProperty;
-  }
-
-  /**
-   * gets the list in the view
-   * @return list
-   */
-
-  public ObservableList<SimpleCompanyViewModel> getList()
-  {
-    return list;
-  }
-
-  /**
-   * gets company if its selected
-   * @return true if selected
-   */
-
-  public boolean chose(){
-    if (selectedSimpleCompany.get() != null){
-      viewState.setSelectedSymbol(selectedSimpleCompany.get().getSymbol().get());
-      return true;
+    public void loadFromModel() {
+        // load all companies
+        try {
+            for (Company c : model.getAllCompanies()) {
+                list.add(new SimpleCompanyViewModel(c));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    errorProperty.setValue("No company selected");
-    return false;
-  }
 
-  /**
-   * sets selected company
-   * @param companyVM company that is selected
-   */
+    public void setViewStateBoolean() {
+        viewState.setFromAccountView(true);
+    }
 
-  public void setSelected(SimpleCompanyViewModel companyVM){
-    selectedSimpleCompany = new SimpleObjectProperty<>(companyVM);
-  }
+    /**
+     * gets error property
+     *
+     * @return property
+     */
+
+    public StringProperty getErrorProperty() {
+        return errorProperty;
+    }
+
+    /**
+     * gets the list in the view
+     *
+     * @return list
+     */
+
+    public ObservableList<SimpleCompanyViewModel> getList() {
+        return list;
+    }
+
+    /**
+     * gets company if its selected
+     *
+     * @return true if selected
+     */
+
+    public boolean chose() {
+        if (selectedSimpleCompany.get() != null) {
+            viewState.setSelectedSymbol(selectedSimpleCompany.get().getSymbol().get());
+            return true;
+        }
+        errorProperty.setValue("No company selected");
+        return false;
+    }
+
+    /**
+     * sets selected company
+     *
+     * @param companyVM company that is selected
+     */
+
+    public void setSelected(SimpleCompanyViewModel companyVM) {
+        selectedSimpleCompany = new SimpleObjectProperty<>(companyVM);
+    }
 
   /**
    * if there is updated new Price the propertyChange will update view and model

@@ -59,7 +59,6 @@ public class ModelManger implements Model, LocalListener<String, Message> {
         orders.addListener(this);
         prices = new Prices();
         prices.addListener(this);
-
         threadPrices = new Thread(prices);
         threadPrices.start();
     }
@@ -98,6 +97,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
         }
         new Thread(() -> {
             try {
+                usersPersistence.update(userList.getUser(new UserName(order.getUser())));
                 stocksPersistence.update(stocks);
                 ordersPersistence.update(orders);
                 if (!orders.getOrderbyId(order)) {
@@ -230,6 +230,8 @@ public class ModelManger implements Model, LocalListener<String, Message> {
                     try {
                         new Thread(orders).start();
                         UpdateOwnedStock(order);
+                        usersPersistence.update(userList.getUser(new UserName(order.getUser())));
+                        property.firePropertyChange("balanceUpdate", (userList.getUser(new UserName(order.getUser()))).getBalance().toString(), order);
                     } catch (Exception e) {
                         System.out.println(e);
                     }
@@ -239,11 +241,13 @@ public class ModelManger implements Model, LocalListener<String, Message> {
                 }
             }
         } else {
-            if (getUser(order.getUser()).getBalance() > order.getAskingPrice() && order.getAmount() >= 1) {
+            if (getUser(order.getUser()).getBalance() >= order.getAskingPrice() && order.getAmount() >= 1) {
                 orders.AddOrder(order);
                 try {
                     userList.getUser(new UserName(order.getUser())).setBalance(new Balance((int) getBalance(new UserName(order.getUser())) - order.getAskingPrice().intValue()));
                     new Thread(orders).start();
+                    usersPersistence.update(userList.getUser(new UserName(order.getUser())));
+                    property.firePropertyChange("balanceUpdate", (userList.getUser(new UserName(order.getUser()))).getBalance().toString(), order);
                 } catch (Exception e) {
                     System.out.println(e);
                 }
@@ -357,7 +361,9 @@ public class ModelManger implements Model, LocalListener<String, Message> {
         if (result) {
             usersPersistence.save(user);
             for (Company c : companies.getCompanies()) {
-                stocks.addStock(new Stock(c.getSymbol(), user.getUserName().getName()));
+                Stock s = new Stock(c.getSymbol(), user.getUserName().getName());
+                stocks.addStock(s);
+                stocksPersistence.save(s, user);
             }
         }
         return result;
