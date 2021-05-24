@@ -19,6 +19,7 @@ import java.util.UUID;
 public class PlaceOrderViewModel implements LocalListener<String, Message> {
     private Model model;
     private SimpleStringProperty balance;
+    private SimpleStringProperty currentprice;
     private ObservableList<String> list;
     private SimpleIntegerProperty price;
     private SimpleIntegerProperty amount;
@@ -33,9 +34,10 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
      */
 
     public PlaceOrderViewModel(Model model, ViewState viewState) {
-        model.addListener(this, "balanceUpdate");
+        model.addListener(this, "balanceUpdate", "Price");
         this.balance = new SimpleStringProperty();
         this.companyName = new SimpleStringProperty();
+        this.currentprice = new SimpleStringProperty();
         this.amount = new SimpleIntegerProperty();
         this.price = new SimpleIntegerProperty();
         list = FXCollections.observableArrayList();
@@ -64,8 +66,7 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
         return "";
     }
 
-    public boolean Back()
-    {
+    public boolean Back() {
         return viewState.isFromAccountView();
     }
 
@@ -133,16 +134,28 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
         return price;
     }
 
+    public SimpleStringProperty getCurrentPrice(String nameofcompany) {
+        try {
+            return new SimpleStringProperty(model.getComapnyByName(nameofcompany).getCurrentPrice().toString());
+        } catch (Exception e) {
+            System.out.println("No company selected");
+        }
+        return currentprice;
+    }
 
     @Override
     public void propertyChange(ObserverEvent<String, Message> event) {
         Platform.runLater(() ->
         {
             try {
-                    balance.setValue(event.getValue1());
+                balance.setValue(event.getValue1());
             } catch (Exception e) {
                 System.out.println(e);
             }
+            if (event.getPropertyName().equals("Price")) {
+                currentprice.setValue(event.getValue2().getPriceObject().toString());
+            }
+
         });
     }
 
