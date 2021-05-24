@@ -231,7 +231,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
                         new Thread(orders).start();
                         UpdateOwnedStock(order);
                         usersPersistence.update(userList.getUser(new UserName(order.getUser())));
-                        property.firePropertyChange("balanceUpdate", (userList.getUser(new UserName(order.getUser()))).getBalance().toString(), order);
+                        property.firePropertyChange("balanceUpdate", (userList.getUser(new UserName(order.getUser()))).getBalance().toString(), new Message(order,null));
                     } catch (Exception e) {
                         System.out.println(e);
                     }
@@ -247,7 +247,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
                     userList.getUser(new UserName(order.getUser())).setBalance(new Balance((int) getBalance(new UserName(order.getUser())) - order.getAskingPrice().intValue()));
                     new Thread(orders).start();
                     usersPersistence.update(userList.getUser(new UserName(order.getUser())));
-                    property.firePropertyChange("balanceUpdate", (userList.getUser(new UserName(order.getUser()))).getBalance().toString(), order);
+                    property.firePropertyChange("balanceUpdate", (userList.getUser(new UserName(order.getUser()))).getBalance().toString(), new Message(order,null));
                 } catch (Exception e) {
                     System.out.println(e);
                 }
