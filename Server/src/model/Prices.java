@@ -9,7 +9,6 @@ import stockAPI.RequestType;
 import stockAPI.StockAPI;
 import stockAPI.StockInfo;
 import stockAPI.TradingData;
-import utility.PropertyChangeSubject;
 import utility.observer.listener.GeneralListener;
 import utility.observer.subject.LocalSubject;
 import utility.observer.subject.PropertyChangeHandler;
@@ -248,7 +247,7 @@ public class Prices implements Runnable, LocalSubject<String, Message>
       }
       catch (InterruptedException e)
       {
-        e.printStackTrace();
+
       }
     }
   }
