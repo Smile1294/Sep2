@@ -12,6 +12,7 @@ import utility.observer.subject.PropertyChangeHandler;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -43,8 +44,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
      * @throws IOException
      */
 
-    public ModelManger() throws IOException, SQLException
-    {
+    public ModelManger() throws IOException, SQLException {
         this.property = new PropertyChangeHandler<>(this, true);
         usersPersistence = UsersDatabase.getInstance();
         companiesPersistence = CompaniesDatabase.getInstance();
@@ -58,10 +58,10 @@ public class ModelManger implements Model, LocalListener<String, Message> {
         orders.addListener(this);
         prices = new Prices();
         prices.addListener(this);
-
         threadPrices = new Thread(prices);
         threadPrices.start();
     }
+
     /**
      * Checks trought all stocks finds matching stock symbol with order symbol adds amount of stocks in order to stock depending if its buying/selling
      * Updates database with newest information about orders/stocks
@@ -392,10 +392,23 @@ public class ModelManger implements Model, LocalListener<String, Message> {
      * @param event
      */
 
-    @Override public void propertyChange(ObserverEvent<String, Message> event)
-    {
-        if (event.getPropertyName().equals("Price")){
+    @Override
+    public void propertyChange(ObserverEvent<String, Message> event) {
+        if (event.getPropertyName().equals("Price")) {
+
+            for (Order o : orders.getUserOrders("Broker")) {
+                if (event.getValue1().equals(o.getSymbol())) {
+                    try {
+                        o.setAskingPrice(BigDecimal.valueOf(event.getValue2().getPriceObject().getPrice()));
+                        new Thread(orders).start();
+                        UpdateOwnedStock(o);
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                }
+            }
             property.firePropertyChange(event);
+
         }
         Platform.runLater(() ->
         {

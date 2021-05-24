@@ -55,9 +55,18 @@ public class Order implements Serializable {
     }
 
     /**
+     * Sets asking price of order
+     * @param askingPrice
+     */
+    public void setAskingPrice(BigDecimal askingPrice) {
+        this.askingPrice = askingPrice;
+    }
+
+    /**
      * if its for sale
      * @return sell
      */
+
 
     public boolean isSell() {
         return sell;

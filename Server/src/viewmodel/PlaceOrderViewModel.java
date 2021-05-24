@@ -16,7 +16,7 @@ import java.util.UUID;
  * PlaceOrderViewModel is class for functionality of login view
  */
 
-public class PlaceOrderViewModel implements LocalListener<String, Order> {
+public class PlaceOrderViewModel implements LocalListener<String, Message> {
     private Model model;
     private SimpleStringProperty balance;
     private ObservableList<String> list;
@@ -135,7 +135,7 @@ public class PlaceOrderViewModel implements LocalListener<String, Order> {
 
 
     @Override
-    public void propertyChange(ObserverEvent<String, Order> event) {
+    public void propertyChange(ObserverEvent<String, Message> event) {
         Platform.runLater(() ->
         {
             try {
