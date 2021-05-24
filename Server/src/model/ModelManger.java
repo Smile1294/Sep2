@@ -418,16 +418,13 @@ public class ModelManger implements Model, LocalListener<String, Message> {
                 }
             }
         }
-        Platform.runLater(() ->
-        {
-            try {
-                if (event.getPropertyName().equals("OrderCompleted")) {
-                    UpdateOwnedStock(event.getValue2().getOrder());
-                    System.out.println(event.getValue2());
-                }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+        try {
+            if (event.getPropertyName().equals("OrderCompleted")) {
+                UpdateOwnedStock(event.getValue2().getOrder());
+                System.out.println(event.getValue2());
             }
-        });
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }
