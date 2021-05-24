@@ -13,7 +13,7 @@ import java.util.UUID;
  * Model is a interface for functionality for user
  */
 
-public interface Model extends LocalSubject<String, Order> {
+public interface Model extends LocalSubject<String, Message> {
 
     /**
      * login for user
@@ -128,7 +128,7 @@ public interface Model extends LocalSubject<String, Order> {
 
     Double getPriceTotal(String name) throws RemoteException;
 
-    void receivedRemoteEvent(ObserverEvent<String, Order> event);
+    void receivedRemoteEvent(ObserverEvent<String, Message> event);
 
 
     void close() throws RemoteException;

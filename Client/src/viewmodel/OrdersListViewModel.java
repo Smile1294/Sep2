@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.Message;
 import model.Model;
 import model.Order;
 import utility.observer.event.ObserverEvent;
@@ -17,7 +18,7 @@ import java.util.UUID;
 /**
  * OrderListViewModel is class for functionality of orderlist view
  */
-public class OrdersListViewModel implements LocalListener<String, Order> {
+public class OrdersListViewModel implements LocalListener<String, Message> {
     private Model model;
     private ViewState viewState;
     private ObservableList<SimpleOrderViewModel> simpleOrderViewModels;
@@ -38,7 +39,7 @@ public class OrdersListViewModel implements LocalListener<String, Order> {
 
         this.model = model;
         this.viewState = viewState;
-        model.addListener(this);
+        model.addListener(this, "ClosingOrder");
         Company = new SimpleStringProperty();
         amount = new SimpleDoubleProperty();
         initAmount = new SimpleDoubleProperty();
@@ -166,14 +167,12 @@ public class OrdersListViewModel implements LocalListener<String, Order> {
      * @param event
      */
     @Override
-    public void propertyChange(ObserverEvent<String, Order> event) {
+    public void propertyChange(ObserverEvent<String, Message> event) {
         Platform.runLater(() ->
         {
             try {
-                if (event.getPropertyName().equals("ClosingOrder")) {
-                    RemoveOrder(UUID.fromString(event.getValue2().getOrderId()));
-                    addOrder(event.getValue2());
-                }
+                    RemoveOrder(UUID.fromString(event.getValue2().getOrder().getOrderId()));
+                    addOrder(event.getValue2().getOrder());
             } catch (Exception e) {
                 System.out.println(e);
             }

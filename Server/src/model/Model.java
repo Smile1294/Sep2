@@ -12,10 +12,12 @@ import java.util.UUID;
  * Model is a interface for functionality for user
  */
 
-public interface Model extends LocalSubject<String, Order> {
+public interface Model extends LocalSubject<String, Message>
+{
     void closeOrder(UUID uuid);
 
     Order getOrderByID(String uuid);
+
 
     /**
      * login for user
@@ -40,7 +42,6 @@ public interface Model extends LocalSubject<String, Order> {
 
     /**
      * getting the balance of a user
-     *
      * @param userName username of the user
      * @return userName
      */
@@ -58,7 +59,6 @@ public interface Model extends LocalSubject<String, Order> {
 
     /**
      * gets all the companies
-     *
      * @return companies
      */
 
@@ -66,7 +66,6 @@ public interface Model extends LocalSubject<String, Order> {
 
     /**
      * gets the company by symbol
-     *
      * @param symbol symbol that is being compared to
      * @return company
      */
@@ -75,7 +74,6 @@ public interface Model extends LocalSubject<String, Order> {
 
     /**
      * gets the company by name
-     *
      * @param name name that is being compared to
      * @return company
      */
@@ -84,7 +82,6 @@ public interface Model extends LocalSubject<String, Order> {
 
     /**
      * adds an order
-     *
      * @param order order that is getting added
      */
 
@@ -111,7 +108,6 @@ public interface Model extends LocalSubject<String, Order> {
 
     /**
      * gets the user by name
-     *
      * @param name name of the user
      * @return user
      */
@@ -120,7 +116,6 @@ public interface Model extends LocalSubject<String, Order> {
 
     /**
      * gets and loads users stocks
-     *
      * @param name name of the user
      * @return stock/s
      */
@@ -130,7 +125,6 @@ public interface Model extends LocalSubject<String, Order> {
 
     /**
      * gets users total stocks amount
-     *
      * @param name name of the user
      * @return stock amount
      */

@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class TradingClient extends UnicastRemoteObject implements LocalClientModel, RemoteListener<String, Order> {
+public class TradingClient extends UnicastRemoteObject implements LocalClientModel, RemoteListener<String, Message> {
     private RemoteModel server;
     private Model localModel;
 
@@ -24,8 +24,7 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
             System.err.println("Client exception: " + e);
             e.printStackTrace();
         }
-        server.addListener(this);
-
+        server.addListener(this );
     }
     /**
      * gets the user by name
@@ -94,11 +93,6 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
     @Override
     public ArrayList<Order> getAllUserOrders(String user) throws RemoteException {
         return server.getAllUserOrders(user);
-    }
-
-    @Override
-    public void propertyChange(ObserverEvent<String, Order> event) throws RemoteException {
-        localModel.receivedRemoteEvent(event);
     }
 
     /**
@@ -210,5 +204,8 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
         UnicastRemoteObject.unexportObject(this, true);
     }
 
-
+    @Override
+    public void propertyChange(ObserverEvent<String, Message> event) {
+        localModel.receivedRemoteEvent(event);
+    }
 }

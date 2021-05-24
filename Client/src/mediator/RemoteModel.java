@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public interface RemoteModel extends RemoteSubject<String, Order> {
+public interface RemoteModel extends RemoteSubject<String, Message> {
 
     /**
      * Method used to login the user into the server. It works by providing a user class that contains username/password , and is expected to return

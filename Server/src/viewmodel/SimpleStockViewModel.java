@@ -14,30 +14,33 @@ public class SimpleStockViewModel {
     private StringProperty name;
     private DoubleProperty value;
     private DoubleProperty invested;
-    private DoubleProperty currentValue;
+    private StringProperty currentValue;
     private StringProperty percentage;
     private IntegerProperty numberowned;
     private StringProperty username;
+    private StringProperty symbol;
 
     /**
      * Constructor that is initialising all the instance variables
-     * @param stock user stock
-     * @param user which user
+     *
+     * @param stock   user stock
+     * @param user    which user
      * @param company which company
-     * @param orders list of orders
+     * @param orders  list of orders
      */
 
     public SimpleStockViewModel(Stock stock, User user, Company company, Orders orders) {
 
         username = new SimpleStringProperty(user.getUserName().getName());
         numberowned = new SimpleIntegerProperty(stock.getAmount());
-        currentValue = new SimpleDoubleProperty(company.getCurrentPrice() * stock.getAmount());
+        currentValue = new SimpleStringProperty(String.valueOf(company.getCurrentPrice() * stock.getAmount()));
         invested = new SimpleDoubleProperty(stock.getPrice());
         name = new SimpleStringProperty(company.getName());
         value = new SimpleDoubleProperty(company.getCurrentPrice());
+        symbol = new SimpleStringProperty(company.getSymbol());
 
         if (((((company.getCurrentPrice() * stock.getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100) > 0) {
-            percentage = new SimpleStringProperty("+" + Double.toString(((((company.getCurrentPrice() * stock.getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100)));
+            percentage = new SimpleStringProperty("+" + (((((company.getCurrentPrice() * stock.getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100)));
         } else {
             percentage = new SimpleStringProperty(Double.toString(((((company.getCurrentPrice() * stock.getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100)));
         }
@@ -46,8 +49,10 @@ public class SimpleStockViewModel {
         }
     }
 
+
     /**
      * gets the username
+     *
      * @return username
      */
 
@@ -57,6 +62,7 @@ public class SimpleStockViewModel {
 
     /**
      * gets number owned
+     *
      * @return number owned
      */
 
@@ -65,7 +71,17 @@ public class SimpleStockViewModel {
     }
 
     /**
+     * get symbol of company
+     *
+     * @return symbol
+     */
+    public StringProperty getSymbol() {
+        return symbol;
+    }
+
+    /**
      * gets percentage
+     *
      * @return percentage
      */
 
@@ -75,15 +91,17 @@ public class SimpleStockViewModel {
 
     /**
      * gets current value
+     *
      * @return current value
      */
 
     public StringProperty getCurrentValue() {
-        return new SimpleStringProperty(Double.toString(currentValue.get()));
+        return currentValue;
     }
 
     /**
      * gets invested
+     *
      * @return invested
      */
 
@@ -93,6 +111,7 @@ public class SimpleStockViewModel {
 
     /**
      * gets name
+     *
      * @return name
      */
 
@@ -102,6 +121,7 @@ public class SimpleStockViewModel {
 
     /**
      * gets value
+     *
      * @return value
      */
 

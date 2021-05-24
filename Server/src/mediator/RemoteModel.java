@@ -11,7 +11,7 @@ import java.util.UUID;
 /**
  *
  */
-public interface RemoteModel extends RemoteSubject<String, Order> {
+public interface RemoteModel extends RemoteSubject<String, Message> {
 
     /**
      * login for user

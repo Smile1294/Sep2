@@ -11,13 +11,13 @@ import java.net.http.HttpResponse;
  */
 
 public class StockAPI {
-    public String getStockInfo(Symbol ticker, RequestType requestType) throws IOException, InterruptedException {
+    public String getStockInfo(String ticker, RequestType requestType) throws IOException, InterruptedException {
         String interval = "";
         if (requestType.equals(RequestType.INTRADAY)){
             interval = "&interval=60min";
         }
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://www.alphavantage.co/query?function="+requestType.getRequestType()+"&symbol="+ticker.getSymbol()+interval+"&apikey="+APIKey.getKey()))
+                .uri(URI.create("https://www.alphavantage.co/query?function="+requestType.getRequestType()+"&symbol="+ticker+interval+"&apikey="+APIKey.getKey()))
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());

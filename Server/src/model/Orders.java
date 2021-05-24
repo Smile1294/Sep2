@@ -15,8 +15,8 @@ import java.util.UUID;
  */
 
 
-public class Orders implements Runnable, LocalSubject<String, Order>, Serializable {
-    private PropertyChangeHandler<String, Order> property;
+public class Orders implements Runnable, LocalSubject<String, Message>, Serializable {
+    private PropertyChangeHandler<String, Message> property;
     private List<Order> orders;
 
 
@@ -239,21 +239,21 @@ public class Orders implements Runnable, LocalSubject<String, Order>, Serializab
                             if (o.getAmount() > b.getAmount()) {
                                 o.setAmount(o.getAmount() - b.getAmount());
                                 b.complete();
-                                property.firePropertyChange("OrderCompleted", b.getOrderId(), b);
+                                property.firePropertyChange("OrderCompleted", b.getOrderId(), new Message(b, null));
 
                             }
                             if (o.getAmount() == b.getAmount()) {
                                 o.setAmount(0);
                                 b.complete();
                                 o.complete();
-                                property.firePropertyChange("OrderCompleted", o.getOrderId(), o);
-                                property.firePropertyChange("OrderCompleted", b.getOrderId(), b);
+                                property.firePropertyChange("OrderCompleted", o.getOrderId(), new Message(o, null));
+                                property.firePropertyChange("OrderCompleted", b.getOrderId(), new Message(b, null));
 
                             }
                             if (o.getAmount() < b.getAmount()) {
                                 b.setAmount(b.getAmount() - o.getAmount());
                                 o.complete();
-                                property.firePropertyChange("OrderCompleted", o.getOrderId(), o);
+                                property.firePropertyChange("OrderCompleted", o.getOrderId(), new Message(o, null));
 
 
                             }
