@@ -155,6 +155,10 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
 
         });
     }
+    /**
+     * On back depending if view state is true/false will turn back to company list or acount view
+     * @return boolean
+     */
 
     public boolean Back() {
         return viewState.isFromAccountView();

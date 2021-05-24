@@ -81,31 +81,6 @@ public class Orders implements Runnable, LocalSubject<String, Message>, Serializ
     }
 
     /**
-     * closing an order
-     *
-     * @param order order that is being closed
-     */
-    public void closeOrder(Order order) {
-        for (Order o : orders) {
-            if (o.equals(order)) {
-                o.close();
-                return;
-            }
-        }
-    }
-
-    public int getAmount2(String user, Order order) {
-        int i = 0;
-
-        for (Order o : getCompletedOrders()) {
-            if (user.equals(o.getUser()) && o.getSymbol().equals(order.getSymbol())) {
-                i = i + o.getAmount();
-            }
-        }
-        return i;
-    }
-
-    /**
      * getting the order on sale
      *
      * @return order

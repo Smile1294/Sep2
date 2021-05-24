@@ -397,7 +397,10 @@ public class ModelManger implements Model, LocalListener<String, Message> {
     }
 
     /**
-     * Waits for event of order getting completed
+     * Wait for company price change if there is orders will be checked if there is any valid
+     * order to fulfill
+     *
+     * Waits for event of order getting completed if there is,then user owned stocks will get updated
      *
      * @param event
      */

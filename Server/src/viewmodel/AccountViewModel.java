@@ -2,7 +2,6 @@ package viewmodel;
 
 import javafx.beans.property.*;
 import model.Model;
-import model.Stock;
 
 /**
  * AccountViewModel is class for functionality of account view
@@ -59,6 +58,10 @@ public class AccountViewModel {
         viewState.setWithdraw(false);
     }
 
+    /**
+     * sets viewstate from account view to false is used when user is placing order
+     * from company list
+     */
 
     public void setViewStateBoolean()
     {

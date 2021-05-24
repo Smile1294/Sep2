@@ -119,13 +119,4 @@ public class SimpleStockViewModel {
         return name;
     }
 
-    /**
-     * gets value
-     *
-     * @return value
-     */
-
-    public DoubleProperty getValue() {
-        return value;
-    }
 }

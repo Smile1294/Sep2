@@ -66,6 +66,10 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
         return "";
     }
 
+    /**
+     * On back depending if view state is true/false will turn back to company list or acount view
+     * @return boolean
+     */
     public boolean Back() {
         return viewState.isFromAccountView();
     }
@@ -143,6 +147,11 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
         return currentprice;
     }
 
+    /**
+     * Property change waiting for either balance change or Price change of company,
+     * if there is it will update in view
+     * @param event
+     */
     @Override
     public void propertyChange(ObserverEvent<String, Message> event) {
         Platform.runLater(() ->
