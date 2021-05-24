@@ -38,7 +38,7 @@ public class CompanyListViewModel implements LocalListener<String, Message>
     errorProperty = new SimpleStringProperty("");
     selectedSimpleCompany = new SimpleObjectProperty<>();
     this.viewState = viewState;
-    model.addListener(this);
+    model.addListener(this,"Price");
     loadFromModel();
   }
 
@@ -115,8 +115,7 @@ public class CompanyListViewModel implements LocalListener<String, Message>
    */
   @Override public void propertyChange(ObserverEvent<String, Message> event)
   {
-    if(event.getPropertyName().equals("Price"))
-    {
+
       for (SimpleCompanyViewModel s : list)
       {
         if (s.getSymbol().get().equals(event.getValue1()))
@@ -127,6 +126,6 @@ public class CompanyListViewModel implements LocalListener<String, Message>
           });
         }
       }
-    }
+
   }
 }
