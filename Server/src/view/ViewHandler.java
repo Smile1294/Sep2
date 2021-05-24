@@ -24,7 +24,7 @@ public class ViewHandler {
         ViewController viewController = view.getViewController(this,viewModelFactory);
         Region root = viewController.getRoot();
         currentScene.setRoot(root);
-        String title = "PlaceOrder";
+        String title = view.getFxmlFile().split("\\.")[0];
 
         if (root.getUserData() != null)
         {
