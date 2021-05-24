@@ -60,6 +60,9 @@ public class Prices implements Runnable, LocalSubject<String, Message>
     return newPrices;
   }
 
+  /**
+   * stops thread in Prices
+   */
   public void close()
   {
     running = false;
@@ -102,7 +105,8 @@ public class Prices implements Runnable, LocalSubject<String, Message>
   }
 
   /**
-   * checks newest prices, if there is not price with symbol of newest price adds the price into list if it is it just updates old value
+   * checks newest prices, if there is not price with symbol of newest price
+   * adds the price into list if it is it just updates old value
    */
   public void newPrices()
   {
@@ -177,7 +181,12 @@ public class Prices implements Runnable, LocalSubject<String, Message>
       throws InterruptedException, IOException
   {
     String json = stockAPI.getStockInfo(symbol, requestType);
-    Thread.sleep(12000);
+    try {
+      Thread.sleep(12000);
+    }
+    catch (InterruptedException e) {
+
+    }
     return gson.fromJson(json, StockInfo.class).convert();
   }
 
@@ -196,6 +205,9 @@ public class Prices implements Runnable, LocalSubject<String, Message>
       newPrices();
       for (Price p : newPrices)
       {
+        if(!running){
+          break;
+        }
         try
         {
           stockInfo = APIRequest(p.getSymbol(), RequestType.INTRADAY);
@@ -231,6 +243,7 @@ public class Prices implements Runnable, LocalSubject<String, Message>
       }
       try
       {
+        if(running)
         Thread.sleep(600000);
       }
       catch (InterruptedException e)

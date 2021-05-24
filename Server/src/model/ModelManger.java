@@ -35,6 +35,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
     private OrdersPersistence ordersPersistence;
     private StocksPersistence stocksPersistence;
     private PropertyChangeHandler<String, Message> property;
+    private Thread threadPrices;
 
 
     /**
@@ -59,8 +60,8 @@ public class ModelManger implements Model, LocalListener<String, Message> {
         prices = new Prices();
         prices.addListener(this);
 
-        Thread thread = new Thread(prices);
-        thread.start();
+        threadPrices = new Thread(prices);
+        threadPrices.start();
     }
     /**
      * Checks trought all stocks finds matching stock symbol with order symbol adds amount of stocks in order to stock depending if its buying/selling
@@ -366,6 +367,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
     public void close() throws RemoteException {
         tradingServer.close();
         prices.close();
+        threadPrices.interrupt();
     }
 
 

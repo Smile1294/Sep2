@@ -112,6 +112,10 @@ public class CompanyListViewModel implements LocalListener<String, Message>
     selectedSimpleCompany = new SimpleObjectProperty<>(companyVM);
   }
 
+  /**
+   * if there is updated new Price the propertyChange will update view and model
+   * @param event
+   */
   @Override public void propertyChange(ObserverEvent<String, Message> event)
   {
     if(event.getPropertyName().equals("Price"))
