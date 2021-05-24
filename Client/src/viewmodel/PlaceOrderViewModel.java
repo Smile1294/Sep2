@@ -1,27 +1,29 @@
 package viewmodel;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.Company;
-import model.Model;
-import model.Order;
-import model.Status;
+import model.*;
+import utility.observer.event.ObserverEvent;
+import utility.observer.listener.LocalListener;
 
 import java.math.BigDecimal;
 import java.rmi.RemoteException;
-import java.util.List;
+import java.util.UUID;
 
 /**
  * PlaceOrderViewModel is class for functionality of login view
  */
 
-public class PlaceOrderViewModel {
+public class PlaceOrderViewModel implements LocalListener<String, Order> {
     private Model model;
+    private SimpleStringProperty balance;
     private ObservableList<String> list;
     private SimpleIntegerProperty price;
     private SimpleIntegerProperty amount;
-    private SimpleIntegerProperty balance;
+    private SimpleStringProperty companyName;
     private ViewState viewState;
 
     /**
@@ -32,12 +34,35 @@ public class PlaceOrderViewModel {
      */
 
     public PlaceOrderViewModel(Model model, ViewState viewState) {
-        this.balance = new SimpleIntegerProperty();
+        model.addListener(this);
+        this.balance = new SimpleStringProperty();
+        this.companyName = new SimpleStringProperty();
         this.amount = new SimpleIntegerProperty();
         this.price = new SimpleIntegerProperty();
         list = FXCollections.observableArrayList();
         this.model = model;
         this.viewState = viewState;
+    }
+
+    public void reset() {
+        price.setValue(0);
+        amount.setValue(0);
+        getSelectedCompany();
+    }
+
+
+    /**
+     * If user is comming from view of company,viewstate contains slected comapny and it will be preslected for user in view
+     *
+     * @return String name of company
+     */
+
+    public String getSelectedCompany() {
+        if (viewState.getSelectedSymbol() != null) {
+            companyName.setValue(model.getCompanyBySymbol(viewState.getSelectedSymbol()).getName());
+            return companyName.get();
+        }
+        return "";
     }
 
     /**
@@ -46,15 +71,9 @@ public class PlaceOrderViewModel {
      * @return list of companies
      */
 
-    public ObservableList getStockChoice() {
-        List<Company> companies = null;
-        try {
-            companies = model.getAllCompanies();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        for (Company c : companies) {
-            list.add(c.getName());
+    public ObservableList<String> getStockChoice() throws RemoteException {
+        for (int i = 0; i < model.getAllCompanies().size(); i++) {
+            list.add(model.getAllCompanies().get(i).getName());
         }
         return list;
     }
@@ -65,8 +84,8 @@ public class PlaceOrderViewModel {
      * @return balance
      */
 
-    public SimpleIntegerProperty balanceProperty() {
-        return balance;
+    public SimpleStringProperty balanceProperty() throws RemoteException {
+        return balance = new SimpleStringProperty(String.valueOf(model.getBalance(viewState.getUserName())));
     }
 
     /**
@@ -76,8 +95,8 @@ public class PlaceOrderViewModel {
      * @throws Exception
      */
 
-    public void buy(String nameofcompany) throws Exception {
-        model.AddOrder(new Order(false, BigDecimal.valueOf(price.get()), amount.get(),viewState.getUserName().getName(), Status.OPEN,model.getComapnyByName(nameofcompany).getSymbol()));
+    public synchronized void buy(String nameofcompany) throws Exception {
+        model.AddOrder(new Order(false, BigDecimal.valueOf(price.get()), amount.get(), viewState.getUserName().getName(), Status.OPEN, model.getComapnyByName(nameofcompany).getSymbol()));
     }
 
     /**
@@ -86,8 +105,7 @@ public class PlaceOrderViewModel {
      * @param nameofcompany name of the company that we want to get order from
      */
 
-    //make price get big decimal,amount integer,user
-    public void sell(String nameofcompany) {
+    public synchronized void sell(String nameofcompany) {
         model.AddOrder(new Order(true, BigDecimal.valueOf(price.get()), amount.get(), viewState.getUserName().getName(), Status.OPEN, model.getComapnyByName(nameofcompany).getSymbol()));
     }
 
@@ -109,5 +127,24 @@ public class PlaceOrderViewModel {
 
     public SimpleIntegerProperty getPrice() {
         return price;
+    }
+
+
+    @Override
+    public void propertyChange(ObserverEvent<String, Order> event) {
+        Platform.runLater(() ->
+        {
+            try {
+                if (event.getPropertyName().equals("balanceUpdate")) {
+                    balance.setValue(event.getValue1());
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        });
+    }
+
+    public boolean Back() {
+        return viewState.isFromAccountView();
     }
 }

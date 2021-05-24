@@ -61,6 +61,11 @@ public class CompanyListViewModel
     }
   }
 
+  public void setViewStateBoolean()
+  {
+    viewState.setFromAccountView(true);
+  }
+
   /**
    * gets error property
    * @return property
