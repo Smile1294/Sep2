@@ -110,7 +110,6 @@ public class ModelManger implements Model, LocalListener<String, Message> {
                     ordersPersistence.save(order);
                 }
             } catch (Exception e) {
-                System.out.println(e);
             }
         }).start();
 
