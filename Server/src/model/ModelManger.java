@@ -60,7 +60,6 @@ public class ModelManger implements Model, LocalListener<String, Message> {
         prices = priceHistoryPersistence.load();
         tradingServer = new TradingServer(this);
         orders.addListener(this);
-        prices = new Prices();
         prices.addListener(this);
         threadPrices = new Thread(prices);
         threadPrices.start();
@@ -78,7 +77,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
             if (s.getSymbol().equals(order.getSymbol()) && order.getUser().equals(s.getUsername())) {
                 if (!order.isSell()) {
                     if (order.getStatus().equals(Status.COMPLETED)) {
-                        s.setPrice(orders.getboughtPriceInStock(getUser(order.getUser()),s).intValue());
+                        s.setPrice(Math.round(orders.getboughtPriceInStock(getUser(order.getUser()), s)*100)/100.0);
                         s.setAmount((order.getAmount() + s.getAmount()));
                     }
                     if (order.getStatus().equals(Status.CLOSED)) {
@@ -88,17 +87,15 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
             }
             if (s.getSymbol().equals(order.getSymbol()) && order.getUser().equals(s.getUsername())) {
-                s.setPrice(orders.getboughtPriceInStock(getUser(order.getUser()), s).intValue());
                 if (order.isSell() && order.getStatus().equals(Status.OPEN)) {
-                    s.setPrice(orders.getboughtPriceInStock(getUser(order.getUser()),s).intValue());
+                    s.setPrice(Math.round(orders.getboughtPriceInStock(getUser(order.getUser()), s)*100)/100.0);
                     s.setAmount((s.getAmount() - order.getAmount()));
 
                 }
             }
             if (s.getSymbol().equals(order.getSymbol()) && order.getUser().equals(s.getUsername())) {
-                s.setPrice(orders.getboughtPriceInStock(getUser(order.getUser()), s).intValue());
                 if (order.isSell() && order.getStatus().equals(Status.CLOSED)) {
-                    s.setPrice(orders.getboughtPriceInStock(getUser(order.getUser()),s).intValue());
+                    s.setPrice(Math.round(orders.getboughtPriceInStock(getUser(order.getUser()), s)*100)/100.0);
                     s.setAmount((s.getAmount() + order.getAmount()));
 
                 }
@@ -107,6 +104,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
         new Thread(() -> {
             try {
                 usersPersistence.update(userList.getUser(new UserName(order.getUser())));
+
                 stocksPersistence.update(stocks);
                 ordersPersistence.update(orders);
                 if (!ordersPersistence.load().getOrderbyId(order)) {
@@ -271,6 +269,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * gets the balance of the user
+     *
      * @param userName username of the user
      * @return balance
      */
@@ -296,6 +295,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * gets all the companies
+     *
      * @return companies
      */
 
@@ -306,6 +306,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * gets the company by symbol
+     *
      * @param symbol symbol that is being compared to
      * @return company
      */
@@ -317,6 +318,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * gets the company by name
+     *
      * @param name name that is being compared to
      * @return company
      */
@@ -327,6 +329,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * login for user
+     *
      * @param user user that wants login
      * @return logged in user
      * @throws Exception
@@ -360,6 +363,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * adding registered user to the list
+     *
      * @param user user that is being added
      * @return user that is registered
      * @throws Exception
@@ -381,6 +385,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * stops model and prices after closing gui and interrupts running price thread
+     *
      * @throws RemoteException
      */
     @Override
@@ -389,7 +394,6 @@ public class ModelManger implements Model, LocalListener<String, Message> {
         prices.close();
         threadPrices.interrupt();
     }
-
 
 
     @Override
@@ -416,34 +420,33 @@ public class ModelManger implements Model, LocalListener<String, Message> {
     public void propertyChange(ObserverEvent<String, Message> event) {
         if (event.getPropertyName().equals("Price")) {
 
-            String symbol = event.getValue2().getPriceObject().getSymbol();
-            Company company = new Company(symbol, symbol);
-            company.setCurrentPrice(event.getValue2().getPriceObject().getPrice());
-            try
-            {
-                priceHistoryPersistence.save(event.getValue2().getPriceObject());
-                companiesPersistence.update(company);
-            }
-            catch (SQLException throwables)
-            {
-                throwables.printStackTrace();
-            }
-            getCompanyBySymbol(event.getValue1()).setCurrentPrice(event.getValue2().getPriceObject().getPrice());
-            property.firePropertyChange(event);
-
             for (Order o : orders.getUserOrders("Broker")) {
                 if (event.getValue1().equals(o.getSymbol())) {
                     try {
                         o.setAskingPrice(BigDecimal
-                            .valueOf(event.getValue2().getPriceObject().getPrice()));
+                                .valueOf(event.getValue2().getPriceObject().getPrice()));
                         new Thread(orders).start();
-                        UpdateOwnedStock(o);
+                        ordersPersistence.update(orders);
                         property.firePropertyChange(event);
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
                 }
             }
+
+            String symbol = event.getValue2().getPriceObject().getSymbol();
+            Company company = new Company(symbol, symbol);
+            company.setCurrentPrice(event.getValue2().getPriceObject().getPrice());
+            try {
+                priceHistoryPersistence.save(event.getValue2().getPriceObject());
+                companiesPersistence.update(company);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            getCompanyBySymbol(event.getValue1()).setCurrentPrice(event.getValue2().getPriceObject().getPrice());
+            property.firePropertyChange(event);
+
+
         }
         try {
             if (event.getPropertyName().equals("OrderCompleted")) {

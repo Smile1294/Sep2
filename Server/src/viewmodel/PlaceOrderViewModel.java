@@ -1,6 +1,7 @@
 package viewmodel;
 
 import javafx.application.Platform;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -21,7 +22,7 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
     private SimpleStringProperty balance;
     private SimpleStringProperty currentprice;
     private ObservableList<String> list;
-    private SimpleIntegerProperty price;
+    private SimpleDoubleProperty price;
     private SimpleStringProperty currentCompanySelected;
     private SimpleIntegerProperty amount;
     private SimpleStringProperty companyName;
@@ -40,7 +41,7 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
         this.companyName = new SimpleStringProperty();
         this.currentprice = new SimpleStringProperty();
         this.amount = new SimpleIntegerProperty();
-        this.price = new SimpleIntegerProperty();
+        this.price = new SimpleDoubleProperty();
         this.currentCompanySelected = new SimpleStringProperty();
         list = FXCollections.observableArrayList();
         this.model = model;
@@ -108,7 +109,7 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
      * @throws Exception
      */
 
-    public synchronized void buy(String nameofcompany) throws Exception {
+    public synchronized void buy(String nameofcompany) {
         model.AddOrder(new Order(false, BigDecimal.valueOf(price.get()), amount.get(), viewState.getUserName().getName(), Status.OPEN, model.getComapnyByName(nameofcompany).getSymbol()));
     }
 
@@ -138,7 +139,7 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
      * @return price
      */
 
-    public SimpleIntegerProperty getPrice() {
+    public SimpleDoubleProperty getPrice() {
         return price;
     }
 

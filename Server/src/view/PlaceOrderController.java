@@ -14,7 +14,6 @@ import utility.NumberStringConverter;
 
 public class PlaceOrderController extends ViewController {
     public ChoiceBox<String> stockChoice;
-    public BarChart ordersChart;
     public TextField priceField;
     public TextField amountField;
     public Label totalLabel;
@@ -70,9 +69,9 @@ public class PlaceOrderController extends ViewController {
     public void PriceonKeyTyped(KeyEvent keyEvent) {
         try {
             if (!"".equals(amountField.getText()) && !"".equals(priceField.getText())) {
-                Integer.parseInt(amountField.getText());
+                Double.parseDouble(amountField.getText());
                 ErrorLable.setText("");
-                totalLabel.setText(String.valueOf(Integer.parseInt(priceField.getText()) * Integer.parseInt(amountField.getText())));
+                totalLabel.setText(String.valueOf(Math.round((Integer.parseInt(amountField.getText())*Double.parseDouble(priceField.getText()))*100.0)/100.0));
             } else {
                 totalLabel.setText("0");
             }
@@ -88,7 +87,7 @@ public class PlaceOrderController extends ViewController {
             if (!"".equals(amountField.getText()) && !"".equals(priceField.getText())) {
                 Integer.parseInt(amountField.getText());
                 ErrorLable.setText("");
-                totalLabel.setText(String.valueOf(Integer.parseInt(priceField.getText()) * Integer.parseInt(amountField.getText())));
+                totalLabel.setText(String.valueOf(Math.round((Integer.parseInt(amountField.getText())*Double.parseDouble(priceField.getText()))*100.0)/100.0));
             } else {
                 totalLabel.setText("0");
             }

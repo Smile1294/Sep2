@@ -50,13 +50,12 @@ public class PortfolioViewModel implements LocalListener<String, Message> {
     public void clear() {
         this.name.setValue(viewState.getUserName().getName());
         try {
-            this.total.setValue(Math.round(model.getUser(viewState.getUserName().getName()).getBalance()));
+            total.setValue(Math.round(model.getPriceTotal(viewState.getUserName().getName()) * 100.0) / 100.0);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
         this.investedValue = null;
         simpleStockViewModels.removeAll(getAll());
-        getPriceTotal();
         loadUserStock();
     }
 
@@ -103,13 +102,7 @@ public class PortfolioViewModel implements LocalListener<String, Message> {
 
 
     public DoubleProperty getPriceTotal() {
-        try {
-            return new SimpleDoubleProperty(model.getPriceTotal(viewState.getUserName().getName()));
-
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        return new SimpleDoubleProperty(0.0);
+        return total;
     }
 
     /**
@@ -122,15 +115,6 @@ public class PortfolioViewModel implements LocalListener<String, Message> {
         return name;
     }
 
-    /**
-     * gets total
-     *
-     * @return total
-     */
-
-    public DoubleProperty getTotal() {
-        return total;
-    }
 
     /**
      * Updates values in portofilio, if company price changes
@@ -144,7 +128,7 @@ public class PortfolioViewModel implements LocalListener<String, Message> {
                     simpleStockViewModels.removeAll(getAll());
                     loadUserStock();
                     try {
-                        total.setValue(model.getPriceTotal(viewState.getUserName().getName()));
+                        total.setValue(Math.round(model.getPriceTotal(viewState.getUserName().getName()) * 100.0) / 100.0);
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }

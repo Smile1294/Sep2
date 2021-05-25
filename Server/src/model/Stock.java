@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * Stock class represents stock
@@ -11,7 +12,7 @@ public class Stock implements Serializable {
     private String username;
     private String symbol;
     private int amount;
-    private int price;
+    private double price;
 
     /**
      * Constructor initialising the instance variables
@@ -23,7 +24,7 @@ public class Stock implements Serializable {
         this.symbol = symbol;
         this.username = username;
         this.amount = 0;
-        this.price = 0;
+        this.price = 0.0;
     }
 
     /**
@@ -37,20 +38,20 @@ public class Stock implements Serializable {
         this.symbol = symbol;
         this.username = username;
         this.amount = amount;
-        this.price = 0;
+        this.price = 0.0;
     }
     /**
      * setting price of stock
      */
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
     /**
      * getting price of stock
      * @return getPriceObject
      */
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 

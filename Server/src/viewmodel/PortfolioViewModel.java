@@ -48,10 +48,9 @@ public class PortfolioViewModel implements LocalListener<String, Message> {
 
     public void clear() {
         this.name.setValue(viewState.getUserName().getName());
-        this.total.setValue(Math.round(model.getUser(viewState.getUserName().getName()).getBalance()));
         this.investedValue = null;
         simpleStockViewModels.removeAll(getAll());
-        getPriceTotal();
+        total.setValue(Math.round(model.getPriceTotal(viewState.getUserName().getName()) * 100.0) / 100.0);
         loadUserStock();
     }
 
@@ -97,7 +96,7 @@ public class PortfolioViewModel implements LocalListener<String, Message> {
      */
 
     public DoubleProperty getPriceTotal() {
-        return new SimpleDoubleProperty(model.getPriceTotal(viewState.getUserName().getName()));
+        return total;
     }
 
     /**
@@ -116,9 +115,6 @@ public class PortfolioViewModel implements LocalListener<String, Message> {
      * @return total
      */
 
-    public DoubleProperty getTotal() {
-        return total;
-    }
 
     /**
      * Updates values in portofilio, if company price changes
@@ -132,7 +128,7 @@ public class PortfolioViewModel implements LocalListener<String, Message> {
                 Platform.runLater(() -> {
                     simpleStockViewModels.removeAll(getAll());
                     loadUserStock();
-                    total.setValue(model.getPriceTotal(viewState.getUserName().getName()));
+                    total.setValue(Math.round(model.getPriceTotal(viewState.getUserName().getName()) * 100.0) / 100.0);
                 });
             }
         }
