@@ -34,6 +34,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
     private CompaniesPersistence companiesPersistence;
     private OrdersPersistence ordersPersistence;
     private StocksPersistence stocksPersistence;
+    private PriceHistoryPersistence priceHistoryPersistence;
     private PropertyChangeHandler<String, Message> property;
     private Thread threadPrices;
 
@@ -51,13 +52,14 @@ public class ModelManger implements Model, LocalListener<String, Message> {
         companiesPersistence = CompaniesDatabase.getInstance();
         ordersPersistence = OrdersDatabase.getInstance();
         stocksPersistence = StocksDatabase.getInstance();
+        priceHistoryPersistence = PriceHistoryDatabase.getInstance();
         userList = usersPersistence.load();
         companies = companiesPersistence.load();
         orders = ordersPersistence.load();
         stocks = stocksPersistence.loadAll();
+        prices = priceHistoryPersistence.load();
         tradingServer = new TradingServer(this);
         orders.addListener(this);
-        prices = new Prices();
         prices.addListener(this);
         threadPrices = new Thread(prices);
         threadPrices.start();
@@ -398,6 +400,19 @@ public class ModelManger implements Model, LocalListener<String, Message> {
     @Override public void propertyChange(ObserverEvent<String, Message> event)
     {
         if (event.getPropertyName().equals("Price")){
+            String symbol = event.getValue2().getPriceObject().getSymbol();
+            Company company = new Company(symbol, symbol);
+            company.setCurrentPrice(event.getValue2().getPriceObject().getPrice());
+            try
+            {
+                priceHistoryPersistence.save(event.getValue2().getPriceObject());
+                companiesPersistence.update(company);
+            }
+            catch (SQLException throwables)
+            {
+                throwables.printStackTrace();
+            }
+            getCompanyBySymbol(event.getValue1()).setCurrentPrice(event.getValue2().getPriceObject().getPrice());
             property.firePropertyChange(event);
         }
         Platform.runLater(() ->

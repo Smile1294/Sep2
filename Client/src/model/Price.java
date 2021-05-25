@@ -10,18 +10,21 @@ public class Price implements Serializable
 {
   private Timestamp timestamp;
   private String symbol;
-  private Double price;
+  private Double open;
+  private Double low;
+  private Double high;
+  private Double close;
+  private Long volume;
 
-  /**
-   * Constructor that initializes all instant variables
-   * @param timestamp time of price taken
-   * @param symbol symbol of company to witch price goes
-   * @param price price of company
-   */
-  public Price(Timestamp timestamp, String symbol, Double price){
+
+  public Price(Timestamp timestamp, String symbol,Double open,Double low,Double high, Double close, Long volume){
     this.timestamp = timestamp;
     this.symbol = symbol;
-    this.price = price;
+    this.open = open;
+    this.low = low;
+    this.high = high;
+    this.close = close;
+    this.volume = volume;
   }
 
   /**
@@ -33,13 +36,20 @@ public class Price implements Serializable
     this.timestamp = timestamp;
   }
 
-  /**
-   * setts price
-   * @param price price variable of Double
-   */
-  public void setPrice(Double price)
+
+  public void setPrice(Double close)
   {
-    this.price = price;
+    this.close = close;
+  }
+
+  public void set(Price price){
+    this.timestamp = price.getTimestamp();
+    this.symbol = price.getSymbol();
+    this.open = price.getOpen();
+    this.low = price.getLow();
+    this.high = price.getHigh();
+    this.close = price.getPrice();
+    this.volume = price.getVolume();
   }
 
   /**
@@ -60,22 +70,36 @@ public class Price implements Serializable
     return symbol;
   }
 
-  /**
-   * gets price of company
-   * @return price as double variable of company
-   */
-  public Double getPrice()
+
+  public Double getOpen()
   {
-    return price;
+    return open;
   }
 
-  /**
-   * toString version of price
-   * @return price
-   */
+  public Double getLow()
+  {
+    return low;
+  }
+
+  public Double getHigh()
+  {
+    return high;
+  }
+
+  public Double getPrice()
+  {
+    return close;
+  }
+
+  public Long getVolume()
+  {
+    return volume;
+  }
+
   @Override public String toString()
   {
     return "Price{" + "timestamp=" + timestamp + ", symbol='" + symbol + '\''
-        + ", price=" + price + '}' + '\n';
+        + ", open=" + open + ", low=" + low + ", high=" + high + ", close="
+        + close + ", volume=" + volume + '}';
   }
 }
