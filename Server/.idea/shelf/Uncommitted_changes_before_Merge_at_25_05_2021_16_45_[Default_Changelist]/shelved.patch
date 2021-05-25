@@ -1,0 +1,62 @@
+Index: ../Client/Client.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module type=\"JAVA_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\" inherit-compiler-output=\"true\">\r\n    <exclude-output />\r\n    <content url=\"file://$MODULE_DIR$\">\r\n      <sourceFolder url=\"file://$MODULE_DIR$/src\" isTestSource=\"false\" />\r\n    </content>\r\n    <orderEntry type=\"inheritedJdk\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n    <orderEntry type=\"library\" name=\"XmlJsonParser-1.4\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"MyObserver-1.4\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"postgresql-42.2.20\" level=\"application\" />\r\n    <orderEntry type=\"library\" name=\"javafx\" level=\"application\" />\r\n    <orderEntry type=\"library\" name=\"javafx-swt\" level=\"application\" />\r\n    <orderEntry type=\"library\" name=\"gson-2.8.6\" level=\"project\" />\r\n    <orderEntry type=\"module\" module-name=\"Server\" />\r\n  </component>\r\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Client/Client.iml b/../Client/Client.iml
+--- a/../Client/Client.iml	(revision 664e34a10a1355c458aff6892d7b40a28cf98d74)
++++ b/../Client/Client.iml	(date 1621872540418)
+@@ -7,12 +7,9 @@
+     </content>
+     <orderEntry type="inheritedJdk" />
+     <orderEntry type="sourceFolder" forTests="false" />
+-    <orderEntry type="library" name="XmlJsonParser-1.4" level="project" />
+-    <orderEntry type="library" name="MyObserver-1.4" level="project" />
+-    <orderEntry type="library" name="postgresql-42.2.20" level="application" />
+-    <orderEntry type="library" name="javafx" level="application" />
++    <orderEntry type="library" name="gson-2.8.6" level="application" />
+     <orderEntry type="library" name="javafx-swt" level="application" />
+-    <orderEntry type="library" name="gson-2.8.6" level="project" />
+-    <orderEntry type="module" module-name="Server" />
++    <orderEntry type="library" name="MyObserver-1.4" level="application" />
++    <orderEntry type="library" name="postgresql-42.2.20" level="application" />
+   </component>
+ </module>
+\ No newline at end of file
+Index: ../Client/.idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Client/.idea/vcs.xml b/../Client/.idea/vcs.xml
+new file mode 100644
+--- /dev/null	(date 1621872406041)
++++ b/../Client/.idea/vcs.xml	(date 1621872406041)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
+Index: ../Client/.idea/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Client/.idea/.gitignore b/../Client/.idea/.gitignore
+new file mode 100644
+--- /dev/null	(date 1621872406264)
++++ b/../Client/.idea/.gitignore	(date 1621872406264)
+@@ -0,0 +1,8 @@
++# Default ignored files
++/shelf/
++/workspace.xml
++# Datasource local storage ignored files
++/../../../../../../../:\Users\micha\IdeaProjects\Sep2\Client\.idea/dataSources/
++/dataSources.local.xml
++# Editor-based HTTP Client requests
++/httpRequests/
