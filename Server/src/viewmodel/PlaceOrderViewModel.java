@@ -143,14 +143,18 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
     }
 
     /**
-     * @return
+     * gets current price of company
+     *
+     * @return current price of company
      */
     public SimpleStringProperty getCurrentPrice() {
         return currentprice;
     }
 
     /**
-     * @param companyName
+     * Updates current price of selected company
+     *
+     * @param companyName of company
      */
     public void UpdateCurrentPrice(String companyName) {
         try {
@@ -163,7 +167,9 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
     }
 
     /**
-     * @return
+     * current company selected bound to view controller
+     *
+     * @return selected company
      */
 
     public SimpleStringProperty currentCompanySelectedProperty() {
@@ -190,7 +196,6 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
                     }
                 }
             } catch (Exception e) {
-                System.out.println(e);
             }
 
         });

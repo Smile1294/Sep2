@@ -75,24 +75,29 @@ public class ModelManger implements Model, LocalListener<String, Message> {
             if (s.getSymbol().equals(order.getSymbol()) && order.getUser().equals(s.getUsername())) {
                 if (!order.isSell()) {
                     if (order.getStatus().equals(Status.COMPLETED)) {
+                        s.setPrice(orders.getboughtPriceInStock(getUser(order.getUser()),s).intValue());
                         s.setAmount((order.getAmount() + s.getAmount()));
-                        s.setPrice(order.getAskingPrice().intValue() + s.getPrice());
                     }
                     if (order.getStatus().equals(Status.CLOSED)) {
                         getUser(order.getUser()).setBalance(new Balance((int) (getUser(order.getUser()).getBalance() + order.getAskingPrice())));
                     }
                 }
+
             }
             if (s.getSymbol().equals(order.getSymbol()) && order.getUser().equals(s.getUsername())) {
+                s.setPrice(orders.getboughtPriceInStock(getUser(order.getUser()), s).intValue());
                 if (order.isSell() && order.getStatus().equals(Status.OPEN)) {
+                    s.setPrice(orders.getboughtPriceInStock(getUser(order.getUser()),s).intValue());
                     s.setAmount((s.getAmount() - order.getAmount()));
-                    s.setPrice(s.getPrice() - order.getAskingPrice().intValue());
+
                 }
             }
             if (s.getSymbol().equals(order.getSymbol()) && order.getUser().equals(s.getUsername())) {
+                s.setPrice(orders.getboughtPriceInStock(getUser(order.getUser()), s).intValue());
                 if (order.isSell() && order.getStatus().equals(Status.CLOSED)) {
+                    s.setPrice(orders.getboughtPriceInStock(getUser(order.getUser()),s).intValue());
                     s.setAmount((s.getAmount() + order.getAmount()));
-                    s.setPrice(order.getAskingPrice().intValue() + s.getPrice());
+
                 }
             }
         }
@@ -101,7 +106,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
                 usersPersistence.update(userList.getUser(new UserName(order.getUser())));
                 stocksPersistence.update(stocks);
                 ordersPersistence.update(orders);
-                if (!orders.getOrderbyId(order)) {
+                if (!ordersPersistence.load().getOrderbyId(order)) {
                     ordersPersistence.save(order);
                 }
             } catch (Exception e) {
@@ -246,8 +251,9 @@ public class ModelManger implements Model, LocalListener<String, Message> {
             if (getUser(order.getUser()).getBalance() >= order.getAskingPrice() && order.getAmount() >= 1) {
                 orders.AddOrder(order);
                 try {
-                    userList.getUser(new UserName(order.getUser())).setBalance(new Balance((int) getBalance(new UserName(order.getUser())) - order.getAskingPrice().intValue()));
+                    userList.getUser(new UserName(order.getUser())).setBalance(new Balance((int) getBalance(new UserName(order.getUser())) - order.getAskingPrice().intValue() * order.getAmount()));
                     new Thread(orders).start();
+                    UpdateOwnedStock(order);
                     usersPersistence.update(userList.getUser(new UserName(order.getUser())));
                     property.firePropertyChange("balanceUpdate", (userList.getUser(new UserName(order.getUser()))).getBalance().toString(), new Message(order, null));
                 } catch (Exception e) {
@@ -399,7 +405,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
     /**
      * Wait for company price change if there is orders will be checked if there is any valid
      * order to fulfill
-     *
+     * <p>
      * Waits for event of order getting completed if there is,then user owned stocks will get updated
      *
      * @param event

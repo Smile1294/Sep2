@@ -24,6 +24,7 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
     private SimpleStringProperty currentprice;
     private SimpleIntegerProperty price;
     private SimpleIntegerProperty amount;
+    private SimpleStringProperty currentCompanySelected;
     private SimpleStringProperty companyName;
     private ViewState viewState;
 
@@ -39,6 +40,7 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
         this.balance = new SimpleStringProperty();
         this.companyName = new SimpleStringProperty();
         this.amount = new SimpleIntegerProperty();
+        this.currentCompanySelected = new SimpleStringProperty();
         this.currentprice = new SimpleStringProperty();
         this.price = new SimpleIntegerProperty();
         list = FXCollections.observableArrayList();
@@ -131,32 +133,70 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
         return price;
     }
 
-    public SimpleStringProperty getCurrentPrice(String nameofcompany) {
-        try {
-            return new SimpleStringProperty(model.getComapnyByName(nameofcompany).getCurrentPrice().toString());
-        } catch (Exception e) {
-            System.out.println("No company selected");
-        }
+    /**
+     * gets current price of company
+     *
+     * @return current price of company
+     */
+    public SimpleStringProperty getCurrentPrice() {
         return currentprice;
     }
+
+    /**
+     * current company selected bound to view controller
+     *
+     * @return selected company
+     */
+
+    public SimpleStringProperty currentCompanySelectedProperty() {
+        return currentCompanySelected;
+    }
+
+    /**
+     * Updates current price of selected company
+     *
+     * @param companyName of company
+     */
+    public void UpdateCurrentPrice(String companyName) {
+        try {
+            if (model.getComapnyByName(companyName) != null) {
+                currentprice.setValue(model.getComapnyByName(companyName).getCurrentPrice().toString());
+            }
+        } catch (Exception e) {
+            System.out.println("Select company");
+        }
+    }
+
+    /**
+     * Property change waiting for either balance change or Price change of company,
+     * if there is it will update in view
+     *
+     * @param event
+     */
 
     @Override
     public void propertyChange(ObserverEvent<String, Message> event) {
         Platform.runLater(() ->
         {
             try {
-                balance.setValue(event.getValue1());
+                if (!event.getPropertyName().equals("Price")) {
+                    balance.setValue(event.getValue1());
+                }
+                if (event.getPropertyName().equals("Price")) {
+                    if (event.getValue1().equals(model.getComapnyByName(currentCompanySelected.get()).getSymbol())) {
+                        currentprice.setValue(event.getValue2().getPriceObject().getPrice().toString());
+                    }
+                }
             } catch (Exception e) {
                 System.out.println(e);
-            }
-            if (event.getPropertyName().equals("Price")) {
-                currentprice.setValue(event.getValue2().getPriceObject().toString());
             }
 
         });
     }
+
     /**
      * On back depending if view state is true/false will turn back to company list or acount view
+     *
      * @return boolean
      */
 

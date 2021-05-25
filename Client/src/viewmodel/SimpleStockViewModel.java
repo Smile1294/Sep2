@@ -40,7 +40,7 @@ public class SimpleStockViewModel {
 
 
         if (((((company.getCurrentPrice() * stock.getAmount()) / stock.getPrice()) * 100) - 100) > 0) {
-            percentage = new SimpleStringProperty("+" + Double.toString(((((company.getCurrentPrice() * stock.getAmount()) / stock.getPrice()) * 100) - 100)));
+            percentage = new SimpleStringProperty("+" + (((((company.getCurrentPrice() * stock.getAmount()) / stock.getPrice()) * 100) - 100)));
         } else {
             percentage = new SimpleStringProperty(Double.toString(((((company.getCurrentPrice() * stock.getAmount()) / stock.getPrice()) * 100) - 100)));
         }

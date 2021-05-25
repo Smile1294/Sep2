@@ -34,7 +34,7 @@ public class SimpleStockViewModel {
         username = new SimpleStringProperty(user.getUserName().getName());
         numberowned = new SimpleIntegerProperty(stock.getAmount());
         currentValue = new SimpleStringProperty(String.valueOf(company.getCurrentPrice() * stock.getAmount()));
-        invested = new SimpleDoubleProperty(stock.getPrice());
+        invested = new SimpleDoubleProperty(orders.getboughtPriceInStock(user, stock));
         name = new SimpleStringProperty(company.getName());
         value = new SimpleDoubleProperty(company.getCurrentPrice());
         symbol = new SimpleStringProperty(company.getSymbol());
