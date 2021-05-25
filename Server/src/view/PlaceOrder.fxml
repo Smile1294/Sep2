@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="500.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.PlaceOrderController">
+<VBox prefHeight="500.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.PlaceOrderController">
    <children>
       <VBox prefHeight="52.0" prefWidth="650.0">
          <children>
@@ -82,7 +82,6 @@
                   </Label>
                   <Label fx:id="totalLabel" alignment="CENTER_RIGHT" prefWidth="171.0" text="0" />
                   <Label text="\$" />
-                  <Label fx:id="ErrorLable" prefHeight="26.0" prefWidth="234.0" textFill="#e10606" />
                </children>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -102,6 +101,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </HBox>
+            <Label fx:id="ErrorLable" prefHeight="25.0" prefWidth="651.0" textFill="#e10606" />
             <HBox prefHeight="32.0" prefWidth="650.0" spacing="5.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#onBuy" text="Buy" />

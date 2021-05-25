@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 /**
- *OrdersDatabase is used to load/save from/to database orders
+ * OrdersDatabase is used to load/save from/to database orders
  */
 
 public class OrdersDatabase implements OrdersPersistence {
@@ -28,7 +28,8 @@ public class OrdersDatabase implements OrdersPersistence {
     }
 
     /**
-     *Loads orders from database
+     * Loads orders from database
+     *
      * @return Orders list of orders that is from database
      * @throws SQLException
      */
@@ -57,17 +58,19 @@ public class OrdersDatabase implements OrdersPersistence {
 
     /**
      * Updates all of orders in database
+     *
      * @param orders updates with list of orders in databases
      * @throws SQLException
      */
     @Override
     public void update(Orders orders) throws SQLException {
         try (Connection connection = GetConnection.get()) {
-            PreparedStatement statement = connection.prepareStatement("UPDATE Orders SET amount = ? , status = ? WHERE order_id = ?;");
+            PreparedStatement statement = connection.prepareStatement("UPDATE Orders SET amount = ? , status = ?,askingprice = ? WHERE order_id = ?;");
             for (Order o : orders.getOrders()) {
                 statement.setInt(1, o.getAmount());
                 statement.setString(2, o.getStatus().getStatus());
-                statement.setObject(3, UUID.fromString(o.getOrderId()));
+                statement.setDouble(3, o.getAskingPrice());
+                statement.setObject(4, UUID.fromString(o.getOrderId()));
                 statement.executeUpdate();
             }
         }
@@ -75,6 +78,7 @@ public class OrdersDatabase implements OrdersPersistence {
 
     /**
      * Saves order to database
+     *
      * @param order is saved to database
      * @throws SQLException
      */
@@ -95,8 +99,7 @@ public class OrdersDatabase implements OrdersPersistence {
     }
 
     /**
-     *
-     * @param  order is removed from database
+     * @param order is removed from database
      * @throws SQLException
      */
     @Override

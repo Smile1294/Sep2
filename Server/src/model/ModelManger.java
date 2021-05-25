@@ -34,7 +34,6 @@ public class ModelManger implements Model, LocalListener<String, Message> {
     private CompaniesPersistence companiesPersistence;
     private OrdersPersistence ordersPersistence;
     private StocksPersistence stocksPersistence;
-    private PriceHistoryPersistence priceHistoryPersistence;
     private PropertyChangeHandler<String, Message> property;
     private Thread threadPrices;
 
@@ -45,8 +44,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
      * @throws IOException
      */
 
-    public ModelManger() throws IOException, SQLException
-    {
+    public ModelManger() throws IOException, SQLException {
         this.property = new PropertyChangeHandler<>(this, true);
         usersPersistence = UsersDatabase.getInstance();
         companiesPersistence = CompaniesDatabase.getInstance();
@@ -60,10 +58,12 @@ public class ModelManger implements Model, LocalListener<String, Message> {
         prices = priceHistoryPersistence.load();
         tradingServer = new TradingServer(this);
         orders.addListener(this);
+        prices = new Prices();
         prices.addListener(this);
         threadPrices = new Thread(prices);
         threadPrices.start();
     }
+
     /**
      * Checks trought all stocks finds matching stock symbol with order symbol adds amount of stocks in order to stock depending if its buying/selling
      * Updates database with newest information about orders/stocks
@@ -187,6 +187,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * getting order by user
+     *
      * @param user that is getting check it
      * @return order
      */
@@ -233,7 +234,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
                         new Thread(orders).start();
                         UpdateOwnedStock(order);
                         usersPersistence.update(userList.getUser(new UserName(order.getUser())));
-                        property.firePropertyChange("balanceUpdate", (userList.getUser(new UserName(order.getUser()))).getBalance().toString(), new Message(order,null));
+                        property.firePropertyChange("balanceUpdate", (userList.getUser(new UserName(order.getUser()))).getBalance().toString(), new Message(order, null));
                     } catch (Exception e) {
                         System.out.println(e);
                     }
@@ -249,7 +250,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
                     userList.getUser(new UserName(order.getUser())).setBalance(new Balance((int) getBalance(new UserName(order.getUser())) - order.getAskingPrice().intValue()));
                     new Thread(orders).start();
                     usersPersistence.update(userList.getUser(new UserName(order.getUser())));
-                    property.firePropertyChange("balanceUpdate", (userList.getUser(new UserName(order.getUser()))).getBalance().toString(), new Message(order,null));
+                    property.firePropertyChange("balanceUpdate", (userList.getUser(new UserName(order.getUser()))).getBalance().toString(), new Message(order, null));
                 } catch (Exception e) {
                     System.out.println(e);
                 }
@@ -397,8 +398,8 @@ public class ModelManger implements Model, LocalListener<String, Message> {
      * @param event
      */
 
-    @Override public void propertyChange(ObserverEvent<String, Message> event)
-    {
+    @Override
+    public void propertyChange(ObserverEvent<String, Message> event) {
         if (event.getPropertyName().equals("Price")){
             String symbol = event.getValue2().getPriceObject().getSymbol();
             Company company = new Company(symbol, symbol);
@@ -415,16 +416,27 @@ public class ModelManger implements Model, LocalListener<String, Message> {
             getCompanyBySymbol(event.getValue1()).setCurrentPrice(event.getValue2().getPriceObject().getPrice());
             property.firePropertyChange(event);
         }
-        Platform.runLater(() ->
-        {
-            try {
-                if (event.getPropertyName().toString().equals("OrderCompleted")) {
-                    UpdateOwnedStock(event.getValue2().getOrder());
-                    System.out.println(event.getValue2());
+        if (event.getPropertyName().equals("Price")) {
+            for (Order o : orders.getUserOrders("Broker")) {
+                if (event.getValue1().equals(o.getSymbol())) {
+                    try {
+                        o.setAskingPrice(BigDecimal.valueOf(event.getValue2().getPriceObject().getPrice()));
+                        new Thread(orders).start();
+                        UpdateOwnedStock(o);
+                        property.firePropertyChange(event);
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
                 }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
             }
-        });
+        }
+        try {
+            if (event.getPropertyName().equals("OrderCompleted")) {
+                UpdateOwnedStock(event.getValue2().getOrder());
+                System.out.println(event.getValue2());
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }
