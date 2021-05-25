@@ -188,7 +188,6 @@ public class Orders implements Runnable, LocalSubject<String, Message>, Serializ
                 }
             }
         }
-        System.out.println(d);
         return d;
     }
 
