@@ -9,6 +9,7 @@ import utility.observer.event.ObserverEvent;
 import utility.observer.listener.LocalListener;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.security.KeyStore;
 
 /**
@@ -126,14 +127,15 @@ public class PortfolioViewModel implements LocalListener<String, Message> {
      */
     @Override
     public void propertyChange(ObserverEvent<String, Message> event) {
-            for (SimpleStockViewModel s : simpleStockViewModels) {
-                if (s.getSymbol().get().equals(event.getValue1())) {
-                    Platform.runLater(() -> {
-                        simpleStockViewModels.removeAll(getAll());
-                        loadUserStock();
-                    });
-                }
+        for (SimpleStockViewModel s : simpleStockViewModels) {
+            if (s.getSymbol().get().equals(event.getValue1())) {
+                Platform.runLater(() -> {
+                    simpleStockViewModels.removeAll(getAll());
+                    loadUserStock();
+                    total.setValue(model.getPriceTotal(viewState.getUserName().getName()));
+                });
             }
+        }
     }
 }
 
