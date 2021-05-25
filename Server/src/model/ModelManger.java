@@ -13,6 +13,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
     private CompaniesPersistence companiesPersistence;
     private OrdersPersistence ordersPersistence;
     private StocksPersistence stocksPersistence;
+    private PriceHistoryPersistence priceHistoryPersistence;
     private PropertyChangeHandler<String, Message> property;
     private Thread threadPrices;
 
@@ -400,7 +402,8 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     @Override
     public void propertyChange(ObserverEvent<String, Message> event) {
-        if (event.getPropertyName().equals("Price")){
+        if (event.getPropertyName().equals("Price")) {
+
             String symbol = event.getValue2().getPriceObject().getSymbol();
             Company company = new Company(symbol, symbol);
             company.setCurrentPrice(event.getValue2().getPriceObject().getPrice());
@@ -415,12 +418,12 @@ public class ModelManger implements Model, LocalListener<String, Message> {
             }
             getCompanyBySymbol(event.getValue1()).setCurrentPrice(event.getValue2().getPriceObject().getPrice());
             property.firePropertyChange(event);
-        }
-        if (event.getPropertyName().equals("Price")) {
+
             for (Order o : orders.getUserOrders("Broker")) {
                 if (event.getValue1().equals(o.getSymbol())) {
                     try {
-                        o.setAskingPrice(BigDecimal.valueOf(event.getValue2().getPriceObject().getPrice()));
+                        o.setAskingPrice(BigDecimal
+                            .valueOf(event.getValue2().getPriceObject().getPrice()));
                         new Thread(orders).start();
                         UpdateOwnedStock(o);
                         property.firePropertyChange(event);
