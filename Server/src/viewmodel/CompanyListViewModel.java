@@ -115,7 +115,7 @@ public class CompanyListViewModel implements LocalListener<String, Message>
   }
 
   /**
-   * if there is updated new Price the propertyChange will update view and model
+   * if there is updated new Price the propertyChange will update view
    * @param event
    */
   @Override public void propertyChange(ObserverEvent<String, Message> event)

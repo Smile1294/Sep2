@@ -28,7 +28,7 @@ public class Price implements Serializable
   }
 
   /**
-   * setts of the price taken
+   * setts timestamp of the price taken
    * @param timestamp time when was price saved
    */
   public void setTimestamp(Timestamp timestamp)
@@ -36,12 +36,19 @@ public class Price implements Serializable
     this.timestamp = timestamp;
   }
 
-
+  /**
+   * setts price(close)
+   * @param close latest price of company
+   */
   public void setPrice(Double close)
   {
     this.close = close;
   }
 
+  /**
+   * setts all the variables of this class
+   * @param price class by which should this class update
+   */
   public void set(Price price){
     this.timestamp = price.getTimestamp();
     this.symbol = price.getSymbol();
@@ -70,32 +77,55 @@ public class Price implements Serializable
     return symbol;
   }
 
-
+  /**
+   * gets open price of company
+   * @return open price
+   */
   public Double getOpen()
   {
     return open;
   }
 
+  /**
+   * gets lowest price of company
+   * @return low price
+   */
   public Double getLow()
   {
     return low;
   }
 
+  /**
+   * gets highest price of company
+   * @return high price
+   */
   public Double getHigh()
   {
     return high;
   }
 
+  /**
+   * gets price(close) of company
+   * @return close price
+   */
   public Double getPrice()
   {
     return close;
   }
 
+  /**
+   * gets volume of company
+   * @return volume
+   */
   public Long getVolume()
   {
     return volume;
   }
 
+  /**
+   * toString version of Price object
+   * @return Price object
+   */
   @Override public String toString()
   {
     return "Price{" + "timestamp=" + timestamp + ", symbol='" + symbol + '\''

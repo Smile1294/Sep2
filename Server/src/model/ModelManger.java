@@ -41,7 +41,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
 
     /**
-     * Constructor initialing all the instance variables
+     * Constructor initialing all the instance variables, adds listeners and starts price thread
      *
      * @throws IOException
      */
@@ -374,6 +374,10 @@ public class ModelManger implements Model, LocalListener<String, Message> {
         return result;
     }
 
+    /**
+     * stops model and prices after closing gui and interrupts running price thread
+     * @throws RemoteException
+     */
     @Override
     public void close() throws RemoteException {
         tradingServer.close();
