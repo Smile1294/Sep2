@@ -1,5 +1,6 @@
 package view;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -25,16 +26,16 @@ public class PlaceOrderController extends ViewController {
     protected void init() {
 
         stockChoice.setItems(getViewModelFactory().getPlaceOrderViewModel().getStockChoice());
+        CurrentPrice.textProperty().bind(getViewModelFactory().getPlaceOrderViewModel().getCurrentPrice());
         Bindings.bindBidirectional(priceField.textProperty(),
                 getViewModelFactory().getPlaceOrderViewModel().getPrice(),
                 new NumberStringConverter());
-        stockChoice.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
-                Bindings.bindBidirectional(CurrentPrice.textProperty(), getViewModelFactory().getPlaceOrderViewModel().getCurrentPrice(stockChoice.getSelectionModel().getSelectedItem())));
-        Bindings.bindBidirectional(amountField.textProperty(),
-                getViewModelFactory().getPlaceOrderViewModel().getAmount(),
-                new NumberStringConverter());
-        Bindings.bindBidirectional(ballanceLabel.textProperty(),
-                getViewModelFactory().getPlaceOrderViewModel().balanceProperty());
+        stockChoice.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            getViewModelFactory().getPlaceOrderViewModel().UpdateCurrentPrice(newValue);
+        });
+        Bindings.bindBidirectional(stockChoice.valueProperty(), getViewModelFactory().getPlaceOrderViewModel().currentCompanySelectedProperty());
+        Bindings.bindBidirectional(amountField.textProperty(), getViewModelFactory().getPlaceOrderViewModel().getAmount(), new NumberStringConverter());
+        Bindings.bindBidirectional(ballanceLabel.textProperty(), getViewModelFactory().getPlaceOrderViewModel().balanceProperty());
         reset();
 
     }
@@ -60,6 +61,7 @@ public class PlaceOrderController extends ViewController {
             getViewHandler().openView(View.ACCOUNT);
         }
     }
+
 
     public void Portfolio(ActionEvent actionEvent) {
         getViewHandler().openView(View.PORTFOLIO);

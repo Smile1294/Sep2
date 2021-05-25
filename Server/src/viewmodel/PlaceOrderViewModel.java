@@ -22,6 +22,7 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
     private SimpleStringProperty currentprice;
     private ObservableList<String> list;
     private SimpleIntegerProperty price;
+    private SimpleStringProperty currentCompanySelected;
     private SimpleIntegerProperty amount;
     private SimpleStringProperty companyName;
     private ViewState viewState;
@@ -40,6 +41,7 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
         this.currentprice = new SimpleStringProperty();
         this.amount = new SimpleIntegerProperty();
         this.price = new SimpleIntegerProperty();
+        this.currentCompanySelected = new SimpleStringProperty();
         list = FXCollections.observableArrayList();
         this.model = model;
         this.viewState = viewState;
@@ -60,6 +62,7 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
 
     public String getSelectedCompany() {
         if (viewState.getSelectedSymbol() != null) {
+
             companyName.setValue(model.getCompanyBySymbol(viewState.getSelectedSymbol()).getName());
             return companyName.get();
         }
@@ -68,6 +71,7 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
 
     /**
      * On back depending if view state is true/false will turn back to company list or acount view
+     *
      * @return boolean
      */
     public boolean Back() {
@@ -138,18 +142,38 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
         return price;
     }
 
-    public SimpleStringProperty getCurrentPrice(String nameofcompany) {
-        try {
-            return new SimpleStringProperty(model.getComapnyByName(nameofcompany).getCurrentPrice().toString());
-        } catch (Exception e) {
-            System.out.println("No company selected");
-        }
+    /**
+     * @return
+     */
+    public SimpleStringProperty getCurrentPrice() {
         return currentprice;
+    }
+
+    /**
+     * @param companyName
+     */
+    public void UpdateCurrentPrice(String companyName) {
+        try {
+            if (model.getComapnyByName(companyName) != null) {
+                currentprice.setValue(model.getComapnyByName(companyName).getCurrentPrice().toString());
+            }
+        } catch (Exception e) {
+            System.out.println("Select company");
+        }
+    }
+
+    /**
+     * @return
+     */
+
+    public SimpleStringProperty currentCompanySelectedProperty() {
+        return currentCompanySelected;
     }
 
     /**
      * Property change waiting for either balance change or Price change of company,
      * if there is it will update in view
+     *
      * @param event
      */
     @Override
@@ -157,12 +181,16 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
         Platform.runLater(() ->
         {
             try {
-                balance.setValue(event.getValue1());
+                if (!event.getPropertyName().equals("Price")) {
+                    balance.setValue(event.getValue1());
+                }
+                if (event.getPropertyName().equals("Price")) {
+                    if (event.getValue1().equals(model.getComapnyByName(currentCompanySelected.get()).getSymbol())) {
+                        currentprice.setValue(event.getValue2().getPriceObject().getPrice().toString());
+                    }
+                }
             } catch (Exception e) {
                 System.out.println(e);
-            }
-            if (event.getPropertyName().equals("Price")) {
-                currentprice.setValue(event.getValue2().getPriceObject().toString());
             }
 
         });
