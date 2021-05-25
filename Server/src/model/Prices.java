@@ -86,7 +86,7 @@ public class Prices implements Runnable, LocalSubject<String, Message>
     int result = 0;
     for(int x = 15; x > 0; x--){
       ZonedDateTime got = stockInfo.getTimeSeries().get(x).getDate();
-      Timestamp n = Timestamp.from(got.plusDays(1).toInstant());
+      Timestamp n = Timestamp.from(got.plusDays(1).minusHours(6).toInstant());
       if(n.before(new Timestamp(System.currentTimeMillis()))){
         timestampOfCompany.setTime(n.getTime());
         result = x;
