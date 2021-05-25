@@ -120,7 +120,7 @@ public class CompanyListViewModel implements LocalListener<String, Message>
   }
 
   /**
-   * if there is updated new Price the propertyChange will update view and model
+   * if there is updated new Price the propertyChange will update view
    * @param event
    */
   @Override public void propertyChange(ObserverEvent<String, Message> event)
@@ -130,7 +130,7 @@ public class CompanyListViewModel implements LocalListener<String, Message>
       {
         if (s.getSymbol().get().equals(event.getValue1()))
         {
-          model.getCompanyBySymbol(event.getValue2().getPriceObject().getSymbol()).setCurrentPrice(event.getValue2().getPriceObject().getPrice());
+
           Platform.runLater(() -> {
             s.getPrice().setValue(event.getValue2().getPriceObject().getPrice());
           });

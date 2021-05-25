@@ -217,7 +217,10 @@ public class ModelManager implements Model {
         boolean result = tradingClient.registerUser(user);
         return result;
     }
-
+    /**
+     * stops model after closing gui
+     * @throws RemoteException
+     */
     @Override
     public void close() throws RemoteException {
         tradingClient.close();
