@@ -59,7 +59,7 @@ public interface Model extends LocalSubject<String, Message>
 
     /**
      * gets all the companies
-     * @return companies
+     * @return companies in arrayList
      */
 
     ArrayList<Company> getAllCompanies();
@@ -98,7 +98,6 @@ public interface Model extends LocalSubject<String, Message>
 
     /**
      * getting orders by name of user
-     *
      * @param name that is getting check it as string
      * @return ArrayList<order>
      */
@@ -124,14 +123,18 @@ public interface Model extends LocalSubject<String, Message>
 
 
     /**
-     * gets users total stocks amount
+     * gets users total stocks price
+     *
      * @param name name of the user
      * @return stock amount
      */
 
     Double getPriceTotal(String name);
 
-
+    /**
+     * stops model and prices after closing gui and interrupts running price thread
+     * @throws RemoteException
+     */
     void close() throws RemoteException;
 
 }

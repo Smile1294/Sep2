@@ -179,7 +179,7 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
 
     /**
      * Property change waiting for either balance change or Price change of company,
-     * if there is it will update in view
+     * if there is it will update in view to newest information
      *
      * @param event
      */

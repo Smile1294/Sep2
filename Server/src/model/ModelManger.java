@@ -66,7 +66,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
     }
 
     /**
-     * Checks trought all stocks finds matching stock symbol with order symbol adds amount of stocks in order to stock depending if its buying/selling
+     * Checks trough all stocks finds matching stock symbol with order symbol adds amount of stocks in order to stock depending if its buying/selling
      * Updates database with newest information about orders/stocks
      *
      * @param order
@@ -104,7 +104,6 @@ public class ModelManger implements Model, LocalListener<String, Message> {
         new Thread(() -> {
             try {
                 usersPersistence.update(userList.getUser(new UserName(order.getUser())));
-
                 stocksPersistence.update(stocks);
                 ordersPersistence.update(orders);
                 if (!ordersPersistence.load().getOrderbyId(order)) {
@@ -118,7 +117,6 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * Closes order by UUID of order
-     *
      * @param uuid of order that is closed
      */
     public void closeOrder(UUID uuid) {
@@ -137,7 +135,6 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * gets order by UUID
-     *
      * @param uuid of order
      * @return order with specific uuid
      */
@@ -225,6 +222,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
      * Adds order depending if is user buying/selling checking for balance and available stocks on user account,
      * Starts a new thread with orders.
      * Calls methods UpdateOwnedStock(order) to update newest stocks
+     * Fires property event to views so that JavaFX window is up to date
      *
      * @param order that is getting added
      */
@@ -281,7 +279,6 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * Withdrawing or depositing money
-     *
      * @param userName   Username of the user that is transferring money
      * @param amount     amount that is getting transferred
      * @param isWithdraw if its withdrawing or depositing
@@ -295,7 +292,6 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * gets all the companies
-     *
      * @return companies
      */
 
@@ -306,7 +302,6 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * gets the company by symbol
-     *
      * @param symbol symbol that is being compared to
      * @return company
      */
@@ -318,7 +313,6 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * gets the company by name
-     *
      * @param name name that is being compared to
      * @return company
      */
@@ -329,7 +323,6 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * login for user
-     *
      * @param user user that wants login
      * @return logged in user
      * @throws Exception
@@ -347,9 +340,8 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * Gets all user orders
-     *
-     * @param user whos orders will be serached
-     * @return templist list of all userorders
+     * @param user whos orders will be serached 
+     * @return templist list of all user orders
      */
 
     public ArrayList<Order> getAllUserOrders(String user) {
@@ -363,7 +355,6 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * adding registered user to the list
-     *
      * @param user user that is being added
      * @return user that is registered
      * @throws Exception
@@ -385,7 +376,6 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * stops model and prices after closing gui and interrupts running price thread
-     *
      * @throws RemoteException
      */
     @Override

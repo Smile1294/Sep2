@@ -20,7 +20,6 @@ public class PortfolioViewModel implements LocalListener<String, Message> {
     private Model model;
     private StringProperty name;
     private DoubleProperty total;
-    private DoubleProperty investedValue;
     private ObservableList<SimpleStockViewModel> simpleStockViewModels;
     private ViewState viewState;
 
@@ -35,7 +34,6 @@ public class PortfolioViewModel implements LocalListener<String, Message> {
     public PortfolioViewModel(Model model, ViewState viewState) {
         this.viewState = viewState;
         this.model = model;
-        this.investedValue = new SimpleDoubleProperty();
         this.name = new SimpleStringProperty();
         this.total = new SimpleDoubleProperty();
         simpleStockViewModels = FXCollections.observableArrayList();
@@ -54,7 +52,7 @@ public class PortfolioViewModel implements LocalListener<String, Message> {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        this.investedValue = null;
+
         simpleStockViewModels.removeAll(getAll());
         loadUserStock();
     }
@@ -69,18 +67,9 @@ public class PortfolioViewModel implements LocalListener<String, Message> {
         return simpleStockViewModels;
     }
 
-    /**
-     * gets invested
-     *
-     * @return invested
-     */
-
-    public DoubleProperty getInvestedValue() {
-        return investedValue;
-    }
 
     /**
-     * loads from user account stocks
+     * loads from user account all user owned stocks
      */
 
     private void loadUserStock() {
@@ -95,7 +84,7 @@ public class PortfolioViewModel implements LocalListener<String, Message> {
 
 
     /**
-     * gets total price
+     * gets total price of all invested money
      *
      * @return price
      */
@@ -106,7 +95,7 @@ public class PortfolioViewModel implements LocalListener<String, Message> {
     }
 
     /**
-     * gets name
+     * gets name of logged in user
      *
      * @return name
      */
@@ -117,7 +106,7 @@ public class PortfolioViewModel implements LocalListener<String, Message> {
 
 
     /**
-     * Updates values in portofilio, if company price changes
+     * Updates values in portfolio, if company price changes
      *
      * @param event
      */

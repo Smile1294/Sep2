@@ -33,16 +33,21 @@ public class SimpleStockViewModel {
 
         username = new SimpleStringProperty(user.getUserName().getName());
         numberowned = new SimpleIntegerProperty(stock.getAmount());
-        currentValue = new SimpleStringProperty(String.valueOf(company.getCurrentPrice() * stock.getAmount()));
+        currentValue = new SimpleStringProperty(String.valueOf(Math.round(company.getCurrentPrice() * stock.getAmount() * 100) / 100.0));
         invested = new SimpleDoubleProperty(stock.getPrice());
         name = new SimpleStringProperty(company.getName());
         value = new SimpleDoubleProperty(company.getCurrentPrice());
         symbol = new SimpleStringProperty(company.getSymbol());
 
         if (((((company.getCurrentPrice() * stock.getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100) > 0) {
-            percentage = new SimpleStringProperty("+" + (((((company.getCurrentPrice() * stock.getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100)));
+            double d = ((((((company.getCurrentPrice() * stock.getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100)));
+            d = Math.round(d * 100) / 100.0;
+            percentage = new SimpleStringProperty("+" + d);
+
         } else {
-            percentage = new SimpleStringProperty(Double.toString(((((company.getCurrentPrice() * stock.getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100)));
+            double d = ((((((company.getCurrentPrice() * stock.getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100)));
+            d = Math.round(d * 100) / 100.0;
+            percentage = new SimpleStringProperty(String.valueOf(d));
         }
         if (Double.isNaN(((((company.getCurrentPrice() * stock.getAmount()) / orders.getboughtPriceInStock(user, stock)) * 100) - 100))) {
             percentage = new SimpleStringProperty(Double.toString(0.00));

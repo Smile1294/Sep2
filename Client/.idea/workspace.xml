@@ -2,10 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="985f1e8a-0f5d-44d5-ae6d-0bce1baf1f76" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Client.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Client.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/viewmodel/PlaceOrderViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/viewmodel/PlaceOrderViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/viewmodel/SimpleStockViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/viewmodel/SimpleStockViewModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/.idea/shelf/Uncommitted_changes_before_Checkout_at_25_05_2021_19_25__Default_Changelist_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/.idea/shelf/Uncommitted_changes_before_Merge_at_25_05_2021_16_45__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/.idea/shelf/Uncommitted_changes_before_Merge_at_25_05_2021_16_45__Default_Changelist_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/mediator/TradingServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/mediator/TradingServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/model/Model.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/model/ModelManger.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/model/ModelManger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/view/PlaceOrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/view/PlaceOrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/viewmodel/PlaceOrderViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/viewmodel/PlaceOrderViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/viewmodel/PortfolioViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/viewmodel/PortfolioViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/viewmodel/SimpleStockViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/viewmodel/SimpleStockViewModel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +25,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectId" id="1t2PxhvGlux0XeqrylHSocyqsMP" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -46,13 +56,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -72,7 +84,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1621964458389</updated>
-      <workItem from="1621964460452" duration="1323000" />
+      <workItem from="1621964460452" duration="2584000" />
+      <workItem from="1622011246282" duration="1923000" />
     </task>
     <servers />
   </component>
@@ -89,5 +102,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

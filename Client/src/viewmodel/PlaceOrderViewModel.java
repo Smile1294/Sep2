@@ -166,7 +166,7 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
 
     /**
      * Property change waiting for either balance change or Price change of company,
-     * if there is it will update in view
+     * if there is it will update in view to newest information
      *
      * @param event
      */
@@ -180,8 +180,10 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
                     balance.setValue(event.getValue1());
                 }
                 if (event.getPropertyName().equals("Price")) {
-                    if (event.getValue1().equals(model.getComapnyByName(currentCompanySelected.get()).getSymbol())) {
-                        currentprice.setValue(event.getValue2().getPriceObject().getPrice().toString());
+                    if (currentCompanySelected != null) {
+                        if (event.getValue1().equals(model.getComapnyByName(currentCompanySelected.get()).getSymbol())) {
+                            currentprice.setValue(event.getValue2().getPriceObject().getPrice().toString());
+                        }
                     }
                 }
             } catch (Exception e) {
@@ -192,7 +194,7 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
     }
 
     /**
-     * On back depending if view state is true/false will turn back to company list or acount view
+     * On back depending if view state is true/false will turn back to company list or account view
      *
      * @return boolean
      */

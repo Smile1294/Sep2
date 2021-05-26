@@ -69,7 +69,6 @@ public class PlaceOrderController extends ViewController {
     public void PriceonKeyTyped(KeyEvent keyEvent) {
         try {
             if (!"".equals(amountField.getText()) && !"".equals(priceField.getText())) {
-                Double.parseDouble(amountField.getText());
                 ErrorLable.setText("");
                 totalLabel.setText(String.valueOf(Math.round((Integer.parseInt(amountField.getText())*Double.parseDouble(priceField.getText()))*100.0)/100.0));
             } else {
@@ -85,7 +84,6 @@ public class PlaceOrderController extends ViewController {
     public void AmountOnKeyTyped(KeyEvent keyEvent) {
         try {
             if (!"".equals(amountField.getText()) && !"".equals(priceField.getText())) {
-                Integer.parseInt(amountField.getText());
                 ErrorLable.setText("");
                 totalLabel.setText(String.valueOf(Math.round((Integer.parseInt(amountField.getText())*Double.parseDouble(priceField.getText()))*100.0)/100.0));
             } else {
