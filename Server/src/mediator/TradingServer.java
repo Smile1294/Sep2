@@ -5,7 +5,6 @@ import utility.observer.event.ObserverEvent;
 import utility.observer.listener.GeneralListener;
 import utility.observer.listener.LocalListener;
 import utility.observer.subject.PropertyChangeHandler;
-
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
@@ -43,7 +42,8 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
     }
 
     /**
-     * Creates Registry with port (1099)
+     * Creates Registry with port (1099) for communication between client and server
+     * port 1099 is used for client to connect
      *
      * @throws RemoteException
      */
@@ -59,7 +59,6 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
 
     /**
      * prints out that server started
-     *
      * @throws MalformedURLException
      * @throws RemoteException
      */
@@ -71,7 +70,6 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
 
     /**
      * closes server
-     *
      * @throws RemoteException
      */
     @Override
@@ -80,9 +78,8 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
     }
 
     /**
-     * adds order to local model
-     *
-     * @param order
+     * adds order to local model from client
+     * @param order that is added to list in server
      * @throws RemoteException
      */
     @Override
@@ -91,8 +88,7 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
     }
 
     /**
-     * gets company by its name
-     *
+     * gets company by its name for client
      * @param name of company
      * @return Company from local model
      * @throws RemoteException
@@ -104,10 +100,9 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
     }
 
     /**
-     * Gets all user orders in ArrayList<Order>
-     *
+     * Gets all user orders in ArrayList<Order> for client
      * @param user of whom the orders are
-     * @return ArrayList<Orders> returns list of orders of user
+     * @return ArrayList<Orders> returns list of orders of user for client
      * @throws RemoteException
      */
 
@@ -117,8 +112,7 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
     }
 
     /**
-     * Closes order by UUID
-     *
+     * Closes order by UUID from client
      * @param uuid of order that will be closed
      * @throws RemoteException
      */
@@ -128,9 +122,8 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
     }
 
     /**
-     * Gets ArrayList<Stock> of users stocks
-     *
-     * @param name of whom stocks are
+     * Gets ArrayList<Stock> of users stocks for client
+     * @param name of user that stocks will be returned
      * @return ArrayList<Stock> arraylist of stocks that user owns
      * @throws RemoteException
      */
@@ -140,9 +133,8 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
     }
 
     /**
-     * Gets user of name
-     *
-     * @param name of user
+     * Gets user object by name of user
+     * @param name of user that will be returned
      * @return User
      * @throws RemoteException
      */
@@ -153,8 +145,7 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
 
     /**
      * Gets all user orders in ArrayList<Order>
-     *
-     * @param user of whom the orders are
+     * @param user of whos orders will be returned
      * @return ArrayList<Orders> returns list of orders of user
      * @throws RemoteException
      */
@@ -166,8 +157,7 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
 
     /**
      * gets specific order by its UUID
-     *
-     * @param uuid of order that will be retuned
+     * @param uuid of order that will be returned
      * @return specific order
      * @throws RemoteException
      */
@@ -178,9 +168,8 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
 
     /**
      * login for user
-     *
-     * @param user user that wants login
-     * @return logged in user
+     * @param user that wants login
+     * @return boolean if the user login is approved
      * @throws Exception
      */
     @Override
@@ -191,7 +180,6 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
 
     /**
      * adding registered user to the list
-     *
      * @param user user that is being added
      * @return user that is registered
      * @throws Exception
@@ -204,9 +192,8 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
 
     /**
      * gets the balance of the user
-     *
      * @param userName username of the user
-     * @return balance
+     * @return balance of user
      */
     @Override
     public double getBalance(UserName userName) {
@@ -256,31 +243,17 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
         return localModel.getCompanyBySymbol(symbol);
     }
 
-    /**
-     * @param listener
-     * @param propertyNames
-     * @return
-     * @throws RemoteException
-     */
     @Override
     public boolean addListener(GeneralListener<String, Message> listener, String... propertyNames) throws RemoteException {
         return property.addListener(listener, propertyNames);
     }
 
-    /**
-     * @param listener
-     * @param propertyNames
-     * @return
-     * @throws RemoteException
-     */
+
     @Override
     public boolean removeListener(GeneralListener<String, Message> listener, String... propertyNames) throws RemoteException {
         return property.removeListener(listener, propertyNames);
     }
 
-    /**
-     * @param event
-     */
 
     @Override public void propertyChange(ObserverEvent<String, Message> event)
     {

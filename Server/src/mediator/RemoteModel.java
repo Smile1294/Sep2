@@ -80,9 +80,9 @@ public interface RemoteModel extends RemoteSubject<String, Message> {
     void close() throws RemoteException;
 
     /**
-     * adds order
+     * adds order to local model from client
      *
-     * @param order that will be added
+     * @param order that is added to list in server
      * @throws RemoteException
      */
 

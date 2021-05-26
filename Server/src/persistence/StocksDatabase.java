@@ -1,6 +1,8 @@
 package persistence;
 
 import model.*;
+
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,6 +26,7 @@ public class StocksDatabase implements StocksPersistence {
 
     /**
      * Loads stocks for specific user and for specific company
+     *
      * @param user
      * @param company
      * @return stock from database if not found will return null
@@ -48,9 +51,9 @@ public class StocksDatabase implements StocksPersistence {
 
     /**
      * loads all of stocks from database
+     *
      * @return stocks list from database
      * @throws SQLException
-     *
      */
     @Override
     public Stocks loadAll() throws SQLException {
@@ -63,7 +66,7 @@ public class StocksDatabase implements StocksPersistence {
                 String symbol = resultSet.getString("symbol");
                 int amount = resultSet.getInt("amount");
                 Stock s = new Stock(symbol, username, amount);
-                s.setPrice(resultSet.getInt("price"));
+                s.setPrice(resultSet.getDouble("price"));
                 stocks.addStock(s);
             }
             return stocks;
@@ -72,6 +75,7 @@ public class StocksDatabase implements StocksPersistence {
 
     /**
      * updates all stocks in database with stocks list
+     *
      * @param stocks list will be updated to database
      * @throws SQLException
      */
@@ -84,7 +88,7 @@ public class StocksDatabase implements StocksPersistence {
                     statement.setString(3, s.getUsername());
                     statement.setString(4, s.getSymbol());
                     statement.setInt(1, s.getAmount());
-                    statement.setInt(2, s.getPrice());
+                    statement.setDouble(2, s.getPrice());
                     statement.executeUpdate();
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
@@ -95,6 +99,7 @@ public class StocksDatabase implements StocksPersistence {
 
     /**
      * Saves specific stock to database
+     *
      * @param stock
      * @param user
      * @throws SQLException
@@ -106,13 +111,14 @@ public class StocksDatabase implements StocksPersistence {
             statement.setString(1, user.getUserName().getName());
             statement.setString(2, stock.getSymbol());
             statement.setInt(3, stock.getAmount());
-            statement.setInt(4, stock.getPrice());
+            statement.setDouble(4, stock.getPrice());
             statement.executeUpdate();
         }
     }
 
     /**
      * Saves all stocks to database
+     *
      * @param stocks
      * @throws SQLException
      */
@@ -125,7 +131,7 @@ public class StocksDatabase implements StocksPersistence {
                     statement.setString(1, s.getUsername());
                     statement.setString(2, s.getSymbol());
                     statement.setInt(3, s.getAmount());
-                    statement.setInt(4, s.getPrice());
+                    statement.setDouble(4, s.getPrice());
                     statement.executeUpdate();
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();

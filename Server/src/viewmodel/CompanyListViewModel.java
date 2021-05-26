@@ -66,6 +66,11 @@ public class CompanyListViewModel implements LocalListener<String, Message>
     }
   }
 
+  /**
+   * sets viewstate from account view on true so that when user is pressing back button in placing order will be put back to
+   * companies list
+   */
+
   public void setViewStateBoolean()
   {
     viewState.setFromAccountView(true);

@@ -83,7 +83,6 @@ public class OrdersListViewModel implements LocalListener<String, Message> {
             for (Order o : model.getAllUserOrders(viewState.getUserName().getName())) {
                 simpleOrderViewModels.add(new SimpleOrderViewModel(o));
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }

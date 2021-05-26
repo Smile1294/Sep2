@@ -1,6 +1,9 @@
 package view;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.ChoiceBox;
@@ -11,24 +14,27 @@ import utility.NumberStringConverter;
 
 public class PlaceOrderController extends ViewController {
     public ChoiceBox<String> stockChoice;
-    public BarChart ordersChart;
     public TextField priceField;
     public TextField amountField;
     public Label totalLabel;
     public Label ballanceLabel;
     public Label ErrorLable;
+    public Label CurrentPrice;
 
     @Override
     protected void init() {
+
         stockChoice.setItems(getViewModelFactory().getPlaceOrderViewModel().getStockChoice());
+        CurrentPrice.textProperty().bind(getViewModelFactory().getPlaceOrderViewModel().getCurrentPrice());
         Bindings.bindBidirectional(priceField.textProperty(),
                 getViewModelFactory().getPlaceOrderViewModel().getPrice(),
                 new NumberStringConverter());
-        Bindings.bindBidirectional(amountField.textProperty(),
-                getViewModelFactory().getPlaceOrderViewModel().getAmount(),
-                new NumberStringConverter());
-        Bindings.bindBidirectional(ballanceLabel.textProperty(),
-                getViewModelFactory().getPlaceOrderViewModel().balanceProperty());
+        stockChoice.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            getViewModelFactory().getPlaceOrderViewModel().UpdateCurrentPrice(newValue);
+        });
+        Bindings.bindBidirectional(stockChoice.valueProperty(), getViewModelFactory().getPlaceOrderViewModel().currentCompanySelectedProperty());
+        Bindings.bindBidirectional(amountField.textProperty(), getViewModelFactory().getPlaceOrderViewModel().getAmount(), new NumberStringConverter());
+        Bindings.bindBidirectional(ballanceLabel.textProperty(), getViewModelFactory().getPlaceOrderViewModel().balanceProperty());
         reset();
 
     }
@@ -55,6 +61,7 @@ public class PlaceOrderController extends ViewController {
         }
     }
 
+
     public void Portfolio(ActionEvent actionEvent) {
         getViewHandler().openView(View.PORTFOLIO);
     }
@@ -62,15 +69,14 @@ public class PlaceOrderController extends ViewController {
     public void PriceonKeyTyped(KeyEvent keyEvent) {
         try {
             if (!"".equals(amountField.getText()) && !"".equals(priceField.getText())) {
-                Integer.parseInt(amountField.getText());
                 ErrorLable.setText("");
-                totalLabel.setText(String.valueOf(Integer.parseInt(priceField.getText()) * Integer.parseInt(amountField.getText())));
+                totalLabel.setText(String.valueOf(Math.round((Integer.parseInt(amountField.getText())*Double.parseDouble(priceField.getText()))*100.0)/100.0));
             } else {
                 totalLabel.setText("0");
             }
         } catch (NumberFormatException e) {
             totalLabel.setText("0");
-            ErrorLable.setText("Input string cannot be parsed to integer");
+            ErrorLable.setText("Invalid input string");
         }
 
     }
@@ -78,15 +84,14 @@ public class PlaceOrderController extends ViewController {
     public void AmountOnKeyTyped(KeyEvent keyEvent) {
         try {
             if (!"".equals(amountField.getText()) && !"".equals(priceField.getText())) {
-                Integer.parseInt(amountField.getText());
                 ErrorLable.setText("");
-                totalLabel.setText(String.valueOf(Integer.parseInt(priceField.getText()) * Integer.parseInt(amountField.getText())));
+                totalLabel.setText(String.valueOf(Math.round((Integer.parseInt(amountField.getText())*Double.parseDouble(priceField.getText()))*100.0)/100.0));
             } else {
                 totalLabel.setText("0");
             }
         } catch (NumberFormatException e) {
             totalLabel.setText("0");
-            ErrorLable.setText("Input string cannot be parsed to integer");
+            ErrorLable.setText("Invalid input string");
         }
     }
 }

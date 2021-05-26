@@ -60,14 +60,13 @@ public class ModelManger implements Model, LocalListener<String, Message> {
         prices = priceHistoryPersistence.load();
         tradingServer = new TradingServer(this);
         orders.addListener(this);
-        prices = new Prices();
         prices.addListener(this);
         threadPrices = new Thread(prices);
         threadPrices.start();
     }
 
     /**
-     * Checks trought all stocks finds matching stock symbol with order symbol adds amount of stocks in order to stock depending if its buying/selling
+     * Checks trough all stocks finds matching stock symbol with order symbol adds amount of stocks in order to stock depending if its buying/selling
      * Updates database with newest information about orders/stocks
      *
      * @param order
@@ -78,24 +77,27 @@ public class ModelManger implements Model, LocalListener<String, Message> {
             if (s.getSymbol().equals(order.getSymbol()) && order.getUser().equals(s.getUsername())) {
                 if (!order.isSell()) {
                     if (order.getStatus().equals(Status.COMPLETED)) {
+                        s.setPrice(Math.round(orders.getboughtPriceInStock(getUser(order.getUser()), s)*100)/100.0);
                         s.setAmount((order.getAmount() + s.getAmount()));
-                        s.setPrice(order.getAskingPrice().intValue() + s.getPrice());
                     }
                     if (order.getStatus().equals(Status.CLOSED)) {
                         getUser(order.getUser()).setBalance(new Balance((int) (getUser(order.getUser()).getBalance() + order.getAskingPrice())));
                     }
                 }
+
             }
             if (s.getSymbol().equals(order.getSymbol()) && order.getUser().equals(s.getUsername())) {
                 if (order.isSell() && order.getStatus().equals(Status.OPEN)) {
+                    s.setPrice(Math.round(orders.getboughtPriceInStock(getUser(order.getUser()), s)*100)/100.0);
                     s.setAmount((s.getAmount() - order.getAmount()));
-                    s.setPrice(s.getPrice() - order.getAskingPrice().intValue());
+
                 }
             }
             if (s.getSymbol().equals(order.getSymbol()) && order.getUser().equals(s.getUsername())) {
                 if (order.isSell() && order.getStatus().equals(Status.CLOSED)) {
+                    s.setPrice(Math.round(orders.getboughtPriceInStock(getUser(order.getUser()), s)*100)/100.0);
                     s.setAmount((s.getAmount() + order.getAmount()));
-                    s.setPrice(order.getAskingPrice().intValue() + s.getPrice());
+
                 }
             }
         }
@@ -104,11 +106,10 @@ public class ModelManger implements Model, LocalListener<String, Message> {
                 usersPersistence.update(userList.getUser(new UserName(order.getUser())));
                 stocksPersistence.update(stocks);
                 ordersPersistence.update(orders);
-                if (!orders.getOrderbyId(order)) {
+                if (!ordersPersistence.load().getOrderbyId(order)) {
                     ordersPersistence.save(order);
                 }
             } catch (Exception e) {
-                System.out.println(e);
             }
         }).start();
 
@@ -116,7 +117,6 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * Closes order by UUID of order
-     *
      * @param uuid of order that is closed
      */
     public void closeOrder(UUID uuid) {
@@ -135,7 +135,6 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * gets order by UUID
-     *
      * @param uuid of order
      * @return order with specific uuid
      */
@@ -223,6 +222,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
      * Adds order depending if is user buying/selling checking for balance and available stocks on user account,
      * Starts a new thread with orders.
      * Calls methods UpdateOwnedStock(order) to update newest stocks
+     * Fires property event to views so that JavaFX window is up to date
      *
      * @param order that is getting added
      */
@@ -249,8 +249,9 @@ public class ModelManger implements Model, LocalListener<String, Message> {
             if (getUser(order.getUser()).getBalance() >= order.getAskingPrice() && order.getAmount() >= 1) {
                 orders.AddOrder(order);
                 try {
-                    userList.getUser(new UserName(order.getUser())).setBalance(new Balance((int) getBalance(new UserName(order.getUser())) - order.getAskingPrice().intValue()));
+                    userList.getUser(new UserName(order.getUser())).setBalance(new Balance((int) getBalance(new UserName(order.getUser())) - order.getAskingPrice().intValue() * order.getAmount()));
                     new Thread(orders).start();
+                    UpdateOwnedStock(order);
                     usersPersistence.update(userList.getUser(new UserName(order.getUser())));
                     property.firePropertyChange("balanceUpdate", (userList.getUser(new UserName(order.getUser()))).getBalance().toString(), new Message(order, null));
                 } catch (Exception e) {
@@ -266,6 +267,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * gets the balance of the user
+     *
      * @param userName username of the user
      * @return balance
      */
@@ -277,7 +279,6 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * Withdrawing or depositing money
-     *
      * @param userName   Username of the user that is transferring money
      * @param amount     amount that is getting transferred
      * @param isWithdraw if its withdrawing or depositing
@@ -339,9 +340,8 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * Gets all user orders
-     *
-     * @param user whos orders will be serached
-     * @return templist list of all userorders
+     * @param user whos orders will be serached 
+     * @return templist list of all user orders
      */
 
     public ArrayList<Order> getAllUserOrders(String user) {
@@ -386,7 +386,6 @@ public class ModelManger implements Model, LocalListener<String, Message> {
     }
 
 
-
     @Override
     public boolean addListener(GeneralListener<String, Message> listener, String... propertyNames) {
         return property.addListener(listener, propertyNames);
@@ -399,7 +398,10 @@ public class ModelManger implements Model, LocalListener<String, Message> {
     }
 
     /**
-     * Waits for event of order getting completed
+     * Wait for company price change if there is orders will be checked if there is any valid
+     * order to fulfill
+     * <p>
+     * Waits for event of order getting completed if there is,then user owned stocks will get updated
      *
      * @param event
      */
@@ -408,34 +410,33 @@ public class ModelManger implements Model, LocalListener<String, Message> {
     public void propertyChange(ObserverEvent<String, Message> event) {
         if (event.getPropertyName().equals("Price")) {
 
-            String symbol = event.getValue2().getPriceObject().getSymbol();
-            Company company = new Company(symbol, symbol);
-            company.setCurrentPrice(event.getValue2().getPriceObject().getPrice());
-            try
-            {
-                priceHistoryPersistence.save(event.getValue2().getPriceObject());
-                companiesPersistence.update(company);
-            }
-            catch (SQLException throwables)
-            {
-                throwables.printStackTrace();
-            }
-            getCompanyBySymbol(event.getValue1()).setCurrentPrice(event.getValue2().getPriceObject().getPrice());
-            property.firePropertyChange(event);
-
             for (Order o : orders.getUserOrders("Broker")) {
                 if (event.getValue1().equals(o.getSymbol())) {
                     try {
                         o.setAskingPrice(BigDecimal
-                            .valueOf(event.getValue2().getPriceObject().getPrice()));
+                                .valueOf(event.getValue2().getPriceObject().getPrice()));
                         new Thread(orders).start();
-                        UpdateOwnedStock(o);
+                        ordersPersistence.update(orders);
                         property.firePropertyChange(event);
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
                 }
             }
+
+            String symbol = event.getValue2().getPriceObject().getSymbol();
+            Company company = new Company(symbol, symbol);
+            company.setCurrentPrice(event.getValue2().getPriceObject().getPrice());
+            try {
+                priceHistoryPersistence.save(event.getValue2().getPriceObject());
+                companiesPersistence.update(company);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            getCompanyBySymbol(event.getValue1()).setCurrentPrice(event.getValue2().getPriceObject().getPrice());
+            property.firePropertyChange(event);
+
+
         }
         try {
             if (event.getPropertyName().equals("OrderCompleted")) {

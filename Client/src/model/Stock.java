@@ -11,15 +11,16 @@ public class Stock implements Serializable {
     private String username;
     private String symbol;
     private int amount;
-    private int price;
+    private double price;
 
     /**
      * Constructor initialising the instance variables
-     * @param symbol symbol of the company
+     *
+     * @param symbol   symbol of the company
      * @param username username of the user
      */
 
-    public Stock(String symbol,String username) {
+    public Stock(String symbol, String username) {
         this.symbol = symbol;
         this.username = username;
         this.amount = 0;
@@ -28,34 +29,39 @@ public class Stock implements Serializable {
 
     /**
      * Constructor initialising the instance variables
-     * @param symbol symbol of the company
+     *
+     * @param symbol   symbol of the company
      * @param username username of the user
-     * @param amount amount of the stock
+     * @param amount   amount of the stock
      */
 
-    public Stock(String symbol,String username,int amount) {
+    public Stock(String symbol, String username, int amount) {
         this.symbol = symbol;
         this.username = username;
         this.amount = amount;
         this.price = 0;
     }
+
     /**
      * setting price of stock
      */
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
+
     /**
      * getting price of stock
-     * @return getPrice
+     *
+     * @return getPriceObject
      */
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
     /**
      * getting the amount of stock
+     *
      * @return amount
      */
 
@@ -65,6 +71,7 @@ public class Stock implements Serializable {
 
     /**
      * sets the amount of stock
+     *
      * @param amount amount that is being set
      */
 
@@ -74,6 +81,7 @@ public class Stock implements Serializable {
 
     /**
      * gets username
+     *
      * @return username
      */
 
@@ -83,6 +91,7 @@ public class Stock implements Serializable {
 
     /**
      * sets the username
+     *
      * @param username username that is being set
      */
 
@@ -92,6 +101,7 @@ public class Stock implements Serializable {
 
     /**
      * gets the symbol
+     *
      * @return symbol
      */
 
@@ -101,6 +111,7 @@ public class Stock implements Serializable {
 
     /**
      * sets the symbol
+     *
      * @param symbol symbol that is being set
      */
 
@@ -110,6 +121,7 @@ public class Stock implements Serializable {
 
     /**
      * toString version of the stock
+     *
      * @return stock
      */
 

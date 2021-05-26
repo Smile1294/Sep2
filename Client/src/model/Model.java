@@ -35,22 +35,34 @@ public interface Model extends LocalSubject<String, Message> {
      */
 
     boolean registerUser(User user) throws Exception;
+
+    /**
+     * get Order by id from server
+     *
+     * @param uuid of order
+     * @return order from server
+     * @throws RemoteException
+     */
+
     Order getOrderbyID(String uuid) throws RemoteException;
 
     /**
      * getting order by user
-     *
      * @param user that is getting check it
      * @return order
      */
 
     ArrayList<Order> getAllUserOrders(String user) throws RemoteException;
 
-    void CloseOrder(UUID uuid)throws RemoteException;
+    /**
+     * Closer order by UUID
+     * @param uuid of order that will be closed
+     * @throws RemoteException
+     */
+    void CloseOrder(UUID uuid) throws RemoteException;
 
     /**
      * getting the balance of a user
-     *
      * @param userName username of the user
      * @return userName
      */

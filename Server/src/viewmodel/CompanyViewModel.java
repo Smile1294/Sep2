@@ -81,7 +81,10 @@ public class CompanyViewModel implements LocalListener<String, Message>
     return price;
   }
 
-
+  /**
+   * Property change that is waiting for new price of company if there is it will update
+   * @param event
+   */
 
   @Override public void propertyChange(ObserverEvent<String, Message> event)
   {

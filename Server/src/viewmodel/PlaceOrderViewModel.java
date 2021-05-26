@@ -1,6 +1,7 @@
 package viewmodel;
 
 import javafx.application.Platform;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -19,8 +20,10 @@ import java.util.UUID;
 public class PlaceOrderViewModel implements LocalListener<String, Message> {
     private Model model;
     private SimpleStringProperty balance;
+    private SimpleStringProperty currentprice;
     private ObservableList<String> list;
-    private SimpleIntegerProperty price;
+    private SimpleDoubleProperty price;
+    private SimpleStringProperty currentCompanySelected;
     private SimpleIntegerProperty amount;
     private SimpleStringProperty companyName;
     private ViewState viewState;
@@ -33,11 +36,13 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
      */
 
     public PlaceOrderViewModel(Model model, ViewState viewState) {
-        model.addListener(this, "balanceUpdate");
+        model.addListener(this, "balanceUpdate", "Price");
         this.balance = new SimpleStringProperty();
         this.companyName = new SimpleStringProperty();
+        this.currentprice = new SimpleStringProperty();
         this.amount = new SimpleIntegerProperty();
-        this.price = new SimpleIntegerProperty();
+        this.price = new SimpleDoubleProperty();
+        this.currentCompanySelected = new SimpleStringProperty();
         list = FXCollections.observableArrayList();
         this.model = model;
         this.viewState = viewState;
@@ -58,14 +63,19 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
 
     public String getSelectedCompany() {
         if (viewState.getSelectedSymbol() != null) {
+
             companyName.setValue(model.getCompanyBySymbol(viewState.getSelectedSymbol()).getName());
             return companyName.get();
         }
         return "";
     }
 
-    public boolean Back()
-    {
+    /**
+     * On back depending if view state is true/false will turn back to company list or acount view
+     *
+     * @return boolean
+     */
+    public boolean Back() {
         return viewState.isFromAccountView();
     }
 
@@ -99,7 +109,7 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
      * @throws Exception
      */
 
-    public synchronized void buy(String nameofcompany) throws Exception {
+    public synchronized void buy(String nameofcompany) {
         model.AddOrder(new Order(false, BigDecimal.valueOf(price.get()), amount.get(), viewState.getUserName().getName(), Status.OPEN, model.getComapnyByName(nameofcompany).getSymbol()));
     }
 
@@ -129,20 +139,66 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
      * @return price
      */
 
-    public SimpleIntegerProperty getPrice() {
+    public SimpleDoubleProperty getPrice() {
         return price;
     }
 
+    /**
+     * gets current price of company
+     *
+     * @return current price of company
+     */
+    public SimpleStringProperty getCurrentPrice() {
+        return currentprice;
+    }
 
+    /**
+     * Updates current price of selected company
+     *
+     * @param companyName of company
+     */
+    public void UpdateCurrentPrice(String companyName) {
+        try {
+            if (model.getComapnyByName(companyName) != null) {
+                currentprice.setValue(model.getComapnyByName(companyName).getCurrentPrice().toString());
+            }
+        } catch (Exception e) {
+            System.out.println("Select company");
+        }
+    }
+
+    /**
+     * current company selected bound to view controller
+     *
+     * @return selected company
+     */
+
+    public SimpleStringProperty currentCompanySelectedProperty() {
+        return currentCompanySelected;
+    }
+
+    /**
+     * Property change waiting for either balance change or Price change of company,
+     * if there is it will update in view to newest information
+     *
+     * @param event
+     */
     @Override
     public void propertyChange(ObserverEvent<String, Message> event) {
         Platform.runLater(() ->
         {
             try {
+                if (!event.getPropertyName().equals("Price")) {
                     balance.setValue(event.getValue1());
+                }
+                if (event.getPropertyName().equals("Price")) {
+                    if (event.getValue1().equals(model.getComapnyByName(currentCompanySelected.get()).getSymbol())) {
+                        currentprice.setValue(event.getValue2().getPriceObject().getPrice().toString());
+                    }
+                }
             } catch (Exception e) {
-                System.out.println(e);
             }
+
         });
     }
 
