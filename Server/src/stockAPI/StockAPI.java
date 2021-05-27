@@ -11,6 +11,14 @@ import java.net.http.HttpResponse;
  */
 
 public class StockAPI {
+    /**
+     * gets stock info of company
+     * @param ticker symbol of company to be checked
+     * @param requestType type of intervals of asked information
+     * @return stock info of company as string
+     * @throws IOException if an I/O error occurs when sending or recei
+     * @throws InterruptedException if the operation is interrupted
+     */
     public String getStockInfo(String ticker, RequestType requestType) throws IOException, InterruptedException {
         String interval = "";
         if (requestType.equals(RequestType.INTRADAY)){

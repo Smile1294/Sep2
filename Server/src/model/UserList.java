@@ -43,7 +43,7 @@ public class UserList {
   /**
    * @param user new User that is added to the list
    * @return returns true
-   * @throws Exception if the user isn't found
+   * @throws Exception if the user all ready exist
    */
   public boolean addUser(User user) throws Exception {
     if (nameExist(user.getUserName())){

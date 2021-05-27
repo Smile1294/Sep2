@@ -56,6 +56,11 @@ public class Companies
         return null;
     }
 
+    /**
+     * getting the company by name
+     * @param name name of the company
+     * @return company
+     */
     public Company getCompanyByName(String name) {
         for (Company c : companies) {
             if (c.getName().equals(name)) {

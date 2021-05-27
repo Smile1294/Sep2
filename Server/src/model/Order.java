@@ -38,7 +38,7 @@ public class Order implements Serializable {
 
     /**
      * getting the company symbol
-     * @return sybol
+     * @return symbol
      */
 
     public String getSymbol() {

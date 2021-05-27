@@ -43,7 +43,9 @@ public class ModelManger implements Model, LocalListener<String, Message> {
     /**
      * Constructor initialing all the instance variables, adds listeners and starts price thread
      *
-     * @throws IOException
+     * @throws IOException if there occurred error with registry inside TradingServer class
+     * or name in startServer method inside TradingServer is not appropriately formatted
+     * @throws SQLException can be thrown to provide information on a database access error
      */
 
     public ModelManger() throws IOException, SQLException {
@@ -70,7 +72,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
      * Updates database with newest information about orders/stocks
      *
      * @param order
-     * @throws SQLException
+     * @throws SQLException can be thrown to provide information on a database access error
      */
     public void UpdateOwnedStock(Order order) throws SQLException {
         for (Stock s : stocks.getAllStocks()) {
@@ -282,6 +284,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
      * @param userName   Username of the user that is transferring money
      * @param amount     amount that is getting transferred
      * @param isWithdraw if its withdrawing or depositing
+     * @throws SQLException can be thrown to provide information on a database access error
      */
 
     @Override
@@ -324,8 +327,8 @@ public class ModelManger implements Model, LocalListener<String, Message> {
     /**
      * login for user
      * @param user user that wants login
-     * @return logged in user
-     * @throws Exception
+     * @return returns true
+     * @throws Exception user that wants to login doesn't exist
      */
 
     @Override
@@ -356,8 +359,8 @@ public class ModelManger implements Model, LocalListener<String, Message> {
     /**
      * adding registered user to the list
      * @param user user that is being added
-     * @return user that is registered
-     * @throws Exception
+     * @return returns true
+     * @throws Exception if the user all ready exist
      */
 
     @Override
@@ -376,7 +379,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
 
     /**
      * stops model and prices after closing gui and interrupts running price thread
-     * @throws RemoteException
+     * @throws RemoteException if the remote object is not currently exported
      */
     @Override
     public void close() throws RemoteException {

@@ -14,8 +14,17 @@ import java.util.UUID;
 
 public interface Model extends LocalSubject<String, Message>
 {
+    /**
+     * sets status of order to close
+     * @param uuid id of order to close
+     */
     void closeOrder(UUID uuid);
 
+    /**
+     * gets order by id
+     * @param uuid id of order to search for
+     * @return order
+     */
     Order getOrderByID(String uuid);
 
 
@@ -23,8 +32,8 @@ public interface Model extends LocalSubject<String, Message>
      * login for user
      *
      * @param user user that wants login
-     * @return true
-     * @throws Exception
+     * @return returns true
+     * @throws Exception user that wants to login doesn't exist
      */
 
     boolean login(User user) throws Exception;
@@ -34,8 +43,8 @@ public interface Model extends LocalSubject<String, Message>
      * adding registered user to the list
      *
      * @param user user that is being added
-     * @return true
-     * @throws Exception
+     * @return returns true
+     * @throws Exception if the user all ready exist
      */
 
     boolean registerUser(User user) throws Exception;
@@ -54,6 +63,7 @@ public interface Model extends LocalSubject<String, Message>
      * @param userName   Username of the user that is transferring money
      * @param amount     amount that is getting transferred
      * @param isWithdraw if its withdrawing or depositing
+     * @throws SQLException can be thrown to provide information on a database access error
      */
     void transferMoney(UserName userName, double amount, boolean isWithdraw) throws SQLException;
 
@@ -133,7 +143,7 @@ public interface Model extends LocalSubject<String, Message>
 
     /**
      * stops model and prices after closing gui and interrupts running price thread
-     * @throws RemoteException
+     * @throws RemoteException if the remote object is not currently exported
      */
     void close() throws RemoteException;
 

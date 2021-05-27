@@ -16,7 +16,9 @@ public class Price implements Serializable
   private Double close;
   private Long volume;
 
-
+  /**
+   * Constructor initialising all instant variables
+   */
   public Price(Timestamp timestamp, String symbol,Double open,Double low,Double high, Double close, Long volume){
     this.timestamp = timestamp;
     this.symbol = symbol;

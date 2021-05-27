@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- *
+ * StocksDatabase is used for saving/loading data to/from database about stocks
  */
 public class StocksDatabase implements StocksPersistence {
     private static StocksDatabase instance;
@@ -27,10 +27,10 @@ public class StocksDatabase implements StocksPersistence {
     /**
      * Loads stocks for specific user and for specific company
      *
-     * @param user
-     * @param company
+     * @param user user that owns the stocks
+     * @param company company of the stocks
      * @return stock from database if not found will return null
-     * @throws SQLException
+     * @throws SQLException if a database access error occurs or this method is called on a closed connection
      */
     @Override
     public Stock load(User user, Company company) throws SQLException {
@@ -53,7 +53,7 @@ public class StocksDatabase implements StocksPersistence {
      * loads all of stocks from database
      *
      * @return stocks list from database
-     * @throws SQLException
+     * @throws SQLException if a database access error occurs or this method is called on a closed connection
      */
     @Override
     public Stocks loadAll() throws SQLException {
@@ -77,7 +77,7 @@ public class StocksDatabase implements StocksPersistence {
      * updates all stocks in database with stocks list
      *
      * @param stocks list will be updated to database
-     * @throws SQLException
+     * @throws SQLException if a database access error occurs or this method is called on a closed connection
      */
     @Override
     public void update(Stocks stocks) throws SQLException {
@@ -100,9 +100,9 @@ public class StocksDatabase implements StocksPersistence {
     /**
      * Saves specific stock to database
      *
-     * @param stock
-     * @param user
-     * @throws SQLException
+     * @param stock stock to be saved
+     * @param user owner of the stock
+     * @throws SQLException if a database access error occurs or this method is called on a closed connection
      */
     @Override
     public void save(Stock stock, User user) throws SQLException {
@@ -119,8 +119,8 @@ public class StocksDatabase implements StocksPersistence {
     /**
      * Saves all stocks to database
      *
-     * @param stocks
-     * @throws SQLException
+     * @param stocks stocks to be saved
+     * @throws SQLException if a database access error occurs or this method is called on a closed connection
      */
     @Override
     public void saveAll(Stocks stocks) throws SQLException {
@@ -140,6 +140,11 @@ public class StocksDatabase implements StocksPersistence {
         }
     }
 
+    /**
+     * removes stock from database
+     * @param stock stock to be removed
+     * @throws SQLException if a database access error occurs or this method is called on a closed connection
+     */
     @Override
     public void remove(Stock stock) throws SQLException {
 

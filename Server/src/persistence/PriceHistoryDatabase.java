@@ -7,6 +7,9 @@ import model.Prices;
 
 import java.sql.*;
 
+/**
+ * PriceHistoryDatabase is used to load/save from/to database prices
+ */
 public class PriceHistoryDatabase implements PriceHistoryPersistence
 {
   private static PriceHistoryDatabase instance;
@@ -22,7 +25,12 @@ public class PriceHistoryDatabase implements PriceHistoryPersistence
     return instance;
   }
 
-
+  /**
+   * saves Price into database
+   *
+   * @param price Price to be saved
+   * @throws SQLException if a database access error occurs or this method is called on a closed connection
+   */
   @Override public void save(Price price) throws SQLException
   {
     try (Connection connection = GetConnection.get()) {
@@ -39,7 +47,12 @@ public class PriceHistoryDatabase implements PriceHistoryPersistence
     }
   }
 
-
+  /**
+   * Loads Prices from database
+   *
+   * @return Prices
+   * @throws SQLException if a database access error occurs or this method is called on a closed connection
+   */
   @Override public Prices load() throws SQLException
   {
     try (Connection connection = GetConnection.get()) {

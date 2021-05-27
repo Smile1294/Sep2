@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.UUID;
 
+/**
+ * RemoteModel interface represents remote interface used for rmi communication
+ */
 public interface RemoteModel extends RemoteSubject<String, Message> {
 
     /**
@@ -16,7 +19,7 @@ public interface RemoteModel extends RemoteSubject<String, Message> {
      *
      * @param user that will be serached in database
      * @return boolean
-     * @throws Exception
+     * @throws Exception user that wants to login doesn't exist
      */
     boolean login(User user) throws Exception;
 
@@ -24,8 +27,8 @@ public interface RemoteModel extends RemoteSubject<String, Message> {
      * Mathod used to register user to server/database, It works by providing user class to server that will be added to database
      *
      * @param user that will be registred
-     * @return bollean depending if the information about user are valid
-     * @throws Exception
+     * @return boolean depending if the information about user are valid
+     * @throws Exception if the user all ready exist
      */
     boolean registerUser(User user) throws Exception;
 
@@ -34,7 +37,8 @@ public interface RemoteModel extends RemoteSubject<String, Message> {
      *
      * @param userName of user that whos balance will be returned
      * @return users balance
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     double getBalance(UserName userName) throws RemoteException;
 
@@ -44,8 +48,9 @@ public interface RemoteModel extends RemoteSubject<String, Message> {
      * @param userName   Username of the user that is transferring money
      * @param amount     amount that is getting transferred
      * @param isWithdraw if its withdrawing or depositing
-     * @throws SQLException
-     * @throws RemoteException
+     * @throws SQLException can be thrown to provide information on a database access error
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     void transferMoney(UserName userName, double amount, boolean isWithdraw) throws SQLException, RemoteException;
 
@@ -54,7 +59,8 @@ public interface RemoteModel extends RemoteSubject<String, Message> {
      *
      * @param name name of the user
      * @return stock amount
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     Double getPriceTotal(String name) throws RemoteException;
 
@@ -62,7 +68,8 @@ public interface RemoteModel extends RemoteSubject<String, Message> {
      * gets all the companies
      *
      * @return companies
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     ArrayList<Company> getAllCompanies() throws RemoteException;
 
@@ -71,22 +78,24 @@ public interface RemoteModel extends RemoteSubject<String, Message> {
      *
      * @param symbol symbol that is being compared to
      * @return company
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     Company getCompanyBySymbol(String symbol) throws RemoteException;
 
     /**
      * closes connection between client and server
      *
-     * @throws RemoteException
+     * @throws RemoteException if the remote object is not currently exported
      */
     void close() throws RemoteException;
 
     /**
      * Creates order and sends it to server,server will then validate this request.
      *
-     * @param order that will be sent toserver
-     * @throws RemoteException
+     * @param order that will be sent to server
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     void AddOrder(Order order) throws RemoteException;
 
@@ -94,7 +103,8 @@ public interface RemoteModel extends RemoteSubject<String, Message> {
      * Closes order by UUID of order
      *
      * @param uuid of order that is closed
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     void CloseOrder(UUID uuid) throws RemoteException;
 
@@ -111,7 +121,8 @@ public interface RemoteModel extends RemoteSubject<String, Message> {
      *
      * @param name of user whos stocks will be returned
      * @return Stocks
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     ArrayList<Stock> getAllUserStock(String name) throws RemoteException;
 
@@ -120,7 +131,8 @@ public interface RemoteModel extends RemoteSubject<String, Message> {
      *
      * @param user of whos orders will be returned
      * @return orders
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     ArrayList<Order> getAllUserOrders(String user) throws RemoteException;
 
@@ -129,7 +141,8 @@ public interface RemoteModel extends RemoteSubject<String, Message> {
      *
      * @param uuid of order
      * @return order with specific uuid
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     Order getOrderbyId(String uuid) throws RemoteException;
 
@@ -138,7 +151,8 @@ public interface RemoteModel extends RemoteSubject<String, Message> {
      *
      * @param name name of the user
      * @return user
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     User getUser(String name) throws RemoteException;
 

@@ -6,6 +6,9 @@ package stockAPI;
 //
 //
 
+/**
+ * APIKey class represents class of keys used for API requests
+ */
 public class APIKey {
     private static final String[] KEYS = {"1Z19I81E7YM3VHW9","JI2Z4NFER4CQ52LP","0K7TBQTPK03XHNB0","TD4H3494BLXYYBE1",
             "408T2WU2BSBT1EP1","GB6KGRHXGIJNGXU5"};

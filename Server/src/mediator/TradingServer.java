@@ -24,11 +24,11 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
     private PropertyChangeHandler<String, Message> property;
 
     /**
-     * Constructor TradingServer initalizes variables
+     * Constructor TradingServer initializes variables
      *
      * @param model
-     * @throws RemoteException
-     * @throws MalformedURLException
+     * @throws RemoteException if failed to export object threw super() or error with registry occur
+     * @throws MalformedURLException if name in startServer is not appropriately formatted
      */
 
     public TradingServer(Model model) throws RemoteException, MalformedURLException {
@@ -45,7 +45,7 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
      * Creates Registry with port (1099) for communication between client and server
      * port 1099 is used for client to connect
      *
-     * @throws RemoteException
+     * @throws RemoteException if the registry could not be exported
      */
     private void startRegistry() throws RemoteException {
         try {
@@ -59,10 +59,10 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
 
     /**
      * prints out that server started
-     * @throws MalformedURLException
-     * @throws RemoteException
+     *
+     * @throws MalformedURLException if the name is not appropriately formatted
+     * @throws RemoteException if registry could not be contacted
      */
-
     private void startServer() throws MalformedURLException, RemoteException {
         Naming.rebind("trading", this);
         System.out.println("Server ready");
@@ -70,17 +70,19 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
 
     /**
      * closes server
-     * @throws RemoteException
+     *
+     * @throws RemoteException if the remote object is not currently exported
      */
-    @Override
     public void close() throws RemoteException {
         UnicastRemoteObject.unexportObject(this, true);
     }
 
     /**
      * adds order to local model from client
+     *
      * @param order that is added to list in server
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     @Override
     public void AddOrder(Order order) throws RemoteException {
@@ -91,7 +93,8 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
      * gets company by its name for client
      * @param name of company
      * @return Company from local model
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
 
     @Override
@@ -100,10 +103,12 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
     }
 
     /**
-     * Gets all user orders in ArrayList<Order> for client
+     * Gets all user orders in ArrayList<Order>
+     *
      * @param user of whom the orders are
-     * @return ArrayList<Orders> returns list of orders of user for client
-     * @throws RemoteException
+     * @return ArrayList<Orders> list of orders of user
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
 
     @Override
@@ -114,7 +119,8 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
     /**
      * Closes order by UUID from client
      * @param uuid of order that will be closed
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     @Override
     public void CloseOrder(UUID uuid) throws RemoteException {
@@ -122,10 +128,12 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
     }
 
     /**
-     * Gets ArrayList<Stock> of users stocks for client
-     * @param name of user that stocks will be returned
+     * Gets ArrayList<Stock> of users stocks
+     *
+     * @param name of whom stocks are
      * @return ArrayList<Stock> arraylist of stocks that user owns
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     @Override
     public ArrayList<Stock> getAllUserStock(String name) throws RemoteException {
@@ -136,7 +144,8 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
      * Gets user object by name of user
      * @param name of user that will be returned
      * @return User
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     @Override
     public User getUser(String name) throws RemoteException {
@@ -147,7 +156,8 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
      * Gets all user orders in ArrayList<Order>
      * @param user of whos orders will be returned
      * @return ArrayList<Orders> returns list of orders of user
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
 
     @Override
@@ -159,7 +169,8 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
      * gets specific order by its UUID
      * @param uuid of order that will be returned
      * @return specific order
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     @Override
     public Order getOrderbyId(String uuid) throws RemoteException {
@@ -169,8 +180,8 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
     /**
      * login for user
      * @param user that wants login
-     * @return boolean if the user login is approved
-     * @throws Exception
+     * @return returns true
+     * @throws Exception user that wants to login doesn't exist
      */
     @Override
     public boolean login(User user) throws Exception {
@@ -180,9 +191,10 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
 
     /**
      * adding registered user to the list
+     *
      * @param user user that is being added
-     * @return user that is registered
-     * @throws Exception
+     * @return returns true
+     * @throws Exception if the user all ready exist
      */
     @Override
     public boolean registerUser(User user) throws Exception {
@@ -192,6 +204,7 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
 
     /**
      * gets the balance of the user
+     *
      * @param userName username of the user
      * @return balance of user
      */
@@ -206,6 +219,7 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
      * @param userName   Username of the user that is transferring money
      * @param amount     amount that is getting transferred
      * @param isWithdraw if its withdrawing or depositing
+     * @throws SQLException can be thrown to provide information on a database access error
      */
     @Override
     public void transferMoney(UserName userName, double amount, boolean isWithdraw) throws SQLException {
@@ -216,6 +230,8 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
      *
      * @param name name of the user
      * @return stock amount
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     @Override
     public Double getPriceTotal(String name) throws RemoteException {
@@ -226,7 +242,8 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
      * gets all the companies
      *
      * @return companies
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     @Override
     public ArrayList<Company> getAllCompanies() throws RemoteException {
@@ -237,6 +254,8 @@ public class TradingServer extends UnicastRemoteObject implements RemoteModel, L
      *
      * @param symbol symbol that is being compared to
      * @return company
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     @Override
     public Company getCompanyBySymbol(String symbol) throws RemoteException {

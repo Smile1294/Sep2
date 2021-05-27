@@ -22,7 +22,7 @@ public class UsersDatabase implements UsersPersistence{
     /**
      * loads all of users from database to @param users
      * @return users
-     * @throws SQLException
+     * @throws SQLException if a database access error occurs or this method is called on a closed connection
      */
     @Override
     public UserList load() throws SQLException {
@@ -49,8 +49,8 @@ public class UsersDatabase implements UsersPersistence{
 
     /**
      * Updates specific user in database
-     * @param user
-     * @throws SQLException
+     * @param user user to update in database
+     * @throws SQLException if a database access error occurs or this method is called on a closed connection
      */
     @Override
     public void update(User user) throws SQLException{
@@ -64,8 +64,8 @@ public class UsersDatabase implements UsersPersistence{
 
     /**
      * Saves specific user to database
-     * @param user
-     * @throws SQLException
+     * @param user user to save to database
+     * @throws SQLException if a database access error occurs or this method is called on a closed connection
      */
     @Override
     public void save(User user) throws SQLException{
@@ -81,8 +81,8 @@ public class UsersDatabase implements UsersPersistence{
 
     /**
      * Removes specific user from database
-     * @param user
-     * @throws SQLException
+     * @param user user to remove from database
+     * @throws SQLException if a database access error occurs or this method is called on a closed connection
      */
     @Override
     public void remove(User user) throws SQLException{

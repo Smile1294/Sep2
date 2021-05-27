@@ -140,8 +140,8 @@ public class Prices implements Runnable, LocalSubject<String, Message>
    * @param symbol symbol of company
    * @param requestType time interval of TradingData inside StockInfo
    * @return StockInfo of company
-   * @throws IOException
-   * @throws InterruptedException
+   * @throws IOException if an I/O error occurs when sending or recei
+   * @throws InterruptedException if the operation is interrupted
    */
   public StockInfo APIRequest(String symbol, RequestType requestType)
       throws IOException, InterruptedException

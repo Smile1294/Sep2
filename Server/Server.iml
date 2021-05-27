@@ -38,5 +38,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="javafx" level="application" />
+    <orderEntry type="library" name="postgresql-42.2.20 (2)" level="project" />
   </component>
 </module>
