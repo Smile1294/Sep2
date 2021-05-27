@@ -67,7 +67,6 @@ public class Order implements Serializable {
      * @return sell
      */
 
-
     public boolean isSell() {
         return sell;
     }

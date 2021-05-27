@@ -12,6 +12,7 @@ import javafx.scene.input.KeyEvent;
 import utility.NumberStringConverter;
 
 import java.rmi.RemoteException;
+import java.util.regex.Pattern;
 
 public class PlaceOrderController extends ViewController {
     public ChoiceBox<String> stockChoice;
@@ -70,28 +71,32 @@ public class PlaceOrderController extends ViewController {
 
     public void PriceonKeyTyped(KeyEvent keyEvent) {
         try {
-            if (!"".equals(amountField.getText()) && !"".equals(priceField.getText())) {
-                Integer.parseInt(amountField.getText());
-                ErrorLable.setText("");
-                totalLabel.setText(String.valueOf(Math.round((Integer.parseInt(amountField.getText()) * Double.parseDouble(priceField.getText())) * 100.0) / 100.0));
+
+            if (Pattern.compile("^[0-9]\\d*(\\.\\d+)?$").matcher(priceField.getText()).matches()) {
+                if (!"".equals(amountField.getText())) {
+                    ErrorLable.setText("");
+                    totalLabel.setText(String.valueOf(Math.round((Integer.parseInt(amountField.getText()) * Double.parseDouble(priceField.getText())) * 100.0) / 100.0));
+                }
             } else {
                 totalLabel.setText("0");
+                ErrorLable.setText("Invalid input string");
             }
         } catch (NumberFormatException e) {
             totalLabel.setText("0");
             ErrorLable.setText("Invalid input string");
         }
-
     }
 
     public void AmountOnKeyTyped(KeyEvent keyEvent) {
         try {
-            if (!"".equals(amountField.getText()) && !"".equals(priceField.getText())) {
-                Integer.parseInt(amountField.getText());
-                ErrorLable.setText("");
-                totalLabel.setText(String.valueOf(Math.round((Integer.parseInt(amountField.getText()) * Double.parseDouble(priceField.getText())) * 100.0) / 100.0));
+            if (Pattern.compile("^[0-9]\\d*(\\.\\d+)?$").matcher(priceField.getText()).matches()) {
+                if (!"".equals(amountField.getText())) {
+                    ErrorLable.setText("");
+                    totalLabel.setText(String.valueOf(Math.round((Integer.parseInt(amountField.getText()) * Double.parseDouble(priceField.getText())) * 100.0) / 100.0));
+                }
             } else {
                 totalLabel.setText("0");
+                ErrorLable.setText("Invalid input string");
             }
         } catch (NumberFormatException e) {
             totalLabel.setText("0");

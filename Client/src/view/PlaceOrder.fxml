@@ -9,7 +9,7 @@
    <children>
       <VBox prefHeight="52.0" prefWidth="650.0">
          <children>
-            <Label text="Place order  (Buy or sell or both?)">
+            <Label text="Place order">
                <font>
                   <Font size="30.0" />
                </font>

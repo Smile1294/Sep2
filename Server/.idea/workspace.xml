@@ -3,18 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="8f2c7ce3-99b2-4b02-8217-4099e3258daf" name="Default Changelist" comment="Commiting Client.iml">
       <change beforePath="$PROJECT_DIR$/../Client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/viewmodel/PlaceOrderViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/viewmodel/PlaceOrderViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/viewmodel/SimpleStockViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/viewmodel/SimpleStockViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_25_05_2021_19_25__Default_Changelist_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_25_05_2021_16_45__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_25_05_2021_16_45__Default_Changelist_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/src/view/PlaceOrder.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/view/PlaceOrder.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/src/view/PlaceOrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/view/PlaceOrderController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mediator/TradingServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mediator/TradingServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Model.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/ModelManger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/ModelManger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/PlaceOrder.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/PlaceOrder.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/view/PlaceOrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/PlaceOrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/viewmodel/PlaceOrderViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/viewmodel/PlaceOrderViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/viewmodel/PortfolioViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/viewmodel/PortfolioViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/viewmodel/SimpleStockViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/viewmodel/SimpleStockViewModel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,6 +97,7 @@
       <workItem from="1621927936725" duration="8097000" />
       <workItem from="1621945731090" duration="18120000" />
       <workItem from="1622011030079" duration="4964000" />
+      <workItem from="1622095022688" duration="6904000" />
     </task>
     <task id="LOCAL-00001" summary="Chaning price of company now works depending on selected company">
       <created>1621935481060</created>

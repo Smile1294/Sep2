@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="985f1e8a-0f5d-44d5-ae6d-0bce1baf1f76" name="Default Changelist" comment="">
+    <list default="true" id="985f1e8a-0f5d-44d5-ae6d-0bce1baf1f76" name="Default Changelist" comment="Finalization of placing order+ adding java docs.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/viewmodel/PlaceOrderViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/viewmodel/PlaceOrderViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/viewmodel/SimpleStockViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/viewmodel/SimpleStockViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/.idea/shelf/Uncommitted_changes_before_Checkout_at_25_05_2021_19_25__Default_Changelist_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/.idea/shelf/Uncommitted_changes_before_Merge_at_25_05_2021_16_45__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/.idea/shelf/Uncommitted_changes_before_Merge_at_25_05_2021_16_45__Default_Changelist_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/PlaceOrder.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/PlaceOrder.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/PlaceOrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/PlaceOrderController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/mediator/TradingServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/mediator/TradingServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/model/Model.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/model/ModelManger.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/model/ModelManger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/model/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/view/PlaceOrder.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/view/PlaceOrder.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/view/PlaceOrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/view/PlaceOrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/viewmodel/PlaceOrderViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/viewmodel/PlaceOrderViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/viewmodel/PortfolioViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/viewmodel/PortfolioViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/viewmodel/SimpleStockViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/viewmodel/SimpleStockViewModel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,19 +50,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.TradingClientMain" />
@@ -85,8 +66,19 @@
       <option name="presentableId" value="Default" />
       <updated>1621964458389</updated>
       <workItem from="1621964460452" duration="2584000" />
-      <workItem from="1622011246282" duration="1923000" />
+      <workItem from="1622011246282" duration="2431000" />
+      <workItem from="1622035783869" duration="601000" />
+      <workItem from="1622049414746" duration="637000" />
+      <workItem from="1622094929306" duration="2413000" />
     </task>
+    <task id="LOCAL-00001" summary="Finalization of placing order+ adding java docs.">
+      <created>1622016568841</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1622016568841</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -103,5 +95,9 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Finalization of placing order+ adding java docs." />
+    <option name="LAST_COMMIT_MESSAGE" value="Finalization of placing order+ adding java docs." />
   </component>
 </project>
