@@ -29,12 +29,14 @@ public class CompanyViewController extends ViewController
     getViewModelFactory().getCompanyViewModel().clear();
   }
 
-  public void onBack(ActionEvent actionEvent)
+  @FXML
+  private void onBack(ActionEvent actionEvent)
   {
     getViewHandler().openView(View.COMPANY_LIST);
   }
 
-  public void onOrder(ActionEvent actionEvent)
+  @FXML
+  private void onOrder(ActionEvent actionEvent)
   {
     getViewHandler().openView(View.PLACE_ORDER);
   }
