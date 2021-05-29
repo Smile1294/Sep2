@@ -1,9 +1,7 @@
 package viewmodel;
 
 import javafx.application.Platform;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.*;
@@ -19,13 +17,13 @@ import java.util.UUID;
 
 public class PlaceOrderViewModel implements LocalListener<String, Message> {
     private Model model;
-    private SimpleStringProperty balance;
-    private SimpleStringProperty currentprice;
+    private StringProperty balance;
+    private StringProperty currentprice;
     private ObservableList<String> list;
-    private SimpleDoubleProperty price;
-    private SimpleStringProperty currentCompanySelected;
-    private SimpleIntegerProperty amount;
-    private SimpleStringProperty companyName;
+    private DoubleProperty price;
+    private StringProperty currentCompanySelected;
+    private IntegerProperty amount;
+    private StringProperty companyName;
     private ViewState viewState;
 
     /**
@@ -51,6 +49,7 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
     public void reset() {
         price.setValue(0);
         amount.setValue(0);
+        balance.setValue(String.valueOf(model.getBalance(viewState.getUserName())));
         getSelectedCompany();
     }
 
@@ -98,8 +97,8 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
      * @return balance
      */
 
-    public SimpleStringProperty balanceProperty() {
-        return balance = new SimpleStringProperty(String.valueOf(model.getBalance(viewState.getUserName())));
+    public StringProperty balanceProperty() {
+        return balance;
     }
 
     /**
@@ -129,7 +128,7 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
      * @return amount
      */
 
-    public SimpleIntegerProperty getAmount() {
+    public IntegerProperty getAmount() {
         return amount;
     }
 
@@ -139,7 +138,7 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
      * @return price
      */
 
-    public SimpleDoubleProperty getPrice() {
+    public DoubleProperty getPrice() {
         return price;
     }
 
@@ -148,7 +147,7 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
      *
      * @return current price of company
      */
-    public SimpleStringProperty getCurrentPrice() {
+    public StringProperty getCurrentPrice() {
         return currentprice;
     }
 
@@ -173,7 +172,7 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
      * @return selected company
      */
 
-    public SimpleStringProperty currentCompanySelectedProperty() {
+    public StringProperty currentCompanySelectedProperty() {
         return currentCompanySelected;
     }
 
