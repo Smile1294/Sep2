@@ -34,7 +34,6 @@ public class Orders implements Runnable, LocalSubject<String, Message>, Serializ
      *
      * @param order order that is being added
      */
-
     public void AddOrder(Order order) {
         if (order.isSell()) {
             orders.add(order);
@@ -93,7 +92,6 @@ public class Orders implements Runnable, LocalSubject<String, Message>, Serializ
             }
         }
     }
-
     public int getAmount2(String user, Order order) {
         int i = 0;
 
@@ -179,6 +177,7 @@ public class Orders implements Runnable, LocalSubject<String, Message>, Serializ
      * @param user user that is getting checked
      * @return order
      */
+
     public Orders getOrderByUser(User user) {
         Orders byUser = new Orders();
         for (Order o : orders) {

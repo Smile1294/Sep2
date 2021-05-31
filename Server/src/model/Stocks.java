@@ -21,7 +21,6 @@ public class Stocks implements Serializable {
 
     /**
      * getting all stocks
-     *
      * @return all stocksd
      */
 

@@ -141,9 +141,6 @@ class StocksTest {
     void getStockBoundary()
     {
         // zero tested in getStockZero()
-        Stock s1 = new Stock("eto" , "username");
-        stocks.addStock(s1);
-        assertEquals(s1  , stocks.getStock(-1));
 
     }
 
@@ -167,7 +164,7 @@ class StocksTest {
         Stock s1 = new Stock("" , "");
         stocks.addStock(s1);
         stocks.removeStock(s1);
-        assertEquals(null  , stocks.getStock(s1));
+        assertNull(stocks.getStock(s1));
     }
 
     @Test
@@ -293,6 +290,54 @@ class StocksTest {
     {
         // no exception thrown
     }
+
+
+
+
+
+
+    @Test
+    void getStockZeroByStock()
+    {
+        Stock s1 = new Stock("" , "");
+        stocks.addStock(s1);
+        assertEquals(s1 , stocks.getStock(s1));
+    }
+
+    @Test
+    void getStockOneByStock()
+    {
+        Stock s1 = new Stock("symbol" , "username");
+        stocks.addStock(s1);
+        assertEquals(s1 , stocks.getStock(s1));
+    }
+
+    @Test
+    void getStockManyByStock()
+    {
+        Stock s1 = new Stock("GOGL" , "bob");
+        stocks.addStock(s1);
+
+        Stock s2 = new Stock("APLE" , "martin");
+        stocks.addStock(s2);
+
+        assertEquals(s1 , stocks.getStock(s1));
+        assertEquals(s2 , stocks.getStock(s2));
+
+    }
+
+    @Test
+    void getStockBoundaryByStock()
+    {
+        // zero tested in getStockZeroByStock()
+    }
+
+    @Test
+    void getStockExceptionByStock()
+    {
+        // no exception to be thrown
+    }
+
 
 
 }
