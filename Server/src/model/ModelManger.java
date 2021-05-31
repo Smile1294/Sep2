@@ -74,7 +74,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
      * @param order
      * @throws SQLException can be thrown to provide information on a database access error
      */
-    public void UpdateOwnedStock(Order order) throws SQLException {
+    private void UpdateOwnedStock(Order order) throws SQLException {
         for (Stock s : stocks.getAllStocks()) {
             if (s.getSymbol().equals(order.getSymbol()) && order.getUser().equals(s.getUsername())) {
                 if (!order.isSell()) {
@@ -121,6 +121,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
      * Closes order by UUID of order
      * @param uuid of order that is closed
      */
+    @Override
     public void closeOrder(UUID uuid) {
         try {
             for (Order o : orders.getOrders()) {
@@ -140,7 +141,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
      * @param uuid of order
      * @return order with specific uuid
      */
-
+    @Override
     public Order getOrderByID(String uuid) {
         return orders.getOrderbyID(uuid);
     }
@@ -151,7 +152,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
      * @param name name of the user
      * @return user
      */
-
+    @Override
     public User getUser(String name) {
         return userList.getUser(new UserName(name));
     }
@@ -162,7 +163,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
      * @param name name of the user
      * @return stock/s
      */
-
+    @Override
     public ArrayList<Stock> LoaduserStocks(String name) {
         ArrayList<Stock> temporaryList = new ArrayList<Stock>();
         try {
@@ -179,22 +180,13 @@ public class ModelManger implements Model, LocalListener<String, Message> {
     }
 
     /**
-     * Gets orders as arraylist
-     *
-     * @return ArrayList<Order>
-     */
-
-    public ArrayList<Order> getOrders() {
-        return orders.getOrders();
-    }
-
-    /**
      * getting order by user
      *
      * @param user that is getting check it
      * @return order
      */
 
+    @Override
     public Orders getPortfolioOrders(User user) {
         return orders.getOrderByUser(user);
     }
@@ -207,6 +199,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
      * @return stock amount
      */
 
+    @Override
     public Double getPriceTotal(String name) {
         double d = 0.0;
         try {
@@ -229,6 +222,7 @@ public class ModelManger implements Model, LocalListener<String, Message> {
      * @param order that is getting added
      */
 
+    @Override
     public synchronized void AddOrder(Order order) {
         if (order.isSell()) {
             for (Stock d : LoaduserStocks(order.getUser())) {

@@ -15,7 +15,7 @@ import java.util.UUID;
  */
 
 
-public class Orders implements Runnable, LocalSubject<String, Message>, Serializable {
+public class Orders implements Runnable, LocalSubject<String, Message> {
     private PropertyChangeHandler<String, Message> property;
     private List<Order> orders;
 

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Companies
 {
-    public ArrayList<Company> companies;
+    private ArrayList<Company> companies;
     /**
      * constructor which is initialising arraylist of companies
      */
