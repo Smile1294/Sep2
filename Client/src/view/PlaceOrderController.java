@@ -4,6 +4,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -15,14 +16,22 @@ import java.rmi.RemoteException;
 import java.util.regex.Pattern;
 
 public class PlaceOrderController extends ViewController {
-    public ChoiceBox<String> stockChoice;
-    public BarChart ordersChart;
-    public TextField priceField;
-    public TextField amountField;
-    public Label totalLabel;
-    public Label ballanceLabel;
-    public Label ErrorLable;
-    public Label CurrentPrice;
+    @FXML
+    private ChoiceBox<String> stockChoice;
+    @FXML
+    private BarChart ordersChart;
+    @FXML
+    private TextField priceField;
+    @FXML
+    private TextField amountField;
+    @FXML
+    private Label totalLabel;
+    @FXML
+    private Label ballanceLabel;
+    @FXML
+    private Label ErrorLable;
+    @FXML
+    private Label CurrentPrice;
 
     @Override
     protected void init() throws RemoteException {
@@ -45,19 +54,26 @@ public class PlaceOrderController extends ViewController {
 
     @Override
     public void reset() {
-        getViewModelFactory().getPlaceOrderViewModel().reset();
-        stockChoice.setValue(getViewModelFactory().getPlaceOrderViewModel().getSelectedCompany());
+        try {
+            getViewModelFactory().getPlaceOrderViewModel().reset();
+            stockChoice.setValue(getViewModelFactory().getPlaceOrderViewModel().getSelectedCompany());
+        } catch (RemoteException e){
+            e.printStackTrace();
+        }
     }
 
-    public void onBuy(ActionEvent actionEvent) throws Exception {
+    @FXML
+    private void onBuy(ActionEvent actionEvent) throws Exception {
         getViewModelFactory().getPlaceOrderViewModel().buy(stockChoice.getSelectionModel().getSelectedItem().toString());
     }
 
-    public void onSell(ActionEvent actionEvent) {
+    @FXML
+    private void onSell(ActionEvent actionEvent) {
         getViewModelFactory().getPlaceOrderViewModel().sell(stockChoice.getSelectionModel().getSelectedItem().toString());
     }
 
-    public void onBack(ActionEvent actionEvent) {
+    @FXML
+    private void onBack(ActionEvent actionEvent) {
         if (getViewModelFactory().getPlaceOrderViewModel().Back()) {
             getViewHandler().openView(View.COMPANY_LIST);
         } else {
@@ -65,29 +81,13 @@ public class PlaceOrderController extends ViewController {
         }
     }
 
-    public void Portfolio(ActionEvent actionEvent) {
+    @FXML
+    private void Portfolio(ActionEvent actionEvent) {
         getViewHandler().openView(View.PORTFOLIO);
     }
 
-    public void PriceonKeyTyped(KeyEvent keyEvent) {
-        try {
-
-            if (Pattern.compile("^[0-9]\\d*(\\.\\d+)?$").matcher(priceField.getText()).matches()) {
-                if (!"".equals(amountField.getText())) {
-                    ErrorLable.setText("");
-                    totalLabel.setText(String.valueOf(Math.round((Integer.parseInt(amountField.getText()) * Double.parseDouble(priceField.getText())) * 100.0) / 100.0));
-                }
-            } else {
-                totalLabel.setText("0");
-                ErrorLable.setText("Invalid input string");
-            }
-        } catch (NumberFormatException e) {
-            totalLabel.setText("0");
-            ErrorLable.setText("Invalid input string");
-        }
-    }
-
-    public void AmountOnKeyTyped(KeyEvent keyEvent) {
+    @FXML
+    private void totalOnKeyTyped(KeyEvent keyEvent) {
         try {
             if (Pattern.compile("^[0-9]\\d*(\\.\\d+)?$").matcher(priceField.getText()).matches()) {
                 if (!"".equals(amountField.getText())) {

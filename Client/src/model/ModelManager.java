@@ -36,7 +36,7 @@ public class ModelManager implements Model {
      * @param uuid of order that will be closed
      * @throws RemoteException
      */
-
+    @Override
     public void CloseOrder(UUID uuid) throws RemoteException {
         if (getOrderbyID(uuid.toString()).getStatus().equals(Status.OPEN)) {
             tradingClient.CloseOrder(uuid);
@@ -51,7 +51,7 @@ public class ModelManager implements Model {
      * @param user that is getting check it
      * @return order
      */
-
+    @Override
     public ArrayList<Order> getAllUserOrders(String user) throws RemoteException {
         return tradingClient.getAllUserOrders(user);
     }
@@ -62,6 +62,7 @@ public class ModelManager implements Model {
      * @return order from server
      * @throws RemoteException
      */
+    @Override
     public Order getOrderbyID(String uuid) throws RemoteException {
         return tradingClient.getOrderbyID(uuid);
     }
@@ -73,6 +74,7 @@ public class ModelManager implements Model {
      * @param name name of the user
      * @return user
      */
+    @Override
     public User getUser(String name) throws RemoteException {
         return tradingClient.getUser(name);
     }
@@ -83,7 +85,7 @@ public class ModelManager implements Model {
      * @param name name of the user
      * @return stock/s
      */
-
+    @Override
     public ArrayList<Stock> LoaduserStocks(String name) throws RemoteException {
         return tradingClient.getAllUserStock(name);
     }
@@ -99,7 +101,7 @@ public class ModelManager implements Model {
      * @param name name of the user
      * @return stock amount
      */
-
+    @Override
     public Double getPriceTotal(String name) throws RemoteException {
         return tradingClient.getPriceTotal(name);
     }
@@ -114,7 +116,7 @@ public class ModelManager implements Model {
      *
      * @param order order that is getting added
      */
-
+    @Override
     public void AddOrder(Order order) {
         try {
             tradingClient.AddOrder(order);
@@ -185,7 +187,7 @@ public class ModelManager implements Model {
      * @param name name that is being compared to
      * @return company
      */
-
+    @Override
     public Company getComapnyByName(String name) {
         return tradingClient.getCompanyname(name);
     }

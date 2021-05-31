@@ -82,16 +82,7 @@ public class PlaceOrderController extends ViewController {
     }
 
     @FXML
-    private void PriceonKeyTyped(KeyEvent keyEvent) {
-        displayTotal();
-    }
-
-    @FXML
-    private void AmountOnKeyTyped(KeyEvent keyEvent) {
-        displayTotal();
-    }
-
-    private void displayTotal(){
+    private void totalOnKeyTyped(){
         try {
 
             if (Pattern.compile("^[0-9]\\d*(\\.\\d+)?$").matcher(priceField.getText()).matches()) {

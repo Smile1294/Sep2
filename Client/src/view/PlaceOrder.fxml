@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="500.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.PlaceOrderController">
+<VBox prefHeight="500.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.PlaceOrderController">
    <children>
       <VBox prefHeight="52.0" prefWidth="650.0">
          <children>
@@ -64,7 +64,7 @@
                         <Insets right="150.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="priceField" onKeyReleased="#PriceonKeyTyped" prefWidth="171.0" />
+                  <TextField fx:id="priceField" onKeyReleased="#totalOnKeyTyped" prefWidth="171.0" />
                   <Label text="\$" />
                </children>
             </HBox>
@@ -78,7 +78,7 @@
                         <Insets right="150.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="amountField" onKeyReleased="#AmountOnKeyTyped" prefWidth="171.0" />
+                  <TextField fx:id="amountField" onKeyReleased="#totalOnKeyTyped" prefWidth="171.0" />
                   <Label />
                </children>
             </HBox>

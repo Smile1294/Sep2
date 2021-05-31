@@ -12,12 +12,18 @@ import viewmodel.SimpleStockViewModel;
 import java.rmi.RemoteException;
 
 public class PortfolioViewController extends ViewController {
-    public TableView<SimpleStockViewModel> TableList;
-    public TableColumn<SimpleStockViewModel, String> StockColumn;
-    public TableColumn<SimpleStockViewModel, String> InvestedCloumn;
-    public TableColumn<SimpleStockViewModel, String> Curentcolumn;
-    public TableColumn<SimpleStockViewModel, String> percentcolumn;
-    public TableColumn<SimpleStockViewModel, String> numberownedcolumn;
+    @FXML
+    private TableView<SimpleStockViewModel> TableList;
+    @FXML
+    private TableColumn<SimpleStockViewModel, String> StockColumn;
+    @FXML
+    private TableColumn<SimpleStockViewModel, String> InvestedCloumn;
+    @FXML
+    private TableColumn<SimpleStockViewModel, String> Curentcolumn;
+    @FXML
+    private TableColumn<SimpleStockViewModel, String> percentcolumn;
+    @FXML
+    private TableColumn<SimpleStockViewModel, String> numberownedcolumn;
     @FXML
     private Label TotalAmount;
     @FXML
@@ -43,7 +49,8 @@ public class PortfolioViewController extends ViewController {
     }
 
 
-    public void GoBack(ActionEvent actionEvent) {
+    @FXML
+    private void GoBack(ActionEvent actionEvent) {
         getViewHandler().openView(View.ACCOUNT);
     }
 
