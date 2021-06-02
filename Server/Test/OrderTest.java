@@ -14,14 +14,9 @@ class OrderTest {
 
     @BeforeEach
     void setUp() {
-        order = new Order(true, BigDecimal.valueOf(0), 0, "a", Status.COMPLETED, "");
-
+        order = new Order(true, BigDecimal.valueOf(0), 0, "a",
+                Status.COMPLETED, "");
     }
-
-
-
-
-
 
     @Test
     void getZeroSymbol() {

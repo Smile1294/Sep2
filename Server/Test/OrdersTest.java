@@ -55,7 +55,9 @@ class OrdersTest {
 
     @Test
     void closeOrderZero() {
-        Order o1 = new Order(true, BigDecimal.valueOf(0), 0, "", Status.OPEN, "");
+        Order o1 = new Order(false, BigDecimal.valueOf(0), 0,
+                "", Status.COMPLETED, "");
+
         orders.AddOrder(o1);
         orders.closeOrder(o1);
         assertEquals(Status.CLOSED, o1.getStatus());
@@ -64,7 +66,8 @@ class OrdersTest {
 
     @Test
     void closeOrderOne() {
-        Order o1 = new Order(true, BigDecimal.valueOf(22), 99, "bob", Status.OPEN, "p");
+        Order o1 = new Order(true, BigDecimal.valueOf(1), 1,
+                "bob", Status.OPEN, "p");
         orders.AddOrder(o1);
         orders.closeOrder(o1);
         assertEquals(Status.CLOSED, o1.getStatus());
