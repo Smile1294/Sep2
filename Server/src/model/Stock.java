@@ -44,8 +44,8 @@ public class Stock implements Serializable {
      * setting price of stock
      @throws IllegalArgumentException if the user puts negative value
      */
-    public void setPrice(int price) {
-        if (price < 0) throw new IllegalArgumentException();
+    public void setPrice(double price) {
+        if (price < 0.0) throw new IllegalArgumentException();
         this.price = price;
     }
     /**

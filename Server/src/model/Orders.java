@@ -4,11 +4,8 @@ import utility.observer.listener.GeneralListener;
 import utility.observer.subject.LocalSubject;
 import utility.observer.subject.PropertyChangeHandler;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
 
 /**
  * Orders represents a list of orders
