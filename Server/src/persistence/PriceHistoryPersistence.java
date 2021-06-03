@@ -2,17 +2,28 @@ package persistence;
 
 
 
-import model.Company;
 import model.Price;
-import stockAPI.TradingData;
+import model.Prices;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-
+/**
+ * PriceHistoryDatabase is used to load/save from/to database prices
+ */
 public interface PriceHistoryPersistence
 {
-  void save(String symbol, TradingData tradingData, Timestamp timestamp)throws SQLException;
+  /**
+   * saves Price into database
+   *
+   * @param price Price to be saved
+   * @throws SQLException if a database access error occurs or this method is called on a closed connection
+   */
+  void save(Price price)throws SQLException;
 
-  ArrayList<Price> load() throws SQLException;
+  /**
+   * Loads Prices from database
+   *
+   * @return Prices
+   * @throws SQLException if a database access error occurs or this method is called on a closed connection
+   */
+  Prices load() throws SQLException;
 }

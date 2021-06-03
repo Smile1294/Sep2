@@ -1,10 +1,7 @@
 package model;
 
+
 import com.google.gson.Gson;
-import persistence.CompaniesDatabase;
-import persistence.CompaniesPersistence;
-import persistence.PriceHistoryDatabase;
-import persistence.PriceHistoryPersistence;
 import stockAPI.RequestType;
 import stockAPI.StockAPI;
 import stockAPI.StockInfo;
@@ -12,37 +9,35 @@ import stockAPI.TradingData;
 import utility.observer.listener.GeneralListener;
 import utility.observer.subject.LocalSubject;
 import utility.observer.subject.PropertyChangeHandler;
+
 import java.io.IOException;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 /**
- * Prices represents class which updates prices of companies in database
+ * Prices class representing arraylist of new prices
  */
 public class Prices implements Runnable, LocalSubject<String, Message>
 {
   private ArrayList<Price> newPrices;
-  private PriceHistoryPersistence priceHistoryPersistence;
-  private CompaniesPersistence companiesPersistence;
+  private ArrayList<Price> allPrices;
+
   private StockAPI stockAPI;
   private Gson gson;
-  private Timestamp now;
   private Timestamp timestampOfCompany;
   private PropertyChangeHandler<String, Message> property;
+
   private boolean running;
 
   /**
-   * Constructor that initializes all instant variables
+   * Constructor initialising all instant variables
    */
-  public Prices()
-  {
+  public Prices() {
     property = new PropertyChangeHandler<String, Message>(this);
-    now = new Timestamp(System.currentTimeMillis());
-    timestampOfCompany = new Timestamp(System.currentTimeMillis());
-    priceHistoryPersistence = PriceHistoryDatabase.getInstance();
-    companiesPersistence = CompaniesDatabase.getInstance();
+    timestampOfCompany = new Timestamp(0);
+
+    allPrices = new ArrayList<>();
     newPrices = new ArrayList<>();
     stockAPI = new StockAPI();
     gson = new Gson();
@@ -50,35 +45,29 @@ public class Prices implements Runnable, LocalSubject<String, Message>
   }
 
   /**
-   * gets arraylist of newest prices
-   *
-   * @return newPrices
+   * gets arraylist of all newest Prices
+   * @return arraylist newPrices
    */
-  public ArrayList<Price> getNewPrices()
-  {
+  public ArrayList<Price> getNewPrices() {
     return newPrices;
   }
 
   /**
-   * stops thread in Prices
+   * setts boolean running to false
    */
-  public void close()
-  {
+  public void close(){
     running = false;
   }
 
   /**
-   * a method which checks if symbol of company is inside of newest prices
-   *
-   * @param symbol symbol of company to be checked
+   * checks if there is Price object of company with given symbol
+   * inside of arraylist of newPrices
+   * @param symbol symbol of company to be looked for
    * @return boolean
    */
-  public boolean isInside(String symbol)
-  {
-    for (Price p : newPrices)
-    {
-      if (p.getSymbol().equals(symbol))
-      {
+  public boolean isInside(String symbol){
+    for(Price p:newPrices){
+      if (p.getSymbol().equals(symbol)){
         return true;
       }
     }
@@ -86,17 +75,14 @@ public class Prices implements Runnable, LocalSubject<String, Message>
   }
 
   /**
-   * gets Price object from newest prices by symbol
-   *
-   * @param symbol symbol of company which Price object represents
-   * @return Price object
+   * returns Price object of company which symbol is given,
+   * from newPrices arraylist
+   * @param symbol symbol of Price object
+   * @return Price
    */
-  public Price getBySymbol(String symbol)
-  {
-    for (Price p : newPrices)
-    {
-      if (p.getSymbol().equals(symbol))
-      {
+  public Price getBySymbol(String symbol){
+    for(Price p:newPrices){
+      if (p.getSymbol().equals(symbol)){
         return p;
       }
     }
@@ -104,62 +90,43 @@ public class Prices implements Runnable, LocalSubject<String, Message>
   }
 
   /**
-   * checks newest prices, if there is not price with symbol of newest price
-   * adds the price into list if it is it just updates old value
+   * adds Price object into arraylist allPrices
+   * @param price Price object
    */
-  public void newPrices()
-  {
+  public void addPrice(Price price){
+    allPrices.add(price);
+  }
+
+  /**
+   * goes threw allPrices arraylist
+   * and adds newest ones from them into newPrices arraylist
+   */
+  public void newPrices() {
     newPrices.clear();
-    now.setTime(System.currentTimeMillis());
-    if (newPrices.isEmpty())
-    {
-      int x = 0;
-      try
-      {
-        for (Price p : priceHistoryPersistence.load())
-        {
-          if (newPrices.size() < x + 1)
-          {
-            newPrices.add(p);
-          }
-          else if (isInside(p.getSymbol()) &&
-              now.getTime() - getBySymbol(p.getSymbol()).getTimestamp()
-                  .getTime() > now.getTime() - p.getTimestamp().getTime())
-          {
-            newPrices.removeIf(PP -> PP.getSymbol().equals(p.getSymbol()));
-            newPrices.add(p);
-          }
-          else if (!isInside(p.getSymbol()))
-          {
-            newPrices.add(p);
-          }
-        }
+    for (Price p : allPrices) {
+      if (!isInside(p.getSymbol())) {
+        newPrices.add(p);
       }
-      catch (SQLException e)
-      {
-        e.printStackTrace();
+      else if(isInside(p.getSymbol()) && getBySymbol(p.getSymbol()).getTimestamp().before(p.getTimestamp()) ){
+        newPrices.removeIf(PP -> PP.getSymbol().equals(p.getSymbol()));
+        newPrices.add(p);
       }
     }
   }
 
   /**
-   * gets newest stock from all stocks that are threw API given
-   *
-   * @param stockInfo all the stocks of company
-   * @return newest stock
+   * gets newest TradingData from StockInfo
+   * of specific company which is given by API
+   * and sets TimeStamp timestampOfCompany to time of the TradingData
+   * @param stockInfo stockInfo of specific company given by API
+   * @return TradingData of company
    */
-  public TradingData newestStock(StockInfo stockInfo)
-  {
+  public TradingData newestStock(StockInfo stockInfo){
     int result = 0;
-    for (int x = 15; x > 0; x--)
-    {
-      now.setTime(System.currentTimeMillis());
+    for(int x = 15; x > 0; x--){
       ZonedDateTime got = stockInfo.getTimeSeries().get(x).getDate();
-      Timestamp n = new Timestamp(got.getYear() - 1900, got.getMonthValue() - 1,
-          got.getDayOfMonth() + 1, got.getHour(), got.getMinute(),
-          got.getSecond(), got.getNano());
-      if (now.getTime() - n.getTime() > 0)
-      {
+      Timestamp n = Timestamp.from(got.plusDays(1).minusHours(6).toInstant());
+      if(n.before(new Timestamp(System.currentTimeMillis()))){
         timestampOfCompany.setTime(n.getTime());
         result = x;
       }
@@ -168,16 +135,16 @@ public class Prices implements Runnable, LocalSubject<String, Message>
   }
 
   /**
-   * calls from API all stocks of specific company
-   *
-   * @param symbol      symbol of company
-   * @param requestType variable of time interval
-   * @return all stocks of company of given company symbol in given intervals
-   * @throws InterruptedException
-   * @throws IOException
+   * gets by symbol stockInfo of specific company in intervals given from API,
+   * after calling API method sleeps for 12 seconds and than returns stockInfo
+   * @param symbol symbol of company
+   * @param requestType time interval of TradingData inside StockInfo
+   * @return StockInfo of company
+   * @throws IOException if an I/O error occurs when sending or recei
+   * @throws InterruptedException if the operation is interrupted
    */
   public StockInfo APIRequest(String symbol, RequestType requestType)
-      throws InterruptedException, IOException
+      throws IOException, InterruptedException
   {
     String json = stockAPI.getStockInfo(symbol, requestType);
     try {
@@ -190,78 +157,71 @@ public class Prices implements Runnable, LocalSubject<String, Message>
   }
 
   /**
-   * Thread that runs all the time after system is started, it loops threw all newest prices
-   * and it checks them if they are up to time with newest ones from api,
-   * if they are not newest it will add newest price into database,
-   * it will change price of given company and fire property
+   * Thread that checks if some Price object of newPrices needs to be updated
+   * by checking if hour of the Price(timestampOfCompany) is too old compare to current time
+   * and also if the Price is different compare to Price from API.
+   *
+   * If the Price needs to be updated thread fires propertyChange with new Price to be updated,
+   * and updates the Price from old one in newPrice arraylist
+   *
+   * after checking of all the companies is done thread goes to sleep for 10 minutes
+   * after 10 minutes of thread sleeping the checking of Prices starts again
    */
   @Override public void run()
   {
-    while (running)
-    {
+    newPrices();
+    while(running){
+      System.out.println("Prices thread started");
       StockInfo stockInfo = null;
 
-      newPrices();
-      for (Price p : newPrices)
-      {
+      for(Price p:newPrices){
         if(!running){
           break;
         }
-        try
-        {
+        try {
           stockInfo = APIRequest(p.getSymbol(), RequestType.INTRADAY);
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
           e.printStackTrace();
         }
         TradingData tradingData = newestStock(stockInfo);
         System.out.println("Checking company " + p.getSymbol());
-        if (now.getTime() - p.getTimestamp().getTime() > 1
-            && p.getTimestamp().getTime() != timestampOfCompany.getTime())
-        {
-          try
-          {
-            System.out.println(
-                "Updating company " + p.getSymbol() + " with price "
-                    + tradingData.getClose());
-            p.setPrice(tradingData.getClose());
-            Company company = new Company(p.getSymbol(), p.getSymbol());
-            company.setCurrentPrice(p.getPrice());
-            priceHistoryPersistence
-                .save(p.getSymbol(), tradingData, timestampOfCompany);
-            companiesPersistence.update(company);
-            property.firePropertyChange("Price", p.getSymbol(),
-                new Message(null, p));
+        if(p.getTimestamp().before(new Timestamp(System.currentTimeMillis())) && p.getTimestamp().getTime() != timestampOfCompany.getTime()){
+          try {
+            p.set(new Price(timestampOfCompany, p.getSymbol(), tradingData.getOpen(), tradingData.getLow(), tradingData.getHigh(), tradingData.getClose(), tradingData.getVolume()));
+            getBySymbol(p.getSymbol()).set(p);
+            System.out.println("Updating company " + p.getSymbol() + " with price " + tradingData.getClose());
+            property.firePropertyChange("Price",p.getSymbol(),new Message(null,p));
           }
-          catch (Exception e)
-          {
+          catch (Exception e) {
             e.printStackTrace();
           }
         }
       }
-      try
-      {
-        if(running)
-        Thread.sleep(600000);
+
+      try {
+        if (running)
+        {
+          Thread.sleep(600000);
+        }
       }
-      catch (InterruptedException e)
-      {
+      catch (InterruptedException e) {
 
       }
     }
   }
 
 
+
   @Override public boolean addListener(
       GeneralListener<String, Message> listener, String... propertyNames)
   {
-    return property.addListener(listener, propertyNames);
+    return property.addListener(listener,propertyNames);
   }
 
   @Override public boolean removeListener(
       GeneralListener<String, Message> listener, String... propertyNames)
   {
-    return property.removeListener(listener, propertyNames);
+    return property.removeListener(listener,propertyNames);
   }
 }

@@ -6,43 +6,59 @@ import java.sql.Timestamp;
 /**
  * Price class represents price information of company
  */
-
 public class Price implements Serializable
 {
   private Timestamp timestamp;
   private String symbol;
-  private Double price;
+  private Double open;
+  private Double low;
+  private Double high;
+  private Double close;
+  private Long volume;
 
   /**
-   * Constructor that initializes all instant variables
-   * @param timestamp time of price taken
-   * @param symbol symbol of company to witch price goes
-   * @param price price of company
+   * Constructor initialising all instant variables
    */
-
-  public Price(Timestamp timestamp, String symbol, Double price){
+  public Price(Timestamp timestamp, String symbol,Double open,Double low,Double high, Double close, Long volume){
     this.timestamp = timestamp;
     this.symbol = symbol;
-    this.price = price;
+    this.open = open;
+    this.low = low;
+    this.high = high;
+    this.close = close;
+    this.volume = volume;
   }
 
   /**
-   * setts of the price taken
+   * setts timestamp of the price taken
    * @param timestamp time when was price saved
    */
-
   public void setTimestamp(Timestamp timestamp)
   {
     this.timestamp = timestamp;
   }
 
   /**
-   * setts price
-   * @param price price variable of Double
+   * setts price(close)
+   * @param close latest price of company
    */
-  public void setPrice(Double price)
+  public void setPrice(Double close)
   {
-    this.price = price;
+    this.close = close;
+  }
+
+  /**
+   * setts all the variables of this class
+   * @param price class by which should this class update
+   */
+  public void set(Price price){
+    this.timestamp = price.getTimestamp();
+    this.symbol = price.getSymbol();
+    this.open = price.getOpen();
+    this.low = price.getLow();
+    this.high = price.getHigh();
+    this.close = price.getPrice();
+    this.volume = price.getVolume();
   }
 
   /**
@@ -64,21 +80,58 @@ public class Price implements Serializable
   }
 
   /**
-   * gets price of company
-   * @return price as double variable of company
+   * gets open price of company
+   * @return open price
    */
-  public Double getPrice()
+  public Double getOpen()
   {
-    return price;
+    return open;
   }
 
   /**
-   * toString version of price
-   * @return price
+   * gets lowest price of company
+   * @return low price
+   */
+  public Double getLow()
+  {
+    return low;
+  }
+
+  /**
+   * gets highest price of company
+   * @return high price
+   */
+  public Double getHigh()
+  {
+    return high;
+  }
+
+  /**
+   * gets price(close) of company
+   * @return close price
+   */
+  public Double getPrice()
+  {
+    return close;
+  }
+
+  /**
+   * gets volume of company
+   * @return volume
+   */
+  public Long getVolume()
+  {
+    return volume;
+  }
+
+  /**
+   * toString version of Price object
+   * @return Price object
    */
   @Override public String toString()
   {
     return "Price{" + "timestamp=" + timestamp + ", symbol='" + symbol + '\''
-        + ", price=" + price + '}' + '\n';
+        + ", open=" + open + ", low=" + low + ", high=" + high + ", close="
+        + close + ", volume=" + volume + '}';
   }
 }

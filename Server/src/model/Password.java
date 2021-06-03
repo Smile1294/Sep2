@@ -40,7 +40,7 @@ public class Password implements Serializable
   }
 
   /**
-   * checks if the password legal
+   * checks if the password is legal
    * @param password password that is being checked
    * @return legal or not password
    */

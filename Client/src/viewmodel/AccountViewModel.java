@@ -18,7 +18,6 @@ public class AccountViewModel {
 
     /**
      * Constructor that is initialising all the instance variables
-     *
      * @param model     model for functionality
      * @param viewState state of the account
      */
@@ -70,6 +69,10 @@ public class AccountViewModel {
     public void setAdd() {
         viewState.setWithdraw(false);
     }
+    /**
+     * sets viewstate from account view to false is used when user is placing order
+     * from company list
+     */
 
     public void setViewStateBoolean() {
         viewState.setFromAccountView(false);

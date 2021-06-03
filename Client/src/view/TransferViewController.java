@@ -36,7 +36,8 @@ public class TransferViewController extends ViewController{
         getViewHandler().openView(View.ACCOUNT);
     }
 
-    public void onConfirm(ActionEvent actionEvent) {
+    @FXML
+    private void onConfirm(ActionEvent actionEvent) {
         getViewModelFactory().getTransferViewModel().confirm();
     }
 }

@@ -1,19 +1,27 @@
 package view;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import viewmodel.SimpleOrderViewModel;
 
 
 public class OrdersListController extends ViewController {
-    public TableView<SimpleOrderViewModel> TableList;
-    public TableColumn<SimpleOrderViewModel, String> Company;
-    public TableColumn<SimpleOrderViewModel, String> Amount;
-    public TableColumn<SimpleOrderViewModel, String> InitAmount;
-    public TableColumn<SimpleOrderViewModel, String> Status;
-    public TableColumn<SimpleOrderViewModel, String> Price;
-    public TableColumn<SimpleOrderViewModel, String>  Buyingselling;
+    @FXML
+    private TableView<SimpleOrderViewModel> TableList;
+    @FXML
+    private TableColumn<SimpleOrderViewModel, String> Company;
+    @FXML
+    private TableColumn<SimpleOrderViewModel, String> Amount;
+    @FXML
+    private TableColumn<SimpleOrderViewModel, String> InitAmount;
+    @FXML
+    private TableColumn<SimpleOrderViewModel, String> Status;
+    @FXML
+    private TableColumn<SimpleOrderViewModel, String> Price;
+    @FXML
+    private TableColumn<SimpleOrderViewModel, String>  Buyingselling;
 
 
     @Override
@@ -32,11 +40,13 @@ public class OrdersListController extends ViewController {
     {
         getViewModelFactory().getOrdersListViewModel().clear();
     }
-    public void Back(ActionEvent actionEvent) {
+    @FXML
+    private void Back(ActionEvent actionEvent) {
         getViewHandler().openView(View.ACCOUNT);
     }
 
-    public void CancelOrder(ActionEvent actionEvent) {
+    @FXML
+    private void CancelOrder(ActionEvent actionEvent) {
         getViewModelFactory().getOrdersListViewModel().CloseOrder(TableList.getSelectionModel().getSelectedItem().getUuid());
     }
 }

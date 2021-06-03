@@ -15,7 +15,7 @@ import java.util.UUID;
  */
 
 
-public class Orders implements Runnable, LocalSubject<String, Message>, Serializable {
+public class Orders implements Runnable, LocalSubject<String, Message> {
     private PropertyChangeHandler<String, Message> property;
     private List<Order> orders;
 
@@ -77,30 +77,6 @@ public class Orders implements Runnable, LocalSubject<String, Message>, Serializ
             }
         }
         return CompletedOrders;
-    }
-
-    /**
-     * closing an order
-     *
-     * @param order order that is being closed
-     */
-    public void closeOrder(Order order) {
-        for (Order o : orders) {
-            if (o.equals(order)) {
-                o.close();
-                return;
-            }
-        }
-    }
-    public int getAmount2(String user, Order order) {
-        int i = 0;
-
-        for (Order o : getCompletedOrders()) {
-            if (user.equals(o.getUser()) && o.getSymbol().equals(order.getSymbol())) {
-                i = i + o.getAmount();
-            }
-        }
-        return i;
     }
 
     /**
@@ -190,6 +166,7 @@ public class Orders implements Runnable, LocalSubject<String, Message>, Serializ
 
     /**
      * This methods will count how much has user invested in specific stock taking the the price and amount of stocks from order multiplying them and then adding them to stock
+     *
      * @param user
      * @param stock
      * @return Double how much has user invested in specific stock
@@ -197,15 +174,17 @@ public class Orders implements Runnable, LocalSubject<String, Message>, Serializ
 
     public Double getboughtPriceInStock(User user, Stock stock) {
         double d = 0;
-        for (int i = 0; i < getOrderByUser(user).orders.size(); i++) {
-            if (getOrderByUser(user).orders.get(i).getStatus().equals(Status.COMPLETED) && !getOrderByUser(user).orders.get(i).isSell()) {
-                if (stock.getSymbol().equals(orders.get(i).getSymbol())) {
-                    d = d + orders.get(i).getAmount() * getOrderByUser(user).orders.get(i).getAskingPrice();
+        for (Order o : getUserOrders(user.getUserName().getName())) {
+            if (o.getStatus().equals(Status.COMPLETED)) {
+                if (!o.isSell()) {
+                    if (stock.getSymbol().equals(o.getSymbol())) {
+                        d = d + o.getAmount() * o.getAskingPrice();
+                    }
                 }
             }
-            if (getOrderByUser(user).orders.get(i).getStatus().equals(Status.OPEN) || getOrderByUser(user).orders.get(i).getStatus().equals(Status.COMPLETED) && getOrderByUser(user).orders.get(i).isSell()) {
-                if (stock.getSymbol().equals(orders.get(i).getSymbol())) {
-                    d = d - orders.get(i).getAmount() * getOrderByUser(user).orders.get(i).getAskingPrice();
+            if (o.getStatus().equals(Status.OPEN) || o.getStatus().equals(Status.COMPLETED) && o.isSell()) {
+                if (stock.getSymbol().equals(o.getSymbol())) {
+                    d = d - o.getAmount() * o.getAskingPrice();
                 }
             }
         }

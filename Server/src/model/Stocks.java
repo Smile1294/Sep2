@@ -1,13 +1,11 @@
 package model;
 
+import java.util.ArrayList;
+
 /**
  * Stocks class represents list of stocks
  */
-
-import java.io.Serializable;
-import java.util.ArrayList;
-
-public class Stocks implements Serializable {
+public class Stocks {
     private ArrayList<Stock> stocks;
 
     /**

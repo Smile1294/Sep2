@@ -1,8 +1,7 @@
 package viewmodel;
 
 import javafx.application.Platform;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.*;
@@ -19,11 +18,13 @@ import java.util.UUID;
 
 public class PlaceOrderViewModel implements LocalListener<String, Message> {
     private Model model;
-    private SimpleStringProperty balance;
+    private StringProperty balance;
     private ObservableList<String> list;
-    private SimpleIntegerProperty price;
-    private SimpleIntegerProperty amount;
-    private SimpleStringProperty companyName;
+    private StringProperty currentprice;
+    private DoubleProperty price;
+    private IntegerProperty amount;
+    private StringProperty currentCompanySelected;
+    private StringProperty companyName;
     private ViewState viewState;
 
     /**
@@ -34,19 +35,22 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
      */
 
     public PlaceOrderViewModel(Model model, ViewState viewState) {
-        model.addListener(this, "balanceUpdate");
+        model.addListener(this, "balanceUpdate", "Price");
         this.balance = new SimpleStringProperty();
         this.companyName = new SimpleStringProperty();
         this.amount = new SimpleIntegerProperty();
-        this.price = new SimpleIntegerProperty();
+        this.currentCompanySelected = new SimpleStringProperty();
+        this.currentprice = new SimpleStringProperty();
+        this.price = new SimpleDoubleProperty();
         list = FXCollections.observableArrayList();
         this.model = model;
         this.viewState = viewState;
     }
 
-    public void reset() {
+    public void reset() throws RemoteException {
         price.setValue(0);
         amount.setValue(0);
+        balance.setValue(String.valueOf(model.getBalance(viewState.getUserName())));
         getSelectedCompany();
     }
 
@@ -84,8 +88,8 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
      * @return balance
      */
 
-    public SimpleStringProperty balanceProperty() throws RemoteException {
-        return balance = new SimpleStringProperty(String.valueOf(model.getBalance(viewState.getUserName())));
+    public StringProperty balanceProperty() {
+        return balance;
     }
 
     /**
@@ -115,7 +119,7 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
      * @return amount
      */
 
-    public SimpleIntegerProperty getAmount() {
+    public IntegerProperty getAmount() {
         return amount;
     }
 
@@ -125,22 +129,74 @@ public class PlaceOrderViewModel implements LocalListener<String, Message> {
      * @return price
      */
 
-    public SimpleIntegerProperty getPrice() {
+    public DoubleProperty getPrice() {
         return price;
     }
 
+
+    public StringProperty getCurrentPrice() {
+        return currentprice;
+    }
+
+    /**
+     * current company selected bound to view controller
+     *
+     * @return selected company
+     */
+
+    public StringProperty currentCompanySelectedProperty() {
+        return currentCompanySelected;
+    }
+
+    /**
+     * Updates current price of selected company
+     *
+     * @param companyName of company
+     */
+    public void UpdateCurrentPrice(String companyName) {
+        try {
+            if (model.getComapnyByName(companyName) != null) {
+                currentprice.setValue(model.getComapnyByName(companyName).getCurrentPrice().toString());
+            }
+        } catch (Exception e) {
+            System.out.println("Select company");
+        }
+    }
+
+    /**
+     * Property change waiting for either balance change or Price change of company,
+     * if there is it will update in view to newest information
+     *
+     * @param event
+     */
 
     @Override
     public void propertyChange(ObserverEvent<String, Message> event) {
         Platform.runLater(() ->
         {
             try {
+                if (!event.getPropertyName().equals("Price")) {
                     balance.setValue(event.getValue1());
+                }
+                if (event.getPropertyName().equals("Price")) {
+                    if (currentCompanySelected != null) {
+                        if (event.getValue1().equals(model.getComapnyByName(currentCompanySelected.get()).getSymbol())) {
+                            currentprice.setValue(event.getValue2().getPriceObject().getPrice().toString());
+                        }
+                    }
+                }
             } catch (Exception e) {
                 System.out.println(e);
             }
+
         });
     }
+
+    /**
+     * On back depending if view state is true/false will turn back to company list or account view
+     *
+     * @return boolean
+     */
 
     public boolean Back() {
         return viewState.isFromAccountView();

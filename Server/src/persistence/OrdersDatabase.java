@@ -31,7 +31,7 @@ public class OrdersDatabase implements OrdersPersistence {
      * Loads orders from database
      *
      * @return Orders list of orders that is from database
-     * @throws SQLException
+     * @throws SQLException if a database access error occurs or this method is called on a closed connection
      */
     @Override
     public Orders load() throws SQLException {
@@ -60,7 +60,7 @@ public class OrdersDatabase implements OrdersPersistence {
      * Updates all of orders in database
      *
      * @param orders updates with list of orders in databases
-     * @throws SQLException
+     * @throws SQLException if a database access error occurs or this method is called on a closed connection
      */
     @Override
     public void update(Orders orders) throws SQLException {
@@ -79,8 +79,8 @@ public class OrdersDatabase implements OrdersPersistence {
     /**
      * Saves order to database
      *
-     * @param order is saved to database
-     * @throws SQLException
+     * @param order order to be saved
+     * @throws SQLException if a database access error occurs or this method is called on a closed connection
      */
     @Override
     public void save(Order order) throws SQLException {
@@ -99,8 +99,9 @@ public class OrdersDatabase implements OrdersPersistence {
     }
 
     /**
-     * @param order is removed from database
-     * @throws SQLException
+     * removes order from database
+     * @param order order to be removed
+     * @throws SQLException if a database access error occurs or this method is called on a closed connection
      */
     @Override
     public void remove(Order order) throws SQLException {

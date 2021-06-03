@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Companies
 {
-    public ArrayList<Company> companies;
+    private ArrayList<Company> companies;
     /**
      * constructor which is initialising arraylist of companies
      */
@@ -56,6 +56,11 @@ public class Companies
         return null;
     }
 
+    /**
+     * getting the company by name
+     * @param name name of the company
+     * @return company
+     */
     public Company getCompanyByName(String name) {
         for (Company c : companies) {
             if (c.getName().equals(name)) {

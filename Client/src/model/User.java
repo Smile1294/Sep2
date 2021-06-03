@@ -56,10 +56,10 @@ public class User implements Serializable {
     }
 
     /**
+     * A constructor which is setting instance variables for registering a user
      *
-     *
-     * @param userName
-     * @param password
+     * @param userName wanted userName of the user
+     * @param password wanted password of the user
      */
     public User(UserName userName, Password password, Email email, int balance) {
         if (userName == null || password == null)

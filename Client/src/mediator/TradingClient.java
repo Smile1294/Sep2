@@ -31,7 +31,8 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
      *
      * @param name name of the user
      * @return user
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     @Override
     public User getUser(String name) throws RemoteException {
@@ -41,7 +42,8 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
      * Closes order by UUID of order
      *
      * @param uuid of order that is closed
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     @Override
     public void CloseOrder(UUID uuid) throws RemoteException {
@@ -65,7 +67,8 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
      *
      * @param name of user whos stocks will be returned
      * @return Stocks
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     @Override
     public ArrayList<Stock> getAllUserStock(String name) throws RemoteException {
@@ -76,7 +79,8 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
      * Creates order and sends it to server,server will then validate this request.
      *
      * @param order that will be sent toserver
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     @Override
     public void AddOrder(Order order) throws RemoteException {
@@ -88,7 +92,8 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
      *
      * @param user of whos orders will be returned
      * @return orders
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     @Override
     public ArrayList<Order> getAllUserOrders(String user) throws RemoteException {
@@ -100,7 +105,8 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
      *
      * @param uuid of order
      * @return order with specific uuid
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     @Override
     public Order getOrderbyID(String uuid) throws RemoteException {
@@ -113,7 +119,8 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
      *
      * @param user that will be serached in database
      * @return boolean
-     * @throws Exception
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     @Override
     public boolean login(User user) throws Exception {
@@ -125,7 +132,8 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
      *
      * @param user that will be registred
      * @return bollean depending if the information about user are valid
-     * @throws Exception
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     @Override
     public boolean registerUser(User user) throws Exception {
@@ -137,7 +145,8 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
      *
      * @param userName of user that whos balance will be returned
      * @return users balance
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     @Override
     public double getBalance(UserName userName) throws RemoteException {
@@ -150,8 +159,9 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
      * @param userName   Username of the user that is transferring money
      * @param amount     amount that is getting transferred
      * @param isWithdraw if its withdrawing or depositing
-     * @throws SQLException
-     * @throws RemoteException
+     * @throws SQLException if a database access error occurs or this method is called on a closed connection
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     @Override
     public void transferMoney(UserName userName, double amount, boolean isWithdraw) throws SQLException, RemoteException {
@@ -163,7 +173,8 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
      *
      * @param name name of the user
      * @return stock amount
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     @Override
     public Double getPriceTotal(String name) throws RemoteException {
@@ -174,7 +185,8 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
      * gets all the companies
      *
      * @return companies
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
 
     @Override
@@ -187,7 +199,8 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
      *
      * @param symbol symbol that is being compared to
      * @return company
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     @Override
     public Company getCompanyBySymbol(String symbol) throws RemoteException {
@@ -197,7 +210,8 @@ public class TradingClient extends UnicastRemoteObject implements LocalClientMod
     /**
      * closes connection between client and server
      *
-     * @throws RemoteException
+     * @throws RemoteException can be thrown for number of communication-related exceptions
+     * that may occur during the execution of a remote method call
      */
     @Override
     public void close() throws RemoteException {

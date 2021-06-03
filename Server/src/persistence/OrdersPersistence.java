@@ -14,26 +14,30 @@ public interface OrdersPersistence {
 
     /**
      * loading orders list from a database
-     * @return order list
+     * @return Orders list of orders that is from database
+     * @throws SQLException if a database access error occurs or this method is called on a closed connection
      */
     Orders load() throws SQLException;
 
     /**
-     * updates orders in database
+     * Updates all of orders in database
+     * @param order updates with list of orders in databases
+     * @throws SQLException if a database access error occurs or this method is called on a closed connection
      */
     void update(Orders order)throws SQLException;
 
 
     /**
      * saving orders list into a database
-     * @param order is saved to database
-     * @throws SQLException
+     * @param order order to be saved
+     * @throws SQLException if a database access error occurs or this method is called on a closed connection
      */
     void save(Order order)throws SQLException;
 
     /**
      * removes order from database
-     * @param  order is removed from database
+     * @param  order order to be removed
+     * @throws SQLException if a database access error occurs or this method is called on a closed connection
      */
     void remove(Order order)throws SQLException;
 

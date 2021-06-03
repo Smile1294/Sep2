@@ -26,12 +26,17 @@ public class ModelManager implements Model {
      *
      * @throws IOException
      */
-    public ModelManager() throws IOException, SQLException {
+    public ModelManager() throws IOException {
         this.property = new PropertyChangeHandler<>(this, true);
         this.tradingClient = new TradingClient("localhost", this);
     }
 
-
+    /**
+     * Closer order by UUID
+     * @param uuid of order that will be closed
+     * @throws RemoteException
+     */
+    @Override
     public void CloseOrder(UUID uuid) throws RemoteException {
         if (getOrderbyID(uuid.toString()).getStatus().equals(Status.OPEN)) {
             tradingClient.CloseOrder(uuid);
@@ -46,22 +51,30 @@ public class ModelManager implements Model {
      * @param user that is getting check it
      * @return order
      */
-
+    @Override
     public ArrayList<Order> getAllUserOrders(String user) throws RemoteException {
         return tradingClient.getAllUserOrders(user);
     }
 
+    /**
+     * get Order by id from server
+     * @param uuid of order
+     * @return order from server
+     * @throws RemoteException
+     */
+    @Override
     public Order getOrderbyID(String uuid) throws RemoteException {
         return tradingClient.getOrderbyID(uuid);
     }
 
 
     /**
-     * gets the user by name
+     * gets the user object by name of user
      *
      * @param name name of the user
      * @return user
      */
+    @Override
     public User getUser(String name) throws RemoteException {
         return tradingClient.getUser(name);
     }
@@ -72,7 +85,7 @@ public class ModelManager implements Model {
      * @param name name of the user
      * @return stock/s
      */
-
+    @Override
     public ArrayList<Stock> LoaduserStocks(String name) throws RemoteException {
         return tradingClient.getAllUserStock(name);
     }
@@ -88,7 +101,7 @@ public class ModelManager implements Model {
      * @param name name of the user
      * @return stock amount
      */
-
+    @Override
     public Double getPriceTotal(String name) throws RemoteException {
         return tradingClient.getPriceTotal(name);
     }
@@ -99,15 +112,15 @@ public class ModelManager implements Model {
     }
 
     /**
-     * adds an order
+     * adds an order to server
      *
      * @param order order that is getting added
      */
-
+    @Override
     public void AddOrder(Order order) {
         try {
             tradingClient.AddOrder(order);
-            property.firePropertyChange("balanceUpdate", (getUser((order.getUser()))).getBalance().toString(), new Message(order,null));
+            property.firePropertyChange("balanceUpdate", (getUser((order.getUser()))).getBalance().toString(), new Message(order, null));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -140,9 +153,9 @@ public class ModelManager implements Model {
     }
 
     /**
-     * gets all the companies
+     * gets all the companies from server
      *
-     * @return companies
+     * @return companies list
      */
 
     @Override
@@ -151,7 +164,7 @@ public class ModelManager implements Model {
     }
 
     /**
-     * gets the company by symbol
+     * gets the company by symbol from server
      *
      * @param symbol symbol that is being compared to
      * @return company
@@ -169,12 +182,12 @@ public class ModelManager implements Model {
     }
 
     /**
-     * gets the company by name
+     * gets the company by name from server
      *
      * @param name name that is being compared to
      * @return company
      */
-
+    @Override
     public Company getComapnyByName(String name) {
         return tradingClient.getCompanyname(name);
     }
@@ -182,8 +195,8 @@ public class ModelManager implements Model {
     /**
      * login for user
      *
-     * @param user user that wants login
-     * @return logged in user
+     * @param user that wants login
+     * @return boolean if the user login is approved
      * @throws Exception
      */
 
@@ -206,7 +219,10 @@ public class ModelManager implements Model {
         boolean result = tradingClient.registerUser(user);
         return result;
     }
-
+    /**
+     * stops model after closing gui
+     * @throws RemoteException
+     */
     @Override
     public void close() throws RemoteException {
         tradingClient.close();

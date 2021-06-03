@@ -34,13 +34,15 @@ public class CompanyListViewController extends ViewController
     getViewModelFactory().getCompanyListViewModel().clear();
   }
 
-  public void onBack(ActionEvent actionEvent)
+  @FXML
+  private void onBack(ActionEvent actionEvent)
   {
 
     getViewHandler().openView(View.ACCOUNT);
   }
 
-  public void onChoose(ActionEvent actionEvent)
+  @FXML
+  private void onChoose(ActionEvent actionEvent)
   {
       if(getViewModelFactory().getCompanyListViewModel().chose())
       {
