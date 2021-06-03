@@ -26,7 +26,7 @@ public class ModelManager implements Model {
      *
      * @throws IOException
      */
-    public ModelManager() throws IOException, SQLException {
+    public ModelManager() throws IOException {
         this.property = new PropertyChangeHandler<>(this, true);
         this.tradingClient = new TradingClient("localhost", this);
     }
