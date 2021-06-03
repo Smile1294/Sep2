@@ -33,14 +33,14 @@ class StockTest {
     @Test
     void getPriceMany()
     {
-        s.setPrice(10);
-        assertEquals(10, s.getPrice());
+        s.setPrice(10.10);
+        assertEquals(10.10, s.getPrice());
 
-        s.setPrice(100);
-        assertEquals(100, s.getPrice());
+        s.setPrice(100.420);
+        assertEquals(100.420, s.getPrice());
 
-        s.setPrice(1000);
-        assertEquals(1000, s.getPrice());
+        s.setPrice(1000.001);
+        assertEquals(1000.001, s.getPrice());
     }
 
     @Test
@@ -58,16 +58,16 @@ class StockTest {
     void setPriceBoundary()
     {
         // tested zero in getPriceZero()
-       assertThrows(IllegalArgumentException.class ,() -> s.setPrice(-1));
+       assertThrows(IllegalArgumentException.class ,() -> s.setPrice(-1.1));
     }
 
     @Test
     void setPriceException()
     {
         // tested zero in getPriceZero()
-        assertThrows(IllegalArgumentException.class ,() -> s.setPrice(-10));
-        assertThrows(IllegalArgumentException.class ,() -> s.setPrice(-100));
-        assertThrows(IllegalArgumentException.class ,() -> s.setPrice(-1000));
+        assertThrows(IllegalArgumentException.class ,() -> s.setPrice(-10.31));
+        assertThrows(IllegalArgumentException.class ,() -> s.setPrice(-100.01));
+        assertThrows(IllegalArgumentException.class ,() -> s.setPrice(-1000.44));
 
     }
 

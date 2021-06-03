@@ -53,38 +53,6 @@ class OrdersTest {
     }
 
 
-    @Test
-    void closeOrderZero() {
-        Order o1 = new Order(false, BigDecimal.valueOf(0), 0,
-                "", Status.COMPLETED, "");
-
-        orders.AddOrder(o1);
-        orders.closeOrder(o1);
-        assertEquals(Status.CLOSED, o1.getStatus());
-    }
-
-
-    @Test
-    void closeOrderOne() {
-        Order o1 = new Order(true, BigDecimal.valueOf(1), 1,
-                "bob", Status.OPEN, "p");
-        orders.AddOrder(o1);
-        orders.closeOrder(o1);
-        assertEquals(Status.CLOSED, o1.getStatus());
-    }
-
-    @Test
-    void closeOrderMany() {
-        Order o1 = new Order(false, BigDecimal.valueOf(55), 420, "bob12345", Status.OPEN, "");
-        orders.AddOrder(o1);
-        orders.closeOrder(o1);
-        assertEquals(Status.CLOSED, o1.getStatus());
-
-        Order o2 = new Order(true, BigDecimal.valueOf(300), 1000, "et", Status.COMPLETED, "GOGL");
-        orders.AddOrder(o2);
-        orders.closeOrder(o2);
-        assertEquals(Status.CLOSED, o2.getStatus());
-    }
 
     @Test
     void closeOrderBoundary() {
@@ -294,47 +262,6 @@ class OrdersTest {
 
 
 
-
-    @Test
-    void getAmount2Zero()
-    {
-        Order o1 = new Order(true, BigDecimal.valueOf(0), 0, "", Status.COMPLETED, "");
-        orders.AddOrder(o1);
-        assertEquals(0 , orders.getAmount2("" , o1));
-    }
-
-    @Test
-    void getAmount2One()
-    {
-        Order o1 = new Order(true, BigDecimal.valueOf(1), 1, "user", Status.COMPLETED, "symbol");
-        orders.AddOrder(o1);
-        assertEquals(1 , orders.getAmount2("user" , o1));
-    }
-
-    @Test
-    void getAmount2Many()
-    {
-        Order o1 = new Order(true, BigDecimal.valueOf(30), 30, "user", Status.COMPLETED, "s");
-        orders.AddOrder(o1);
-        assertEquals(30 , orders.getAmount2("user" , o1));
-    }
-
-    @Test
-    void getAmount2Boundary()
-    {
-        // tested in getAmount2Zero()
-        Order o1 = new Order(true, BigDecimal.valueOf(-30), -30, "user", Status.COMPLETED, "s");
-        assertEquals(-30 , orders.getAmount2("user" , o1));
-
-    }
-
-    @Test
-    void getAmount2Exception()
-    {
-        /////////////////////////////////
-        Order o1 = new Order(true, BigDecimal.valueOf(-30), -30, "user", Status.COMPLETED, "s");
-        assertThrows(Exception.class , () -> orders.getAmount2("user" , o1));
-    }
 
 
 
