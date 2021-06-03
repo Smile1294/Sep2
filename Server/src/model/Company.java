@@ -39,7 +39,6 @@ public class Company implements Serializable {
      * @return current price
      */
 
-
     public Double getCurrentPrice() {
         return currentPrice.doubleValue();
     }
@@ -47,9 +46,13 @@ public class Company implements Serializable {
     /**
      * setting the price
      * @param currentPrice setting the price for the stock
+     * @throws IllegalArgumentException if the user sets price to negative value
      */
 
-    public void setCurrentPrice(double currentPrice){
+    public void setCurrentPrice(double currentPrice)
+    {
+        if(currentPrice < 0) throw new IllegalArgumentException();
+
         this.currentPrice = new BigDecimal(currentPrice);
     }
 

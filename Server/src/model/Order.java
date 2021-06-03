@@ -56,9 +56,12 @@ public class Order implements Serializable {
 
     /**
      * Sets asking price of order
-     * @param askingPrice
+     * @param askingPrice asking price for the stock
+     * @throws IllegalArgumentException if the user sets price to the negative value
      */
-    public void setAskingPrice(BigDecimal askingPrice) {
+    public void setAskingPrice(BigDecimal askingPrice)
+    {
+        if (askingPrice.doubleValue() < 0) throw new IllegalArgumentException();
         this.askingPrice = askingPrice;
     }
 
@@ -110,9 +113,12 @@ public class Order implements Serializable {
     /**
      * sets amount of stock
      * @param amount amount of the stock
+     * @throws IllegalArgumentException if the user sets amount to negative value
      */
 
     public void setAmount(int amount) {
+        if (amount < 0) throw new IllegalArgumentException();
+
         this.amount = amount;
     }
 

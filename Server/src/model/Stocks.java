@@ -19,7 +19,6 @@ public class Stocks {
 
     /**
      * getting all stocks
-     *
      * @return all stocksd
      */
 

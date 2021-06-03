@@ -42,9 +42,10 @@ public class Stock implements Serializable {
     }
     /**
      * setting price of stock
+     @throws IllegalArgumentException if the user puts negative value
      */
-
-    public void setPrice(double price) {
+    public void setPrice(int price) {
+        if (price < 0) throw new IllegalArgumentException();
         this.price = price;
     }
     /**
@@ -67,9 +68,13 @@ public class Stock implements Serializable {
     /**
      * sets the amount of stock
      * @param amount amount that is being set
+     * @throws IllegalArgumentException if the user sets amount to negative value
      */
 
     public void setAmount(int amount) {
+
+        if(amount < 0) throw new IllegalArgumentException();
+
         this.amount = amount;
     }
 

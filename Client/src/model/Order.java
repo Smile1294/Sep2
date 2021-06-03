@@ -111,12 +111,14 @@ public class Order implements Serializable {
     /**
      * sets amount of stock
      * @param amount amount of the stock
+     * @throws IllegalArgumentException if the user sets amount to negative value
      */
 
     public void setAmount(int amount) {
+        if (amount < 0) throw new IllegalArgumentException();
+
         this.amount = amount;
     }
-
     /**
      * sets status of order
      * @param status status of the order
